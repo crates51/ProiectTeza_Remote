@@ -1,0 +1,54 @@
+MVC
+
+M=Model
+V=View
+C=Controler
+
+La inceput pentru creat proiect Laravel
+	
+	composer create-project laravel/laravel "nume"
+
+
+
+
+(in case of NEW project add to "app -> Providers -> AppServiceProvider.php" 
+	-use Illuminate\Support\Facades\Schema;
+	-public function boot()
+	    {
+	        Schema::defaultStringLength(191);
+	    }
+)
+
+npm run watch
+
+node_modules/.bin/webpack --watch --watch-poll --config=node_modules/laravel-mix/setup/webpack.config.js
+
+http://www.liontheme.net/corsiva-violet/index.html
+
+
+To create new table in the database:
+
+1.Create Controller
+	php artisan make:controller "Name" --resource
+	Name example:BookingsController
+
+2.Create model (and migration with -m)
+	php artisan make:model "Name" -m
+	Name example:Booking
+
+3.In "database -> migrations", select your new migration and costumize it(add new fields, etc)
+
+
+4.Run the migration
+
+php artisan migrate
+
+
+
+
+
+n.Create Routes in "routes -> web.php"
+
+example: Route::resource('posts','PostsController');
+
+(You can check routes list with: php artisan route:list)
