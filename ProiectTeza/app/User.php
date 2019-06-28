@@ -5,10 +5,15 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Scout\Searchable;
+use Algolia\ScoutExtended\Facades\Algolia;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use Searchable;
+
+    // $searchKey = Algolia::searchKey(User::class);
 
     /**
      * The attributes that are mass assignable.
@@ -28,7 +33,7 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function posts(){
-        return $this->hasMany('App\Post');
+    public function bookings(){
+        return $this->hasMany('App\Bookings');
     }
 }
