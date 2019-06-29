@@ -319,13 +319,13 @@ class BookingsController extends Controller
 
 
             $booking -> delete();
-            DB::select("SET @count = 0");
-            DB::select("UPDATE `bookings` SET `bookings`.`bookingId` = @count:= @count + 1");
-            DB::select("ALTER TABLE `bookings` AUTO_INCREMENT = 1");
+            DB::update("SET @count = 0");
+            DB::update("UPDATE `bookings` SET `bookings`.`bookingId` = @count:= @count + 1");
+            DB::update("ALTER TABLE `bookings` AUTO_INCREMENT = 1");
 
-            DB::select("SET @count = 0");
-            DB::select("UPDATE `clients` SET `clients`.`clientId` = @count:= @count + 1");
-            DB::select("ALTER TABLE `clients` AUTO_INCREMENT = 1");
+            DB::update("SET @count = 0");
+            DB::update("UPDATE `clients` SET `clients`.`clientId` = @count:= @count + 1");
+            DB::update("ALTER TABLE `clients` AUTO_INCREMENT = 1");
             return redirect('/')->with('success','Booking for '.$client->Last_Name." has been removed");
             // return redirect('/')->with('success','Test, to replace this!!!');  
          }
