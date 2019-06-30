@@ -248,7 +248,7 @@ class BookingsController extends Controller
             'phone' => 'required|numeric|digits_between:10,13',
             'adults_number' => 'required',
             'children_number' => 'required',
-            'totalRooms' => 'required|numeric|min:1',
+            // 'totalRooms' => 'required|numeric|min:1',
             'Check-in' =>'required|date_format:d/m/Y',
             'Check-out'=> 'required|date_format:d/m/Y|after:Check-in',
             'status' => 'required',

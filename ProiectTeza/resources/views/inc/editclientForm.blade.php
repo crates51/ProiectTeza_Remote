@@ -28,7 +28,7 @@
 		</div>
 		{{-- Edit The Rooms --}}
 		<div class="row">
-	        <div class="col-md-4 ">
+	        <div class="col-md-4 offset-2">
 	          <div class="form-group">
 	            {{Form::select('adults_number',
 	                 array("" => "",
