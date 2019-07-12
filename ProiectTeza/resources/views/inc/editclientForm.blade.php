@@ -1,9 +1,9 @@
 	<div class="contact_form_holder" id="app">
-	{!! Form::open(['action' => ['BookingsController@update', "3"],'id' => 'formContainer','method' => 'POST','enctype'=>'multipart/form-data']) !!}
+	{{-- {!! Form::open(['action' => ['BookingsController@update', "3"],'id' => 'formContainer','method' => 'POST','enctype'=>'multipart/form-data']) !!} --}}
 	{{-- Edit Full Name --}}
-		<div class="row">
-			<div class="col-md-4 offset-2">
-				<div class="form-group">
+		{{-- <div class="row"> --}}
+			{{-- <div class="col-md-4 offset-2"> --}}
+				{{-- <div class="form-group"> --}}
 					{{Form::text('firstName',"",['id' => 'editFirstName_Form','class' =>'form-control tac','placeholder' => 'First Name' ])}}
 				</div>	
 			</div>
