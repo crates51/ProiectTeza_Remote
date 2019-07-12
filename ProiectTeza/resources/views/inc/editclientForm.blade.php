@@ -1,5 +1,8 @@
 	<div class="contact_form_holder" id="app">
-	{!! Form::open(['action' => ['BookingsController@update', "3"],'id' => 'formContainer','method' => 'POST','enctype'=>'multipart/form-data']) !!}
+	{{-- {!! Form::open(['action' => ['BookingsController@update', "3"],'id' => 'formContainer','method' => 'POST','enctype'=>'multipart/form-data']) !!} --}}
+
+	    {!! Form::open(['action' => 'PagesController@index','method' => 'GET','enctype'=>'multipart/form-data']) !!}
+
 	{{-- Edit Full Name --}}
 		<div class="row">
 			<div class="col-md-4 offset-2">
