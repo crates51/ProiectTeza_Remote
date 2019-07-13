@@ -1,5 +1,5 @@
 	<div class="contact_form_holder" id="app">
-	{!! Form::open(['action' => ['BookingsController@update', "3"],'id' => 'formContainer2','method' => 'POST','enctype'=>'multipart/form-data']) !!}
+	{!! Form::open(['action' => ['BookingsController@update', "3"],'id' => 'formContainer3','method' => 'POST','enctype'=>'multipart/form-data']) !!}
 
 	    {{-- {!! Form::open(['action' => 'BookingsController@store','id' => 'formC','method' => 'POST','enctype'=>'multipart/form-data']) !!} --}}
 
