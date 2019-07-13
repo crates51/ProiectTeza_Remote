@@ -68,7 +68,7 @@ $(document).ready(function(){
 
         // alert(booking.Status);
         // alert(client.Last_Name);
-        $(".modal-body #formContainer").attr("action","http://proiectteza.com/bookings/"+booking.bookingId);
+        $(".modal-body #formContainer").attr("action","http://casajasmin.ro/bookings/"+booking.bookingId);
         // alert($(".modal-body #formContainer").attr("action"));
 
         // $(".modal-body #editEmail_input").val(client.Email);
