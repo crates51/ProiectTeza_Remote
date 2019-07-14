@@ -61,14 +61,14 @@ $(document).ready(function(){
 	}
 
 	$('#editclientModal').on('shown.bs.modal', function(event) {
-    var link     = $(event.relatedTarget),
-        modal    = $(this),
+    var link       = $(event.relatedTarget),
+        modal      = $(this),
         booking    = link.data("booking"),
-        client    = link.data("client");
+        client     = link.data("client");
 
         // alert(booking.Status);
         // alert(client.Last_Name);
-        $(".modal-body #formContainer").attr("action","http://casajasmin.ro/bookings/"+booking.bookingId);
+        $(".modal-body #formContainer").attr("action","/bookings/"+booking.bookingId);
         // alert($(".modal-body #formContainer").attr("action"));
 
         // $(".modal-body #editEmail_input").val(client.Email);
