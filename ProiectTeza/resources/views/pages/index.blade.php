@@ -231,7 +231,7 @@
 						</div>
 					</div>
 					<div class="col-md-4">
-						<div class="card p-3 mt-5 bookingList ">
+						<div class="card p-3 mt-5">
 								<div class="row">
 									<div class="col-md-6 text-center">Check-In</div>
 									<div class="col-md-6 text-center">Check-Out</div>

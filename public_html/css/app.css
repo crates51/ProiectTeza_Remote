@@ -11497,6 +11497,11 @@ a.text-dark:focus {
   -webkit-font-smoothing: antialiased;
 }
 
+.bookingList {
+  -webkit-transition: .5s;
+  transition: .5s;
+}
+
 .bookingList .icon_face:before {
   content: 'face';
   color: red;
@@ -11512,6 +11517,10 @@ a.text-dark:focus {
   font-family: 'Roboto', sans-serif;
   font-size: 120%;
   font-weight: bold;
+}
+
+.bookingList:hover {
+  background-color: #f2f2f2;
 }
 
 #countBBackground {

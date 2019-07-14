@@ -47184,15 +47184,27 @@ module.exports = function spread(callback) {
 
 $(document).ready(function () {
 
-	// var popupCancel = $(".cancelTooltip");
-	var refCancel = $(".CancelAnchor");
-
-	// var popupAccept = $("#acceptTooltip");
-	var refAccept = $(".AcceptAnchor");
+	//==========================ON START-UP========================== 
 	$("#autoLaunch").trigger('click');
 	$(window).on('load', function () {
 		$('#prepareRoomsModal').modal('show');
 	});
+
+	//==========================DESIGN-EFFECT========================== 
+	$("div.bookingList").on('mouseover', function (e) {
+		// $(this).css("background-color", "#f2f2f2");
+
+	});
+
+	$("div.bookingList").on('mouseleave', function (e) {
+		// $(this).css("background-color", "");
+	});
+
+	//==========================ACCEPTING-DECLINING-BOOKINGS========================== 
+
+	var refCancel = $(".CancelAnchor");
+	var refAccept = $(".AcceptAnchor");
+
 	refCancel.mouseover(function (event) {
 		var current_id = event.target.id.slice(event.target.id.indexOf("_") + 1);
 		// console.log("#cancelTooltip_"+current_id);
@@ -47223,8 +47235,9 @@ $(document).ready(function () {
 		$("#AcceptTooltip_" + current_id).fadeOut(300);
 	});
 
-	//Sending data from anchor to the modal itself
+	//==========================EDIT MODAL========================== 
 
+	//Sending data from anchor to the modal itself
 
 	$(".openEditModal").on('click', function (e) {
 		$('#editclientModal').modal('toggle', $(this));
@@ -47248,12 +47261,7 @@ $(document).ready(function () {
 		    booking = link.data("booking"),
 		    client = link.data("client");
 
-		// alert(booking.Status);
-		// alert(client.Last_Name);
 		$(".modal-body #formContainer").attr("action", "/bookings/" + booking.bookingId);
-		// alert($(".modal-body #formContainer").attr("action"));
-
-		// $(".modal-body #editEmail_input").val(client.Email);
 
 		var checkin = booking.Checkin.replace(/-/g, "/");
 		var checkout = booking.Checkout.replace(/-/g, "/");
@@ -47270,11 +47278,6 @@ $(document).ready(function () {
 		$(".modal-body #editCheckIn_input").val(formatDate(checkin));
 		$(".modal-body #editCheckOut_input").val(formatDate(checkout));
 		$(".modal-body #editStatus_input").val(booking.Status);
-		// alert($(".modal-body #editEmailinput").val());
-
-		// console.log("ad");
-		// modal.find("#email").val(email);
-		// modal.find("#username").val(username);
 	});
 
 	$('#findAutomaticRadio').click(function (event) {
@@ -47292,10 +47295,6 @@ $(document).ready(function () {
 			$('#seaSightInput').parent().parent().hide();
 		}
 	});
-
-	function sayingHello() {
-		alert("hello");
-	}
 	//New Client, Edit Client
 	//Inserting Specific Rooms acording to Tootal Rooms
 
