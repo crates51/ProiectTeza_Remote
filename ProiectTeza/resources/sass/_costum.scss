@@ -97,17 +97,57 @@ body{
     font-size: 120%;
     font-weight: bold;
   }
-    
-  -o-transition: .5s;
-  -ms-transition: .5s;
-  -moz-transition: .5s;
-  -webkit-transition: .5s;
-  transition: .5s;  
+    -o-transition: .5s;
+    -ms-transition: .5s;
+    -moz-transition: .5s;
+    -webkit-transition: .5s;
+    transition: .5s;  
   
 }
 
 .bookingList:hover{
   background-color:#f2f2f2;
+}
+
+
+.roomsList{
+    -o-transition: .5s;
+    -ms-transition: .5s;
+    -moz-transition: .5s;
+    -webkit-transition: .5s;
+    transition: .5s;  
+}
+.roomsList:hover{
+  background-color:#f2f2f2;
+}
+
+.rectangleShape{
+  height: 50px;
+  width:  80px;
+  background-color: color(purple_primary);
+  margin-left: auto ;
+  margin-right: auto ;
+  border-radius: 8px;
+}
+
+.insideShapeText{
+  top:20%;
+  font-family: 'Arvo', serif;
+  font-size: 120%;
+  font-weight: bold;
+  text-decoration: none!important;
+  position: relative;
+  cursor: pointer;
+  color:white;
+  -o-transition: .5s;
+  -ms-transition: .5s;
+  -moz-transition: .5s;
+  -webkit-transition: .5s;
+  transition: .5s;  
+}
+
+.insideShapeText:hover{
+    color: #edb83a !important;
 }
 
 #countBBackground{

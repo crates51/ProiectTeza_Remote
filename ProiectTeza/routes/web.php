@@ -20,6 +20,8 @@ Route::get('/bookings/{id}/destroy', 'BookingsController@destroy')->name('bookin
 
 Route::get('/generalInfo/{name}/{totalRooms}/store', 'generalinfoController@store')->name('generalInfo-store');
 
+Route::get('/generalInfo/cookie/{value}', 'generalinfoController@cookie')->name('generalinfoController-cookie');
+
 
 // When Changing the status of the client from the main page buttons
 

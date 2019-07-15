@@ -14,14 +14,32 @@
 		</div>
 		{{-- <instantsearch></instantsearch> --}}
 		<div class="row ">
-			<div class="col-4 col-md-4 offset-4 mt-4  text-center mb-5">
+			<div class="col-4 col-md-4 offset-4 mt-2  text-center mb-5">
 				<div id="countBBackground">
 					<span id="countB">{{$data['totalBookings']}}</span>
 				</div>
 			</div>
 		</div>
-
-
+		<div class="row ">
+			<div class=" col-md-2 offset-3 text-center mb-5">
+				<div class="rectangleShape">
+					<a href="{{route('generalinfoController-cookie', 'rooms')}}" class="insideShapeText">Camere</a>
+				</div>
+			</div>
+			<div class=" col-md-2 text-center mb-5">
+				<div class="rectangleShape">
+					<a href="{{route('generalinfoController-cookie', 'bookings')}}" class="insideShapeText">Cazari</a>
+				</div>
+			</div>
+			<div class=" col-md-2 text-center mb-5">
+				<div class="rectangleShape">
+					<a href="{{route('generalinfoController-cookie', 'clients')}}" class="insideShapeText">Clienti</a>
+				</div>
+			</div>
+		</div>
+<?php
+		$responsedCookie = \Cookie::get('currentListDisplayed');
+?>
 
 	{{-- </div>	 --}}
 	
@@ -91,7 +109,37 @@
 {{-- <span>Experiment: {{ $data['clients'][4-1]->First_Name }}</span> --}}
 
 {{-- $data['clients'] --}}
-@if(count($data['bookings']) > 0)
+{{-- {{$responsedCookie}} --}}
+@if($responsedCookie == "rooms" )
+
+<span>Show List of Rooms</span>
+
+<div class="row">
+	@foreach($data['rooms'] as $room)
+		<div class="card col-md-4 py-3 mb-5 roomsList">
+			<div class="row">
+				<div class="col-md-4 offset-4 text-center">
+					Camera: {{$room->roomId}}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 offset-4 text-center Status">
+					@if($room->available == 1 )
+						Disponibil
+					@elseif($room->available == 0 )
+						Ocupat
+					@endif
+				</div> 
+			</div>
+		</div>
+	@endforeach
+</div>
+
+@elseif($responsedCookie == "clients" )
+
+<span>Show List of Clients</span>
+
+@elseif(count($data['bookings']) > 0)
 		@foreach($data['bookings'] as $booking)
 			<div class="card pt-3 pr-3 pl-3 mb-5 bookingList">
 				<div class="row">
@@ -302,7 +350,5 @@
 		<p class="h1">There are no bookings, yet</p>
 		<i class="far fa-frown fa-10x"></i>
 	</div>
-
-
 	@endif
 @endsection

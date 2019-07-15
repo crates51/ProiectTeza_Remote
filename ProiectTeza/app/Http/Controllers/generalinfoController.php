@@ -64,6 +64,13 @@ class generalinfoController extends Controller
         //
     }
 
+    public function cookie($value)
+    {
+        \Cookie::queue("currentListDisplayed", $value, 60);
+
+        return redirect('/')->with("cookie","lol");
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

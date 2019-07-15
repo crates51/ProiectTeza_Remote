@@ -47190,16 +47190,21 @@ $(document).ready(function () {
 		$('#prepareRoomsModal').modal('show');
 	});
 
-	//==========================DESIGN-EFFECT========================== 
-	$("div.bookingList").on('mouseover', function (e) {
-		// $(this).css("background-color", "#f2f2f2");
+	//==============================ROOMS============================== 
 
+	// alert($(".roomsList .Status").text());
+
+	// if($(".roomsList .Status").text() == "Disponibil")alert("Found");
+	$('.roomsList').find('.Status').each(function (i) {
+		// console.log("Test");
+
+		// Search if string exists in text
+		if ($(this).text().indexOf("Ocupat") >= 0) {
+			console.log($(this).text());
+			$(this).parent().parent().css("background-color", "#ff9999");
+		}
+		// console.log($(this).text());
 	});
-
-	$("div.bookingList").on('mouseleave', function (e) {
-		// $(this).css("background-color", "");
-	});
-
 	//==========================ACCEPTING-DECLINING-BOOKINGS========================== 
 
 	var refCancel = $(".CancelAnchor");
