@@ -1,0 +1,19 @@
+<?php
+						global $roomId;
+						$roomId = $room->roomId;
+						$specificBooking = $data['allBookings']->first(function($item) {
+							global $roomId;
+						    return $item->roomId == $roomId;
+						});
+						echo $specificBooking->Checkin;
+			            echo nl2br ("\n");
+						echo $data['today']->toDateString();
+						
+						if (($data['today']->toDateString() >= $specificBooking->Checkin)&&($data['today']->toDateString() < $specificBooking->Checkout)) 
+						    echo "booking-ul este actual"; 
+						else{
+						 	$room->available=1;
+						 	$room->update();
+						    echo "booking-ul nu este actual, s-a facut status 1 la camera";
+						} 
+					?>

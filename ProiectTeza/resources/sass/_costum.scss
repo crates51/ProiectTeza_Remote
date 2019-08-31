@@ -13,18 +13,40 @@ $colors:(
 
 // The Body
 
-body{
-  // background: #101010!important;
-  // background-image: linear-gradient(#181818, 85%, #BA8B02);
+  //====================================================ROOMS==================================================== 
 
+[id^=roomCardclientName_]{
+    -o-transition: .5s;
+    -ms-transition: .5s;
+    -moz-transition: .5s;
+    -webkit-transition: .5s;
+    transition: .5s;
 }
 
-// .card{
-  // background: #222;
-  // color: #C5C5C5 ;
-  // border-radius: 15px;
-// }
+[id^=roomCardclientName_]:hover{
+  color:#565978;
+  cursor: pointer;
+}
 
+//==========Room Floor Id Title==========
+.floorIdTitle{
+  font-family: 'Arvo', serif;
+  font-size: 170%;
+}
+
+.floorRow{
+  -o-transition: .5s;
+  -ms-transition: .5s;
+  -moz-transition: .5s;
+  -webkit-transition: .5s;
+  transition: .5s;
+}
+
+.floorRow:hover{
+  background-color: #565978;
+}
+
+  //============================================================================================================= 
 
 #title{
   	font-family: 'Roboto', sans-serif;
@@ -54,6 +76,8 @@ body{
 	margin-left: auto ;
   margin-right: auto ;
   clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+  border-radius: 50px;
+
 }
 
 .datepicker table tr td.day.focused {
@@ -123,7 +147,7 @@ body{
 
 .rectangleShape{
   height: 50px;
-  width:  80px;
+  width:  90px;
   background-color: color(purple_primary);
   margin-left: auto ;
   margin-right: auto ;
@@ -238,6 +262,15 @@ cursor: pointer;
   color:#4f5963;      
 }
 
+.fa-wrench:hover{
+  color:#4f5963;      
+}
+
+.fa-user-cog:hover{
+  color:#4f5963;      
+}
+
+
 
 
 //--------------------------------------------Tool tips--------------------------------------------
@@ -258,4 +291,13 @@ cursor: pointer;
   width:150px;
   height:50px;
   border-radius: 0.25rem;
+}
+
+[id^=BookingInfoTooltip]{
+  background: #9799b5 ;
+  border: 1px solid #565978;
+  width:300px;
+  height:150px;
+  border-radius: 0.25rem;
+  
 }

@@ -17,6 +17,7 @@ class CreateGeneralInfosTable extends Migration
             $table->increments('id');
             $table->string("name")->nullable();
             $table->integer('totalRooms')->nullable();
+            $table->integer('totalFloors')->nullable();
             $table->boolean('totalRoomsSet')->default(false);
             $table->boolean('allRoomsPrepared')->default(false);
             $table->timestamps();

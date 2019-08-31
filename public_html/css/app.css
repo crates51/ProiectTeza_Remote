@@ -11445,6 +11445,30 @@ a.text-dark:focus {
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
+[id^=roomCardclientName_] {
+  -webkit-transition: .5s;
+  transition: .5s;
+}
+
+[id^=roomCardclientName_]:hover {
+  color: #565978;
+  cursor: pointer;
+}
+
+.floorIdTitle {
+  font-family: 'Arvo', serif;
+  font-size: 170%;
+}
+
+.floorRow {
+  -webkit-transition: .5s;
+  transition: .5s;
+}
+
+.floorRow:hover {
+  background-color: #565978;
+}
+
 #title {
   font-family: 'Roboto', sans-serif;
   letter-spacing: 2px;
@@ -11471,6 +11495,7 @@ a.text-dark:focus {
   margin-right: auto;
   -webkit-clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
           clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+  border-radius: 50px;
 }
 
 .datepicker table tr td.day.focused {
@@ -11534,7 +11559,7 @@ a.text-dark:focus {
 
 .rectangleShape {
   height: 50px;
-  width: 80px;
+  width: 90px;
   background-color: #565978;
   margin-left: auto;
   margin-right: auto;
@@ -11626,6 +11651,14 @@ i:active {
   color: #4f5963;
 }
 
+.fa-wrench:hover {
+  color: #4f5963;
+}
+
+.fa-user-cog:hover {
+  color: #4f5963;
+}
+
 [id^=CancelTooltip] {
   background: #ffdbdb;
   border: 1px solid #ff6666;
@@ -11639,6 +11672,14 @@ i:active {
   border: 1px solid #00cc00;
   width: 150px;
   height: 50px;
+  border-radius: 0.25rem;
+}
+
+[id^=BookingInfoTooltip] {
+  background: #9799b5;
+  border: 1px solid #565978;
+  width: 300px;
+  height: 150px;
   border-radius: 0.25rem;
 }
 

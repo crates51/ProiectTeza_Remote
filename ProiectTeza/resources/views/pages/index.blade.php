@@ -1,5 +1,4 @@
 								          	{{-- tac=text align center(costum class) --}}
-
 @extends('layouts.app')
 
 @section('content')
@@ -23,17 +22,17 @@
 		<div class="row ">
 			<div class=" col-md-2 offset-3 text-center mb-5">
 				<div class="rectangleShape">
-					<a href="{{route('generalinfoController-cookie', 'rooms')}}" class="insideShapeText">Camere</a>
+					<a href="{{route('generalinfoController-cookie', 'rooms')}}" class="insideShapeText">{{__("keywords.rooms")}}</a>
 				</div>
 			</div>
 			<div class=" col-md-2 text-center mb-5">
 				<div class="rectangleShape">
-					<a href="{{route('generalinfoController-cookie', 'bookings')}}" class="insideShapeText">Cazari</a>
+					<a href="{{route('generalinfoController-cookie', 'bookings')}}" class="insideShapeText">{{__("keywords.bookings")}}</a>
 				</div>
 			</div>
 			<div class=" col-md-2 text-center mb-5">
 				<div class="rectangleShape">
-					<a href="{{route('generalinfoController-cookie', 'clients')}}" class="insideShapeText">Clienti</a>
+					<a href="{{route('generalinfoController-cookie', 'clients')}}" class="insideShapeText">{{__("keywords.clients")}}</a>
 				</div>
 			</div>
 		</div>
@@ -54,13 +53,13 @@
 
 {{-- </script> --}}
 
-{{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editclientModal">
+{{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editbookingModal">
   Launch demo modal
 </button> --}}
 
 
-<!-- ---------------Modals--------------- -->
-
+<!--------------------------------Modals-------------------------------->
+<!-- ---------------NEW CLIENT MODAL--------------- -->
 <div class="modal fade" id="addclientModal" tabindex="-1" role="dialog" aria-labelledby="addclientModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
@@ -72,69 +71,187 @@
       </div>
       <div class="modal-body">
   		<div class="container-fluid">
-        	@include('inc.newclientForm')
+        	@include('inc.newbookingForm')
   		</div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="modal fade" id="editclientModal" tabindex="-1" role="dialog" aria-labelledby="editclientModalLabel" aria-hidden="true">
+<!-- ---------------EDIT Bookings MODAL--------------- -->
+<div class="modal fade" id="editbookingModal" tabindex="-1" role="dialog" aria-labelledby="editbookingModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="editclientModalLabel">Edit Booking</h5>
+        <h5 class="modal-title" id="editbookingModalLabel">Edit Booking</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
   		<div class="container-fluid">
-        	{{-- @include('inc.editclientForm') --}}
-        {{-- 	@foreach($data['bookings'] as $booking)
-				<span>{{$booking->Status}}</span>
-        	@endforeach --}}
-        	@include('inc.editclientForm')
-        	{{-- {{ --}}
-        		{{-- $data['bookings'][0]->Status	 --}}
-        	{{-- }} --}}
+        	@include('inc.editbookingForm')
   		</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ------------------------------------ -->
-{{-- <span>Experiment: {{ $data['bookings'][0]->bookingId }}</span> --}}
-{{-- <span>Experiment: {{ $data['clients'][4-1]->First_Name }}</span> --}}
-
-{{-- $data['clients'] --}}
-{{-- {{$responsedCookie}} --}}
-@if($responsedCookie == "rooms" )
-
-<span>Show List of Rooms</span>
-
-<div class="row">
-	@foreach($data['rooms'] as $room)
-		<div class="card col-md-4 py-3 mb-5 roomsList">
-			<div class="row">
-				<div class="col-md-4 offset-4 text-center">
-					Camera: {{$room->roomId}}
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-4 offset-4 text-center Status">
-					@if($room->available == 1 )
-						Disponibil
-					@elseif($room->available == 0 )
-						Ocupat
-					@endif
-				</div> 
-			</div>
-		</div>
-	@endforeach
+<!-- ---------------EDIT Rooms MODAL--------------- -->
+<div class="modal fade" id="editroomsModal" tabindex="-1" role="dialog" aria-labelledby="editroomsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editroomsModalLabel">Editare Camera</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+  		<div class="container-fluid">
+        	@include('inc.editroomForm')
+  		</div>
+      </div>
+    </div>
+  </div>
 </div>
 
+<div class="row">
+	<div class="mb-4 col-md-4 offset-4 tac floorIdTitle">
+		<i class="far fa-calendar-alt fa-lg"></i>
+		<span>
+			{{$data['today']->day}} {{$data['current_month']}}
+		</span>
+	</div>
+</div>
+									
+@if($responsedCookie == "rooms" )
+{{-- {{$data['today']->format('jS \\of F')}} --}}
+<br><span>Show List of Rooms</span>
+	@if(count($data['rooms']) > 0)
+		@for($i = 0; $i <= $data['currentGeneralInfo']->totalFloors; $i++)
+			<div class="row">
+				<div class="col-md-4 offset-4 text-center mb-2">
+					@if($i==0)
+						<span class="floorIdTitle">{{__("keywords.groundfloor")}}</span>
+					@else
+						<span class="floorIdTitle">{{__("keywords.floor")}} {{$i}}</span>
+					@endif
+				</div>
+			</div>
+		
+			<div class="row">
+			@foreach($data['rooms'] as $room)
+				{{-- {{$room->floorId==$i}} --}}
+				@if($room->floorId==$i)
+				{{-- Daca camera este disponibila --}}
+					@if($room->available == 1 )
+						<div class="card col-md-4 py-3 mb-5 roomsList">
+							<div class="row">
+								<div class="col-md-4 offset-4 text-center">
+									{{__("keywords.room")}}: {{$room->roomId}}
+								</div>
+								<div class="col-md-4 text-right">
+									<a  data-target="#editroomsModal"
+										href="#"
+		    							data-toggle="modal"
+		  								data-room="{{ $room }}">
+										<i class="fas fa-wrench fa-sm"></i>
+									</a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-4 offset-4 text-center Status">
+									{{__("keywords.available")}}
+								</div> 
+							</div>
+						</div>
+					@elseif($room->available == 0 )
+						<div class="card col-md-4 py-3 mb-5 roomsList">
+							<div class="row">
+								<div class="col-md-4 offset-4 text-center">
+									{{__("keywords.room")}}: {{$room->roomId}}
+								</div>
+								<div class="col-md-4 text-right">
+									<a  data-target="#editroomsModal"
+										href="#"
+		    							data-toggle="modal"
+		  								data-room="{{ $room }}">
+										<i class="fas fa-wrench fa-sm"></i>
+									</a>
+									<?php
+										global $roomId;
+										$roomId = $room->roomId;
+										$specificBooking = $data['allBookings']->first(function($item) {
+											global $roomId;
+										    return $item->roomId == $roomId;
+										});
+
+										$specificClient=$data['clients'][$specificBooking->clientId-1];
+										echo "<a 
+											data-target  ='#editbookingModal'
+											data-toggle  ='modal'
+											data-booking ='$specificBooking'
+											data-client  ='$specificClient'
+										>
+											<i class='fas fa-user-cog fa-sm'></i>
+										</a>
+										<clientdeletemodal class='ml-1' isbutton='false' icon_type='fas fa-user-minus fa-sm' booking_id='$specificBooking->bookingId'></clientdeletemodal>	
+										";	 
+
+									?>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6 offset-3 text-center Status">
+									 
+									 <?php 
+									 	global $roomId;
+										$roomId = $room->roomId;
+										$specificBooking = $data['allBookings']->first(function($item) {
+											global $roomId;
+										    return $item->roomId == $roomId;
+
+										});
+										$specificClient=$data['clients'][$specificBooking->clientId-1];
+		//Aic se va afisa informatiile Suplimentare cand dai hover pe Nume--PopUp
+										echo "
+											<div style='display:none' id='BookingInfoTooltip_$specificBooking->bookingId' class='mb-2 mt-2 BookingInfoTooltip'>
+												".$specificClient->Last_Name." ".$specificClient->First_Name."<br>
+												<i class='fas fa-phone mr-1 mt-3'></i>".$specificClient->Phone."<br>
+												<i class='fas fa-envelope mr-1'></i>".$specificClient->Email."<br>
+												<i class='fas fa-male fa-lg mr-1'></i>".$specificBooking->Adults."<i class='fas fa-child fa-lg mr-1 ml-4'></i>".$specificBooking->Children."<br>".
+												$specificBooking->Checkin." <i class='mx-3 fas fa-angle-double-right mt-3'></i>$specificBooking->Checkout
+											</div>
+										";
+
+										echo "<span 
+											data-booking='$specificBooking'
+		  									data-client ='$specificClient'
+											id='roomCardclientName_$specificBooking->bookingId'>".
+											$specificClient->Last_Name." ".$specificClient->First_Name.
+										"</span>";
+									 ?>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-4 offset-4 text-center Status">
+									{{__("keywords.busy")}}
+								</div> 
+							</div>
+						</div>
+					@endif			
+				@endif
+			@endforeach
+			</div>
+			<br>	
+		@endfor
+	@else
+		<div class="tac">
+			<p class="h1">Momentan nu exista camere</p>
+			<i class="far fa-frown fa-10x"></i>
+		</div>
+	@endif
 @elseif($responsedCookie == "clients" )
 
 <span>Show List of Clients</span>
@@ -160,7 +277,6 @@
 							</div>
 						</div>
 					</div>
-					
 					<div class="col-md-4 col-sm-4">
 						<div class="row">
 							<div class="col text-center subtitlesDatalist">
@@ -262,6 +378,9 @@
 										<i id="AcceptAnchor_{{$booking->bookingId}}" class="far fa-check-circle fa-lg pl-3 AcceptAnchor"  style="color:green"></i>
 									</a> --}}								
 								{{-- Client asked for booking, has been accepted --}}
+								@elseif($booking->Status == "During the stay")
+									<span class="text-success"> {{$booking->Status}}</span>
+
 								@elseif($booking->Status == "Booked")
 									<span class="text-success"> {{$booking->Status}}</span>
 
@@ -295,10 +414,10 @@
 							<div class="col-md-4">
 								@auth
 									<a class="btn btn-warning openEditModal"
-										class="openEditModal" 
+										{{-- class="openEditModal"  --}}
 									 	{{-- href="{{route('bookings.edit', $booking->bookingId)}}" --}}
   										href="#"
-    									data-target="#editclientModal"
+    									data-target="#editbookingModal"
     									data-toggle="modal"
   									 	data-booking="{{ $booking }}"
   									 	data-client="{{ $data['clients'][$booking->clientId-1] }}"
@@ -319,7 +438,7 @@
 									{{-- <a class="btn btn-danger float-right" onclick="return confirm('Are you sure?')" href="{{route('bookings-destroy', $booking->bookingId)}}"> --}}
 										{{-- <i class="fa fa-trash"></i> --}}
 									{{-- </a> --}}
-									<clientdeletemodal booking_id={{$booking->bookingId}}></clientdeletemodal>
+									<clientdeletemodal isbutton="true" icon_type="fa fa-trash" booking_id={{$booking->bookingId}}></clientdeletemodal>
 								@endauth
 							</div>
 						</div>
@@ -347,7 +466,7 @@
 		{{$data['bookings']->links()}}
 	@else
 	<div class="tac">
-		<p class="h1">There are no bookings, yet</p>
+		<p class="h1">Momentan nu exista cazari</p>
 		<i class="far fa-frown fa-10x"></i>
 	</div>
 	@endif

@@ -21,6 +21,10 @@ class SetForeignKeys extends Migration
         Schema::table('bookings', function (Blueprint $table) {
             $table->foreign('roomId')->references('roomId')->on('rooms');
         });
+
+        // Schema::table('rooms', function (Blueprint $table) {
+        //     $table->foreign('floorId')->references('floorId')->on('floor');
+        // });
     }
 
     /**

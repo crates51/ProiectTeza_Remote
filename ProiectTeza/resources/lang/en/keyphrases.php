@@ -5,5 +5,6 @@ return [
     'there_will_be' => 'There will be',
 	'new_booking' => 'New Booking',
     'roomId'   	 => 'Room Id',
+    'number_of_rooms'  	 => 'Number of Rooms'   
 ];
 

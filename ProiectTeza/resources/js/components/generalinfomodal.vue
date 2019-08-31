@@ -52,7 +52,7 @@ export default {
                 max: 120,
                 step: 1
               },
-              inputValue: 25
+              inputValue: 23
             }).then((result)=>{
                    (async function getName () {
                 const {value: name} = await Swal.fire({

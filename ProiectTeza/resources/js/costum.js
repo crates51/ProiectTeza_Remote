@@ -2,11 +2,11 @@ $(document).ready(function(){
 
 	//==========================ON START-UP========================== 
 	$("#autoLaunch").trigger('click');
-	  $(window).on('load',function(){
-        $('#prepareRoomsModal').modal('show');
-      });
+	$(window).on('load',function(){
+      $('#prepareRoomsModal').modal('show');
+    });
 
-	//==============================ROOMS============================== 
+  //====================================================ROOMS==================================================== 
 
 	// alert($(".roomsList .Status").text());
 
@@ -15,12 +15,35 @@ $('.roomsList').find('.Status').each(function(i) {
 	// console.log("Test");
 
 	// Search if string exists in text
-	if($(this).text().indexOf("Ocupat") >= 0){
+	if(($(this).text().indexOf("Ocupat") >= 0)||($(this).text().indexOf("Busy") >= 0)){
 		console.log($(this).text());
 		$(this).parent().parent().css("background-color","#ff9999");
 	}
-	// console.log($(this).text());
 })
+
+// Details popUp on name Hovering
+
+$('[id^=roomCardclientName_]').mouseover(function(event){
+
+
+	var current_booking_id = event.target.id.slice(event.target.id.indexOf("_")+1);
+	
+    var booking    = $(this).data("booking"),
+    	client     = $(this).data("client");
+
+    $("#BookingInfoTooltip_"+current_booking_id).fadeIn();
+	var popper= new Popper($("#"+event.target.id),$("#BookingInfoTooltip_"+current_booking_id),{
+		placement: "top"
+	});
+	
+	// console.log(booking.bookingId);
+})
+
+$('[id^=roomCardclientName_]').mouseleave(function(event) {
+	var current_booking_id = event.target.id.slice(event.target.id.indexOf("_")+1);
+	$("#BookingInfoTooltip_"+current_booking_id).fadeOut();
+})
+
 	//==========================ACCEPTING-DECLINING-BOOKINGS========================== 
 
 	var refCancel = $(".CancelAnchor");
@@ -58,15 +81,7 @@ $('.roomsList').find('.Status').each(function(i) {
 		$("#AcceptTooltip_"+current_id).fadeOut(300);
 	})
 
-	//==========================EDIT MODAL========================== 
-
-	//Sending data from anchor to the modal itself
-
-	$(".openEditModal").on('click', function(e) {
-		$('#editclientModal').modal('toggle', $(this));
-	});
-
-
+	//====================================================EDIT MODALS==================================================== 
 	function formatDate(date) {
 	    var d = new Date(date),
 	        month = '' + (d.getMonth() + 1),
@@ -77,32 +92,66 @@ $('.roomsList').find('.Status').each(function(i) {
 	    if (day.length < 2) day = '0' + day;
 	
 	    return [day, month, year].join('/');
-	}
+	};
 
-	$('#editclientModal').on('shown.bs.modal', function(event) {
+	//==========================EDIT Rooms MODAL========================== 
+
+	$('#editroomsModal').on('shown.bs.modal', function(event) {
+		 var link       = $(event.relatedTarget),
+        	 modal      = $(this),
+        	 room       = link.data("room");
+    
+    	$(".modal-body #RoomformContainer").attr("action","/rooms/"+room.roomId);
+
+		$(".modal-body #room_editFloor_input").val(room.floorId);
+		$(".modal-body #room_editNumberOfBeds_input").val(room.nrOfBeds);
+		console.log(room.seaSight);
+		if(room.seaSight==1){
+			$(".modal-body #room_editseaSight_input").prop("checked",true);
+		}
+		else{
+			$(".modal-body #room_editseaSight_input").prop("checked",false);
+		}
+	})
+
+
+
+    
+
+	//==========================EDIT Booking MODAL========================== 
+
+	//Sending data from anchor to the modal itself
+
+	// $(".openEditModal").on('click', function(e) {
+	// 	$('#editclientModal').modal('toggle', $(this));
+	// });
+	
+	$('#editbookingModal').on('shown.bs.modal', function(event) {
     var link       = $(event.relatedTarget),
         modal      = $(this),
         booking    = link.data("booking"),
         client     = link.data("client");
 
-        $(".modal-body #formContainer").attr("action","/bookings/"+booking.bookingId);
+        $(".modal-body #BookingformContainer").attr("action","/bookings/"+booking.bookingId);
 
         var checkin = booking.Checkin.replace(/-/g, "/");
         var checkout = booking.Checkout.replace(/-/g, "/");
 
 		var strtotime = require('locutus/php/datetime/strtotime');
+		
+        $(".modal-body #booking_editFirstName_Form")  .val(client.First_Name);
+		$(".modal-body #booking_editLastName_Form")	  .val(client.Last_Name);
+        $(".modal-body #booking_editEmail_input")     .val(client.Email)
+		$(".modal-body #booking_editPhone_input")	  .val(client.Phone);
+		$(".modal-body #booking_editAdults_input")    .val(booking.Adults);
+		$(".modal-body #booking_editTotalRooms_input").val(booking.totalRooms);
+		$(".modal-body #booking_editChildren_input")  .val(booking.Children);
+		$(".modal-body #booking_editCheckIn_input")   .val(formatDate(checkin));
+		$(".modal-body #booking_editCheckOut_input")  .val(formatDate(checkout));
+		$(".modal-body #booking_editStatus_input")    .val(booking.Status);
+		$(".modal-body #booking_specificRoomInput")   .val(booking.roomId);
 
-        $(".modal-body #editFirstName_Form").val(client.First_Name);
-		$(".modal-body #editLastName_Form").val(client.Last_Name);
-        $(".modal-body #editEmail_input").val(client.Email)
-		$(".modal-body #editPhone_input").val(client.Phone);
-		$(".modal-body #editAdults_input").val(booking.Adults);
-		$(".modal-body #editTotalRooms_input").val(booking.totalRooms);
-		$(".modal-body #editChildren_input").val(booking.Children);
-		$(".modal-body #editCheckIn_input").val(formatDate(checkin));
-		$(".modal-body #editCheckOut_input").val(formatDate(checkout));
-		$(".modal-body #editStatus_input").val(booking.Status);
-     
+     // booking_specificRoomInput
 });
 
 $('#findAutomaticRadio').click(function(event) {
@@ -120,6 +169,9 @@ $('#findManualRadio').click(function() {
 		    $('#seaSightInput').parent().parent().hide();
 	   	}
 });
+
+
+
 			//New Client, Edit Client
 //Inserting Specific Rooms acording to Tootal Rooms
 

@@ -1,7 +1,13 @@
 <template>
-  <div v-on:click="showAlert" class="btn btn-danger float-right">
-      <i class="fa fa-trash"></i>
-  </div>
+  <span>
+    <div v-if="check_isButton('true')" v-on:click="showAlert" class="btn btn-danger float-right">
+        <i v-bind:class="icon_type"></i>
+    </div>
+    
+    <div v-if="check_isButton('false')" v-on:click="showAlert" class="float-right">
+        <i v-bind:class="icon_type"></i>
+    </div>
+  </span>
 </template>
 
 <script>
@@ -30,6 +36,14 @@ export default {
       booking_id:{
         type: String ,
         default: "Error: No title Proped"
+      },
+      icon_type:{
+        type: String ,
+        default: "Error: No title Proped"
+      },
+      isbutton:{
+        type:String,
+        default: "Error: No status Proped"
       },
     },
     methods: {
@@ -60,6 +74,10 @@ export default {
 
             }
             })
+        },
+        check_isButton(x){
+          if(this.isbutton == x) return true;
+          else return false;
         }
     }
 }

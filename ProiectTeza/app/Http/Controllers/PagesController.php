@@ -9,6 +9,8 @@ use App\Clients;
 use App\GeneralInfo;
 use App\Rooms;
 use App\Http\Controllers\Auth;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 
 
@@ -26,10 +28,9 @@ class PagesController extends Controller
         $GeneralInfo = new GeneralInfo;
         $GeneralInfo->save();
     };
-
-
         $data = [
             'bookings'              => Bookings::orderBy('bookingId','asc')->paginate(5),
+            'allBookings'           => Bookings::all(),//This is for when i need to retrieve all the bookings
             'rooms'                 => Rooms::all(),
             'totalBookings'         => Bookings::orderBy('created_at','desc')->count(),
             'maximumRooms'          => Bookings::max('totalRooms'),
@@ -38,15 +39,58 @@ class PagesController extends Controller
             'totalClients'          => Clients::orderBy('created_at','desc')->count(),
             'currentGeneralInfo'    => GeneralInfo::orderby('created_at', 'desc')->first(),
             'currentDate'           => date("Y-m-d"),
-            'title'                 => __("keyphrases.new_booking")
+            'title'                 => __("keyphrases.new_booking"),
+            'today'                 => Carbon::today(),
         ];
 
+        if(Carbon::today()->month==1){
+            $data['current_month']="Ianuarie";
+        }
+        else if(Carbon::today()->month==2){
+            $data['current_month']="Februarie";
+        }
+        else if(Carbon::today()->month==3){
+            $data['current_month']="Martie";
+        }
+        else if(Carbon::today()->month==4){
+            $data['current_month']="Aprilie";
+        }
+        else if(Carbon::today()->month==5){
+            $data['current_month']="Mai";
+        }
+        else if(Carbon::today()->month==6){
+            $data['current_month']="Iunie";
+        }
+        else if(Carbon::today()->month==7){
+            $data['current_month']="Iulie";
+        }
+        else if(Carbon::today()->month==8){
+            $data['current_month']="August";
+        }
+        else if(Carbon::today()->month==9){
+            $data['current_month']="Septembrie";
+        }
+        else if(Carbon::today()->month==10){
+            $data['current_month']="Octombrie";
+        }
+        else if(Carbon::today()->month==11){
+            $data['current_month']="Noiembrie";
+        }
+        else if(Carbon::today()->month==12){
+            $data['current_month']="Decembrie";
+        }
 
 // Before loading the page, we are checking if the client chekout is before the current time, if yes, his booking is finished
 // if no we reset to "Pending" if necessary
 
         foreach($data['bookings'] as $booking){
-            if($booking->Checkout < $data['currentDate']){
+            if($data['currentDate'] < $booking->Checkout ){
+                if($data['currentDate'] >= $booking->Checkin ){
+                    $booking->Status = "During the stay";
+                    $booking->save();    
+                }
+            }
+            else if($data['currentDate'] > $booking->Checkout ){
                 $booking->Status = "Finished";
                 $booking->save();
             }
@@ -57,29 +101,17 @@ class PagesController extends Controller
                 }
             }
         }
-        // echo "There are ".Clients::orderBy('created_at','desc')->count()." clients in database";
 
-        // echo nl2br ("\n");
-        // echo "Count: ".$data['clients']->count();
-        // echo nl2br ("\n");
-        // echo nl2br ("\n");
+        // $maxfloorId = DB::table('rooms')->max('floorId');
+        // echo "MaxFloorId is: ".$maxfloorId;
 
-        // foreach($data['clients'] as $client){
-        //     echo $client;
-        //     echo nl2br ("\n");
-
-        // }
-
-    // if(!GeneralInfo::orderBy('created_at','desc')->count())echo "There are no records";
-    // else echo "There are records";
-
-
-         if(auth()->check()){
+        if(auth()->check()){
             return view('pages.index')->with('data',$data);
         }
         else{
             return view('pages.loginIndex')->with('data',$data);
         }
+
    }
 
     /**

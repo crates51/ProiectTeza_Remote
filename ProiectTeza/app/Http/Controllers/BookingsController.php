@@ -60,13 +60,11 @@ class BookingsController extends Controller
             'prenume' => 'required',
             'nume' => 'required',
             'email' => 'required|email',
-            'email' => 'required|email',
             //this validates that the phone number starts with 07 and has 8 more characters after, and has only digits
             'specificRoom' => 'required|numeric|min:1',
             'phone' => 'required|regex:/(07)[0-9]{8}/',
             'adults_number' => 'required|min:1',
             'children_number' => 'required',
-            // 'totalRooms' => 'required|numeric|min:1',
             'Check-in' =>'required|date_format:d/m/Y',
             'Check-out'=> 'required|date_format:d/m/Y|after:Check-in',
         ]);
@@ -85,17 +83,15 @@ class BookingsController extends Controller
          else{
             $specificBooking = $booking->where("roomId",$request->input('specificRoom'))->get();
 
-            echo $specificBooking;
             $specificClient = Clients::find($specificBooking[0]->clientId);
-                // $request->input('specificRoom')
-            // echo "The room is unavailable";
-            // echo nl2br ("\n");
+
             echo $specificClient->Last_Name;
 
-            return redirect('/')->with('error','Room ' .$request->input('specificRoom').' is unavailable. The client '.$specificClient->Last_Name." ".$specificClient->First_Name." is booked there :(");
+            return redirect('/')->with('error','Room ' .$request->input('specificRoom').' is not available. Client '.$specificClient->Last_Name." ".$specificClient->First_Name." it's booked there :(");
          };
          
 
+\begin{lstlisting}
 
         // Looking for clientId in clients
         // If the booking has the same Last Name && First Name && Phone Number then it's the same person
@@ -140,7 +136,7 @@ class BookingsController extends Controller
          // echo "The client will get the id ".$curentClientId;
         }
         else{
-             echo $nrOfClientsfound." client(s) has been found with these credentials, that's a problem :(";
+             // echo $nrOfClientsfound." client(s) has been found with these credentials, that's a problem :(";
             return redirect('/')->with('error','Booking for: ' .$request->input('nume'). ' couldn\'t be made ! <br>'.
                                                'Reason: multiple accounts found for this credentials <br>'.
                                                'Please contact us for this issue !');
@@ -174,7 +170,7 @@ class BookingsController extends Controller
 
             $booking->save();
 
-            return redirect('/')->with('success','Booking for: ' .$request->input('nume'). ' created successfull !');
+            return redirect('/')->with('success','Cazarea pentru: ' .$request->input('nume'). ' a fost creata cu succes !');
         }
     }
 
@@ -190,9 +186,9 @@ class BookingsController extends Controller
 
         $client = Clients::find($booking->clientId);
 
-       $data = [
+        $data = [
                 'currentGeneralInfo'    => GeneralInfo::orderby('created_at', 'desc')->first(),
-            ];
+        ];
         return view('bookings.show')->with('booking',$booking)->with('client',$client)->with('data',$data);
     }
 
@@ -222,18 +218,11 @@ class BookingsController extends Controller
             'currentGeneralInfo'    => GeneralInfo::orderby('created_at', 'desc')->first(),
         ];
 
-        // echo $checkin;
-        // echo nl2br ("\n");
-        // echo $checkout;
-
-        //Check for correct user
-        // return view('bookings.edit')->with('booking',$booking)->with('client',$client)->with('check',$check)->with('data',$data);
         return view('bookings.edit')->with('booking',$booking)->with('client',$client)->with('check',$check)->with('data',$data);
-        
     }
 
     /**
-     * Update the specified resource in storage.
+     *   the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -252,12 +241,15 @@ class BookingsController extends Controller
             'Check-in' =>'required|date_format:d/m/Y',
             'Check-out'=> 'required|date_format:d/m/Y|after:Check-in',
             'status' => 'required',
+            'specificRoom' => 'required'
         ]);
        
         $booking = Bookings::find($bookingId);
         $client = Clients::find($booking->clientId);
 
-        // $client = Bookings::find($clientId);
+        // echo "BookingId".$bookingId;
+        // echo nl2br ("\n");
+        // echo "ClientId".$booking->clientId;
 
         $booking->Adults = $request->input('adults_number');
         $booking->Children = $request->input('children_number');
@@ -280,11 +272,62 @@ class BookingsController extends Controller
   
         $booking->Checkin = $Checkin;
         $booking->Checkout = $Checkout;
-        
-        $booking->save();
-        $client->save();
 
-        return redirect('/')->with('success','Booking Updated');
+        // IF/WHEN CHANGING ROOMS
+        if($booking->roomId != $request->input('specificRoom')){
+            echo "Se vrea schimbarea camerei";
+            if(Rooms::find($request->input('specificRoom'))->available){
+                echo nl2br ("\n");
+                echo "Camera noua este libera";
+                // Se ocupa camera noua, se elibereaza camera actuala
+                $newRoom = Rooms::find($request->input('specificRoom'));
+                $newRoom->available = 0;
+                $newRoom->save();
+
+                $oldRoom = Rooms::find($booking->roomId);
+                $oldRoom->available = 1;
+                $oldRoom->save();
+
+                $booking->roomId = $request->input('specificRoom');
+
+                $booking->save();
+                $client->save();
+
+                return redirect('/')->with('success','Cazarea a fost actualizata');
+            }
+            else{
+                // Camera noua NU este libera;
+                $specificBooking = $booking->where("roomId",$request->input('specificRoom'))->get();
+                $specificClient = Clients::find($specificBooking[0]->clientId);
+
+                return redirect('/')->with('error','Nu s-a putut actualiza :( <br>'.
+                                           ' Camera '.$request->input('specificRoom')." este ocupata, ".$specificClient->Last_Name." ".$specificClient->First_Name." este cazat/a acolo.");
+
+            }
+        }        
+        else{
+            // NU se va schimba camera;
+            
+            $booking->roomId = $request->input('specificRoom');
+            $booking->save();
+            $client->save();
+
+            return redirect('/')->with('success','Cazarea a fost actualizata');
+
+        }
+        // echo "Inserted Room Id: ".$request->input('specificRoom');
+        // echo nl2br ("\n");
+        // echo "Booking Room Id: ".$booking->roomId;
+        // echo Rooms::find($request->input('specificRoom'));
+
+        // $booking->roomId = $request->input('specificRoom');
+
+        
+
+        // $booking->save();
+        // $client->save();
+
+        // return redirect('/')->with('success','Booking Updated');
 
 
             // return redirect('/')->with('error','This feature is not implemented yet, sorry');
@@ -295,7 +338,7 @@ class BookingsController extends Controller
             $booking = Bookings::find($id);
             $booking->Status = $status;
             $booking->save();
-            return redirect('/')->with('success','Booking Updated');
+            return redirect('/')->with('success','Cazare Actualizata');
     }
     /**
      * Remove the specified resource from storage.
@@ -308,15 +351,10 @@ class BookingsController extends Controller
          if(auth()->user()->name == "admin"){
             $booking = Bookings::find($id);
             $client = Clients::find($booking->clientId);
-            // echo "Deleting booking".$booking;
             $room = Rooms::find($booking->roomId);
             
             $room->available = true;
-            // echo nl2br ("\n");
-            // echo nl2br ("\n");
-            // echo "Deleting room ".$room;
             $room->save();
-
 
             $booking -> delete();
             DB::update("SET @count = 0");
@@ -327,7 +365,6 @@ class BookingsController extends Controller
             DB::update("UPDATE `clients` SET `clients`.`clientId` = @count:= @count + 1");
             DB::update("ALTER TABLE `clients` AUTO_INCREMENT = 1");
             return redirect('/')->with('success','Booking for '.$client->Last_Name." has been removed");
-            // return redirect('/')->with('success','Test, to replace this!!!');  
          }
          else{
             return redirect('/')->with('error','You\'re not allowed to delete bookings, please speak with an Admin');

@@ -45,6 +45,11 @@
                                 </div>
                             </li>
                         @endguest
+            
+                        {{-- Settings Link --}}
+                        <li class="nav-item">
+                            <a href="{{ route('generalinfoController-settings') }}"class="nav-link fas fa-2x fa-cog"></a>
+                        </li>
                     </ul>
                 </div>
             </div>

@@ -9,7 +9,7 @@
   		    </div>
   		    <div class="modal-body">
             </span>
-      {!! Form::open(['action' => 'RoomsController@store','method' => 'POST','enctype'=>'multipart/form-data']) !!}
+      {!! Form::open(['action' => ['RoomsController@store',$data['currentGeneralInfo']->totalRooms],'method' => 'POST','enctype'=>'multipart/form-data']) !!}
             {{-- {{$data['currentGeneralInfo']->totalRooms}} --}}
             @for ($i = 1; $i <= $data['currentGeneralInfo']->totalRooms; $i++)
             {{-- @foreach($data['rooms'] as $room) --}}
@@ -39,7 +39,16 @@
                 </div>
                  <div class="col-md-4">
                   <div class="form-group tac">
-                    {{Form::number('numberOfBeds_'.$i,'',['class' =>'form-control tac','placeholder' => 'Number of beds'])}}
+                    {{Form::label('numberOfBeds_'.$i,'Numar de paturi',['class'=>"text-center"])}}
+                    {{Form::number('numberOfBeds_'.$i,'1',['class' =>'form-control tac','min' => 1,'placeholder' => 'Number of beds'])}}
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="offset-5 col-md-2">
+                  <div class="form-group tac">
+                    {{Form::label('floorId_'.$i,'Etaj camera',['class'=>"text-center"])}}
+                    {{Form::number('floorId_'.$i,'1',['class' =>'tac form-control','min' => 1,'placeholder' => 'Etaj camera'])}}
                   </div>
                 </div>
               </div>

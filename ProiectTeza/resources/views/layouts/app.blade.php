@@ -20,6 +20,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Grand+Hotel&display=swap" rel="stylesheet">
 
 
 
@@ -30,24 +31,20 @@
     <link href="https://fonts.googleapis.com/css?family=Arvo" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.1.1/themes/algolia-min.css" integrity="sha256-nkldBwBn2NQqRL1mod7BqHsJ6cEOn6u/ln6F/lI4CFo=" crossorigin="anonymous">
     {{-- <li><a href="{{ url('locale/fr') }}" ><i class="fa fa-language"></i> FR</a></li> --}}
-    
 </head>
 <body>
  @auth
     <div id="app">
         @include('inc.navbar')
-
-         @include('inc.messages')
+        @include('inc.messages')
           <div class="container">
-              @if(!$data['currentGeneralInfo']->totalRoomsSet)
-                <generalinfomodal></generalinfomodal>
-              @else
-                @if(!$data['currentGeneralInfo']->allRoomsPrepared)
+             @if(!$data['currentGeneralInfo']->totalRoomsSet)
+               <generalinfomodal></generalinfomodal>
+             @else
+               @if(!$data['currentGeneralInfo']->allRoomsPrepared)
                  @include('inc.prepareRoomsForm')
-                @endif
-              @endif
-              
-              
+               @endif
+             @endif
               @yield('content')
           </div>
     </div>

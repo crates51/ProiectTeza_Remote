@@ -136,4 +136,31 @@ php artisan scout:import
 
 Sql query for login
 
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES (NULL, 'vlad', 'i.musteatavlad@gmail.com', NULL, 'animalulreXi1', NULL, NULL, NULL);
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'admin', 'i.musteatavlad@gmail.com', NULL, '$2y$10$pq/he2MYxfy9sLWYU5Zr9.PTnF7.8G5MW6IIoE9yuhqmBXYAUEgsq', 'KBgUW0XBgKTslvzxYfoOEKfRatJGtqd46WeqyJvqg13Xyp3nEtjx2xmCuJWI', '2019-07-19 16:58:31', '2019-07-19 16:58:31');
+
+
+-----------------------------------------------------------
+
+
+For Rooms Perspective, checking the actual date
+
+<?php
+						global $roomId;
+						$roomId = $room->roomId;
+						$specificBooking = $data['allBookings']->first(function($item) {
+							global $roomId;
+						    return $item->roomId == $roomId;
+						});
+						echo $specificBooking->Checkin;
+			            echo nl2br ("\n");
+						echo $data['today']->toDateString();
+						
+						if (($data['today']->toDateString() >= $specificBooking->Checkin)&&($data['today']->toDateString() < $specificBooking->Checkout)) 
+						    echo "booking-ul este actual"; 
+						else{
+						 	$room->available=1;
+						 	$room->update();
+						    echo "booking-ul nu este actual, s-a facut status 1 la camera";
+						} 
+					?>

@@ -15,9 +15,12 @@ class CreateRoomsTable extends Migration
     {
         Schema::create('rooms', function (Blueprint $table) {
             $table->bigIncrements('roomId');
+            $table->unsignedBigInteger('floorId')->nullable();
             $table->integer('nrOfBeds')->nullable();
             $table->boolean('seaSight')->default(false);
             $table->boolean('available')->default(true);
+            $table->longText('2019')->nullable();
+            $table->longText('2020')->nullable();
             $table->timestamps();
         });
     }
