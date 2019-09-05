@@ -49,7 +49,6 @@ export default {
     methods: {
         showAlert(){          
           let self=this
-
             this.$swal.fire({
               title: 'Are you sure?',
               text: "You won't be able to revert this!",
@@ -71,7 +70,6 @@ export default {
               });
         // router.push({ name: "user"})
               // window.location = "bookings";
-
             }
             })
         },

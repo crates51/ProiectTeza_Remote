@@ -91,7 +91,6 @@ class BookingsController extends Controller
          };
          
 
-\begin{lstlisting}
 
         // Looking for clientId in clients
         // If the booking has the same Last Name && First Name && Phone Number then it's the same person

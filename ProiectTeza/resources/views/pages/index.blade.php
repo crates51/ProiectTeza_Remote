@@ -39,7 +39,6 @@
 <?php
 		$responsedCookie = \Cookie::get('currentListDisplayed');
 ?>
-
 	{{-- </div>	 --}}
 	
 {{-- <h1>{{ __('<messages class="welcome"></messages>') }}</h1> --}}

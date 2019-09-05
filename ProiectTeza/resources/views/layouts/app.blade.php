@@ -13,7 +13,7 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  
+    <script async src="https://cse.google.com/cse.js?cx=000868277343143690004:ejxmkhrv4rp"></script>
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
@@ -35,6 +35,7 @@
 <body>
  @auth
     <div id="app">
+      <div class="gcse-searchbox"></div>
         @include('inc.navbar')
         @include('inc.messages')
           <div class="container">
