@@ -4,15 +4,15 @@
 			{{-- Edit Floor Id --}}
 			<div class="col-md-4 offset-2">
 				<div class="form-group">
-                    {{Form::label('floorId', 'Id etaj',['class'=>"text-center"])}}
-                    {{Form::number('floorId','1',['id'=>'room_editFloor_input','class' =>'form-control tac','placeholder' => 'Etajul','min' => 0])}}
+                    {{Form::label('floorId', 'Floor id',['class'=>"text-center"])}}
+                    {{Form::number('floorId','1',['id'=>'room_editFloor_input','class' =>'form-control tac','placeholder' => 'Floor id','min' => 0])}}
 				</div>	
 			</div>
 			{{--Edit NrOfBeds --}}
 			<div class="col-md-4">
 				<div class="form-group">
-                    {{Form::label('numberOfBeds', 'Numarul de paturi',['class'=>"text-center"])}}
-                    {{Form::number('numberOfBeds','1',['id'=>'room_editNumberOfBeds_input','class' =>'form-control tac','placeholder' => 'Numarul de paturi','min' => 1, 'max' =>10])}}
+                    {{Form::label('numberOfBeds', 'Number of beds',['class'=>"text-center"])}}
+                    {{Form::number('numberOfBeds','1',['id'=>'room_editNumberOfBeds_input','class' =>'form-control tac','placeholder' => 'Number of beds','min' => 1, 'max' =>10])}}
 				</div>	
 			</div>
 		</div>
@@ -22,7 +22,7 @@
 				<div class="form-group">
 	                    <div class="row">
 	                    	<div class="col-md-6 offset-3">
-		                 	   {{Form::label('seaSight', 'Vedere la mare',['class'=>"text-center"])}}
+		                 	   {{Form::label('seaSight', 'Sea sight',['class'=>"text-center"])}}
 	                    	</div>
 	                    </div>
 	                    <div class="row">
