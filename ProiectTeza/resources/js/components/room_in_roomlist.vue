@@ -80,9 +80,6 @@ export default {
   },
 
   created() {
-    console.log("this.rooom: ",this.room);
-    console.log("localbooking: ",this.localbooking);
-    console.log("localclient: ",this.localclient);
   },
 
   mounted(){
@@ -159,6 +156,10 @@ export default {
         }
     }); 
 
+    console.log("this.rooom: ",this.room);
+    console.log("localbooking: ",this.localbooking);
+    console.log("localclient: ",this.localclient);
+ 
   }, 
   methods: {
     get_date(){
