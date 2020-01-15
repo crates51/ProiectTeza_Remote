@@ -18,9 +18,9 @@ class CreateRoomsTable extends Migration
             $table->unsignedBigInteger('floorId')->nullable();
             $table->integer('nrOfBeds')->nullable();
             $table->boolean('seaSight')->default(false);
-            $table->boolean('available')->default(true);
-            $table->longText('2019')->nullable();
-            $table->longText('2020')->nullable();
+            // $table->boolean('available')->default(true);
+            // $table->longText('2019')->nullable();
+            // $table->longText('2020')->nullable();
             $table->timestamps();
         });
     }

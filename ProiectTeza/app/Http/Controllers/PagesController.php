@@ -22,6 +22,7 @@ class PagesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
+        header('Set-Cookie: cross-site-cookie=name; SameSite=None; Secure');
 
     // If there are no GeneralInfo att all, we will push a default first row into table for comparison
     if(!GeneralInfo::orderBy('created_at','desc')->count()){
@@ -41,6 +42,8 @@ class PagesController extends Controller
             'currentDate'           => date("Y-m-d"),
             'title'                 => __("keyphrases.new_booking"),
             'today'                 => Carbon::today(),
+            'is_auth'               => auth()->check(),
+
         ];
 
         if(Carbon::today()->month==1){
@@ -104,6 +107,7 @@ class PagesController extends Controller
 
         // $maxfloorId = DB::table('rooms')->max('floorId');
         // echo "MaxFloorId is: ".$maxfloorId;
+
 
         if(auth()->check()){
             return view('pages.index')->with('data',$data);

@@ -31,7 +31,7 @@ class RoomsController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
+     *1
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -54,7 +54,7 @@ class RoomsController extends Controller
 
             $Room = new Rooms;
 
-            // $Room->floorId = $request->input('numberOfBeds_'.$i);
+            // $Room->floorId = $request->input('nrOfBeds_'.$i);
             $Room->nrOfBeds = $request->input('numberOfBeds_'.$i);
             $Room->floorId = $request->input('floorId_'.$i);
             echo "Room on floor: ".$request->input('floorId_'.$i); 
@@ -63,8 +63,8 @@ class RoomsController extends Controller
             if($request->input('seaSight_'.$i) == NULL)$Room->seaSight = false;
             else $Room->seaSight = $request->input('seaSight_'.$i);
             
-            if($Room->available = $request->input('available_'.$i) == NULL)$Room->available = false;
-            else $Room->available = $request->input('available_'.$i);
+            // if($Room->available = $request->input('available_'.$i) == NULL)$Room->available = false;
+            // else $Room->available = $request->input('available_'.$i);
 
             $Room->save();
         }
@@ -126,7 +126,7 @@ class RoomsController extends Controller
 
         $this->validate($request,[
             'floorId' => 'required',
-            'numberOfBeds' => 'digits_between:1,10',
+            'nrOfBeds' => 'digits_between:1,10',
             // 'seaSight' => 'required',
         ]);
 
@@ -137,11 +137,11 @@ class RoomsController extends Controller
         
       
 
-        if($request->input('seaSight') == NULL)$room->seaSight = false;
+        if(!$request->input('seaSight'))$room->seaSight = false;
         else $room->seaSight = $request->input('seaSight');
 
         $room->floorId = $request->input('floorId');
-        $room->nrOfBeds = $request->input('numberOfBeds');
+        $room->nrOfBeds = $request->input('nrOfBeds');
     
 
         // echo $room;
@@ -159,10 +159,12 @@ class RoomsController extends Controller
 
         $GeneralInfo->save();
 
+        return (['status' => 'updated']);
 
-        return redirect('/')->with('success','Booking Updated');
+        // return redirect('/')->with('success','Booking Updated');
     }
 
+ 
     /**
      * Remove the specified resource from storage.
      *

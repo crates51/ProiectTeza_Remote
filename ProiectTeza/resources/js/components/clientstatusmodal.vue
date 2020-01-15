@@ -11,19 +11,6 @@
 <script>
 
 import Vue from 'vue';
-// import VueRouter from 'vue-router'
-// Vue.use(VueRouter);
-
-// const router = new VueRouter({
-//   mode: 'history',
-//   routes: [
-//     {
-//       path: 'bookings',
-//       name: 'user'
-//     },
-//   ]
-// })
-
 
 export default {
 
@@ -68,7 +55,7 @@ export default {
         checkStatus(x){
           if(this.status == x) return true;
           else return false;
-        }
+        },
     }
 }
 </script>

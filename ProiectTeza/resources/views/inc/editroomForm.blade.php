@@ -36,7 +36,7 @@
 		 <div class="row">
 			<div class="col-md-2 offset-5">
 				 {{Form::hidden('_method','PUT')}}
-	 	 		 {{Form::submit('Submit',['class'=>'btn btn-dark' , 'id' =>'wrapper'])}}
+	 	 		 {{Form::submit('Submit',['class'=>'btn btn-dark wrapper'])}}
 			</div> 	
 		 </div>
 		

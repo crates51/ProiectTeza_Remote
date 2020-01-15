@@ -18,19 +18,19 @@
               <div class="row">
                 <div class="col-md-12 ">
                   <div class="form-group tac">
-                    {{Form::label('available', 'Room '.$i,['class'=>"text-center"])}}
+                    {{Form::label('RoomId', 'Room '.$i,['class'=>"text-center"])}}
                   </div>
                 </div>
               </div>
                <div class="row">
-                <div class="col-md-4">
+         {{--        <div class="col-md-4">
                   <div class="form-group tac">
                     {{Form::label('available_'.$i, 'Available',['class'=>"text-center"])}}
                     <br>
                     {{Form::checkbox('available_'.$i,'1',TRUE)}}
                   </div>
-                </div>
-                 <div class="col-md-4">
+                </div> --}}
+                 <div class="col-md-4 offset-2">
                   <div class="form-group tac">
                      {{Form::label('seaSight_'.$i, 'Has Sea Sight',['class'=>"text-center"])}}
                     <br>

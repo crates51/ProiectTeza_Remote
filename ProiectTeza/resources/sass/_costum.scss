@@ -32,7 +32,16 @@ $colors:(
 .floorIdTitle{
   font-family: 'Arvo', serif;
   font-size: 170%;
+  span,i{
+    -o-transition: .5s;
+    -ms-transition: .5s;
+    -moz-transition: .5s;
+    -webkit-transition: .5s;
+    transition: .5s;
+    cursor: pointer;
+  }
 }
+
 
 .floorRow{
   -o-transition: .5s;
@@ -208,6 +217,23 @@ a{
   text-decoration: none!important;
   color: inherit;
 }
+
+.column-in-center{
+    float: none;
+    margin: 0 auto;
+}
+
+.tac{
+    text-align:center;
+}
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 //-----------------------------------------------IndexLoginPage-----------------------------------------------
 #ilpBodyBackground{
   background: url('../pictures/loginBackgroundBlurD.png') no-repeat center center fixed; 
@@ -230,8 +256,6 @@ a{
 }
 
 
-
-
 //-----------------------------------------------Icons-----------------------------------------------
 //--------------General Icons--------------
 i{
@@ -242,15 +266,15 @@ i{
 transition: .5s;
 }
 
-i:hover{
-filter: saturate(3);
-cursor: pointer;
-}
+// i:hover{
+// filter: saturate(3);
+// cursor: pointer;
+// }
 
-i:active{
-filter: saturate(5);
-cursor: pointer;
-}
+// i:active{
+// filter: saturate(5);
+// cursor: pointer;
+// }
 
 //--------------Specific Icons--------------
 
@@ -264,12 +288,18 @@ cursor: pointer;
 
 .fa-wrench:hover{
   color:#4f5963;      
+  cursor: pointer;
 }
 
 .fa-user-cog:hover{
   color:#4f5963;      
+  cursor: pointer;
 }
 
+.fa-user-minus:hover{
+  color:#4f5963;      
+  cursor: pointer;
+}
 
 
 
@@ -296,8 +326,8 @@ cursor: pointer;
 [id^=BookingInfoTooltip]{
   background: #9799b5 ;
   border: 1px solid #565978;
-  width:300px;
-  height:150px;
+  // width:300px;
+  // height:150px;
   border-radius: 0.25rem;
   
 }

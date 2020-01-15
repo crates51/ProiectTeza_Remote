@@ -11460,6 +11460,13 @@ a.text-dark:focus {
   font-size: 170%;
 }
 
+.floorIdTitle span,
+.floorIdTitle i {
+  -webkit-transition: .5s;
+  transition: .5s;
+  cursor: pointer;
+}
+
 .floorRow {
   -webkit-transition: .5s;
   transition: .5s;
@@ -11614,6 +11621,28 @@ a {
   color: inherit;
 }
 
+.column-in-center {
+  float: none;
+  margin: 0 auto;
+}
+
+.tac {
+  text-align: center;
+}
+
+.wrapper {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
 #ilpBodyBackground {
   background: url(/images/loginBackgroundBlurD.png?fe5edbf8aa3e6c351a9f1110bcee1c0a) no-repeat center center fixed;
   background-size: cover;
@@ -11631,18 +11660,6 @@ i {
   transition: .5s;
 }
 
-i:hover {
-  -webkit-filter: saturate(3);
-          filter: saturate(3);
-  cursor: pointer;
-}
-
-i:active {
-  -webkit-filter: saturate(5);
-          filter: saturate(5);
-  cursor: pointer;
-}
-
 .fa-pencil-alt:hover {
   color: #4f5963;
 }
@@ -11653,10 +11670,17 @@ i:active {
 
 .fa-wrench:hover {
   color: #4f5963;
+  cursor: pointer;
 }
 
 .fa-user-cog:hover {
   color: #4f5963;
+  cursor: pointer;
+}
+
+.fa-user-minus:hover {
+  color: #4f5963;
+  cursor: pointer;
 }
 
 [id^=CancelTooltip] {
@@ -11678,30 +11702,6 @@ i:active {
 [id^=BookingInfoTooltip] {
   background: #9799b5;
   border: 1px solid #565978;
-  width: 300px;
-  height: 150px;
   border-radius: 0.25rem;
-}
-
-.column-in-center {
-  float: none;
-  margin: 0 auto;
-}
-
-.tac {
-  text-align: center;
-}
-
-#wrapper {
-  width: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
 }
 

@@ -95,7 +95,6 @@ Permision problem after installing forms:
 
 php artisan cache:clear 
 
-
 In case of Vue problems:
 
 DatePicker =>  Datepicker + everywhere

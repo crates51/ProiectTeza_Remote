@@ -4,12 +4,12 @@
     	{{-- Names --}}
   	    <div class="col-md-4 offset-2">
 		          <div class="form-group">
-		                {{Form::text('nume','',['class' =>'form-control tac','placeholder' => 'Second Name'])}}
+		                {{Form::text('last_name','',['class' =>'form-control tac','placeholder' => 'Second Name'])}}
 			   	  </div>
 		    </div>
 		    <div class="col-md-4">
 		         <div class="form-group">
-		                {{Form::text('prenume','',['class' =>'form-control tac','placeholder' => 'First Name'])}}
+		                {{Form::text('first_name','',['class' =>'form-control tac','placeholder' => 'First Name'])}}
 		         </div>
 			</div>
     </div>
@@ -30,7 +30,7 @@
     <div class="row">
         <div class="col-md-4 offset-2">
           <div class="form-group">
-            {{Form::select('adults_number',
+            {{Form::select('adults',
                  array('' => 'Adults',
                        '1' => '1',
                        '2' => '2',
@@ -45,7 +45,7 @@
         </div>
           <div class="col-md-4">
               <div class="form-group">
-              {{Form::select('children_number',
+              {{Form::select('children',
                    array('' => 'Children',
                          '0' => '0',
                          '1' => '1',
@@ -64,7 +64,7 @@
     <div class="row">
       <div class="col-md-3 offset-3">
              <div class="input-group date form-group" data-provide="datepicker">
-                {!! Form::text('Check-in', null, ['class' => 'form-control tac','autocomplete' => 'off', 'placeholder' => 'Check-in'] ) !!}
+                {!! Form::text('check_in', null, ['class' => 'form-control tac','autocomplete' => 'off', 'placeholder' => 'Check-in'] ) !!}
                  <div class="input-group-addon">
                      <span class="glyphicon glyphicon-th" ></span>
                  </div>
@@ -72,7 +72,7 @@
       </div>  
       <div class="col-md-3">
              <div class="input-group date form-group" data-provide="datepicker">
-                {!! Form::text('Check-out', null, ['id' => 'editFirstName_Form','class' => 'form-control tac' , 'autocomplete' => 'off' , 'placeholder' => 'Check-out'] ) !!}
+                {!! Form::text('check_out', null, ['id' => 'editFirstName_Form','class' => 'form-control tac' , 'autocomplete' => 'off' , 'placeholder' => 'Check-out'] ) !!}
                  <div class="input-group-addon">
                      <span class="glyphicon glyphicon-th" ></span>
                  </div>
@@ -133,7 +133,7 @@
     </div>
 		<div class="row">
 			<div class="col-md-2 offset-5">
-				{{Form::submit('Send',['class'=>'btn btn-dark', 'id' =>'wrapper'])}}
+				{{Form::submit('Send',['class'=>'btn btn-dark wrapper'])}}
 			</div>
 		</div>
 	    {!! Form::close() !!}

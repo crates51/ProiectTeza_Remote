@@ -1,4 +1,5 @@
 <?php
+// echo nl2br ("\n");
 
 namespace App\Http\Controllers;
 
@@ -31,7 +32,7 @@ class BookingsController extends Controller
             'clients'               => Clients::orderBy('clientId','asc')->paginate(5),
             'totalClients'          => Clients::orderBy('created_at','desc')->count(),
             'currentGeneralInfo'    => GeneralInfo::orderby('created_at', 'desc')->first(),
-            'currentDate'           => date("Y-m-d"),
+            // 'currentDate'           => date("Y-m-d"),
             'title'                 => "New Booking!"
         ];
 
@@ -56,121 +57,54 @@ class BookingsController extends Controller
      */
     public function store(Request $request)
     {
-         $this->validate($request,[
-            'prenume' => 'required',
-            'nume' => 'required',
-            'email' => 'required|email',
-            //this validates that the phone number starts with 07 and has 8 more characters after, and has only digits
-            'specificRoom' => 'required|numeric|min:1',
-            'phone' => 'required|regex:/(07)[0-9]{8}/',
-            'adults_number' => 'required|min:1',
-            'children_number' => 'required',
-            'Check-in' =>'required|date_format:d/m/Y',
-            'Check-out'=> 'required|date_format:d/m/Y|after:Check-in',
-        ]);
+        //  $this->validate($request,[
+        //     'first_name' => 'required',
+        //     'last_name' => 'required',
+        //     'email' => 'required|email',
+        //     //this validates that the phone number starts with 07 and has 8 more characters after, and has only digits
+        //     'specificRoom' => 'required|numeric|min:1',
+        //     'phone' => 'required|regex:/(07)[0-9]{8}/',
+        //     'adults' => 'required|min:1',
+        //     'children' => 'required',
+        //     'check_in' =>'required|date_format:d/m/Y',
+        //     'check_out'=> 'required|date_format:d/m/Y|after:check_in',
+        // ]);
 
         $booking = new Bookings;
         $client = new Clients;
-        $rooms = Rooms::find($request->input('specificRoom'));
-
-        // Looking for free rooms for the client
-
-         if($rooms->available){
-            $booking->roomId = $request->input('specificRoom');
-            $rooms->available=false;
-            $rooms->save();
-         }
-         else{
-            $specificBooking = $booking->where("roomId",$request->input('specificRoom'))->get();
-
-            $specificClient = Clients::find($specificBooking[0]->clientId);
-
-            echo $specificClient->Last_Name;
-
-            return redirect('/')->with('error','Room ' .$request->input('specificRoom').' is not available. Client '.$specificClient->Last_Name." ".$specificClient->First_Name." it's booked there :(");
-         };
-         
-
-
-        // Looking for clientId in clients
-        // If the booking has the same Last Name && First Name && Phone Number then it's the same person
-
 
         $clientsbyPhone = $client->where("Phone",$request->input('phone'))->get();
-        $nrOfClientsfound=0;
-        $totalClientsinTable = count($client->get());
-        $curentClientId;
-
-       foreach($clientsbyPhone as $clientbyPhone){
-            if($clientbyPhone->Last_Name == $request->input('nume')
-                && $clientbyPhone->First_Name == $request->input('prenume')
-                && $clientbyPhone->Email == $request->input('email'))
-                    {
-                        // echo $clientbyPhone->clientId;
-                        $nrOfClientsfound++;                    
-                        $curentClientId=$clientbyPhone->clientId;
-                    }
-            // else{
-            //     echo "Phone number didn't find";
-            // }
-            // echo nl2br ("\n");
-        }
-
-                // echo nl2br ("\n");
-
-        if($nrOfClientsfound == 1){
-         // echo "Just ".$nrOfClientsfound." client(s) has been found, good news, perceed to the next step :)";
-         // echo "The client will get the id ".$curentClientId;
-        }
-        elseif($nrOfClientsfound ==0){
-         // echo "There are no clients with these credentials, adding this client :)";
-         $curentClientId=($totalClientsinTable+1);
-
-         $client->Last_Name = $request->input('nume');
-         $client->First_Name = $request->input('prenume');
-         $client->Email = $request->input('email');
-         $client->Phone = $request->input('phone');
-
-         $client->save();
-         // echo "The client will get the id ".$curentClientId;
-        }
-        else{
-             // echo $nrOfClientsfound." client(s) has been found with these credentials, that's a problem :(";
-            return redirect('/')->with('error','Booking for: ' .$request->input('nume'). ' couldn\'t be made ! <br>'.
-                                               'Reason: multiple accounts found for this credentials <br>'.
-                                               'Please contact us for this issue !');
-
-        }    
-
-        if(($nrOfClientsfound == 1)||($nrOfClientsfound == 0))   
-        {
-            $booking->clientId = $curentClientId;
-             if(auth()->check()){
-                $booking->Status = "Booked";
-            }
-            else{
-                $booking->Status = "Pending";
-            }
-            $booking->Adults = $request->input('adults_number');
-            $booking->Children = $request->input('children_number');
-            $booking->totalRooms = $request->input('totalRooms');
-
-            // Se formateaza Data in Ani/Luni/Zile pentru phpMyadmin
-            // We need to change from xx/xx/xxxx to xx-xx-xxxx
         
-            $date1 = str_replace('/', '-', $request->input('Check-in'));
-            $date2 = str_replace('/', '-', $request->input('Check-out'));
-
-            $Checkin = date('Y-m-d', strtotime($date1));
-            $Checkout = date('Y-m-d', strtotime($date2));
-  
-            $booking->Checkin = $Checkin;
-            $booking->Checkout = $Checkout;
-
-            $booking->save();
-
-            return redirect('/')->with('success','Cazarea pentru: ' .$request->input('nume'). ' a fost creata cu succes !');
+        $clientFound=null;
+        
+        if(count($clientsbyPhone)==1){
+            $clientFound=$clientsbyPhone[0];    
+            if(!$request->input('client_choosed')){
+            return (['status' => 'alreadyExists','clientFound' => $clientFound, 'bookings' =>  Bookings::all(), 'clients' => Clients::all()]);
+            }
         }
+        if(count($clientsbyPhone)==0){
+                $client->Last_Name = $request->input('last_name');
+                $client->First_Name = $request->input('first_name');
+                $client->Email = $request->input('email');
+                $client->Phone = $request->input('phone');
+                $client->save();
+                $clientFound=$client;
+        }
+        else if(count($clientsbyPhone) > 1){
+            echo "S-au gasit mai multi clienti pentru acest numar";
+            return (['status' => 'updated', 'bookings' =>  Bookings::all(), 'clients' => Clients::all()]);
+        }
+        $booking->clientId = $clientFound->clientId;
+        $booking->roomId = $request->input('specificRoom');
+        $booking->Status = "Booked";
+        $booking->Adults = $request->input('adults');
+        $booking->Children = $request->input('children');
+        $booking->Checkin = $request->input('check_in');
+        $booking->Checkout = $request->input('check_out');
+        $booking->save();
+
+        return (['status' => 'updated', 'booking' =>  $booking, 'client' => $clientFound ,'bookings' =>  Bookings::all(), 'clients' => Clients::all()]);
     }
 
     /**
@@ -202,22 +136,24 @@ class BookingsController extends Controller
         $booking = Bookings::find($id);
         $client = Clients::find($booking->clientId);
 
-        $date1 = str_replace('-', '/', $booking->Checkin);
-        $date2 = str_replace('-', '/', $booking->Checkout);
+        // $date1 = str_replace('-', '/', $booking->Checkin);
+        // $date2 = str_replace('-', '/', $booking->Checkout);
 
-        $checkin  = date('d/m/Y', strtotime($date1));
-        $checkout = date('d/m/Y', strtotime($date2));
+// comentata pe data de 01/01/2020 ora 18:43
+        // $checkin  = date('d/m/Y', strtotime($date1));
+        // $checkout = date('d/m/Y', strtotime($date2));
   
-        $check = [
-            'in'    => $checkin,
-            'out'   => $checkout
-        ];
+        // $check = [
+        //     'in'    => $booking->Checkin
+        //     'out'   => $booking->Checkout
+        // ];
 
         $data = [
             'currentGeneralInfo'    => GeneralInfo::orderby('created_at', 'desc')->first(),
         ];
+        return view('bookings.edit')->with('booking',$booking)->with('client',$client)->with('data',$data);
 
-        return view('bookings.edit')->with('booking',$booking)->with('client',$client)->with('check',$check)->with('data',$data);
+        // return view('bookings.edit')->with('booking',$booking)->with('client',$client)->with('check',$check)->with('data',$data);
     }
 
     /**
@@ -229,107 +165,56 @@ class BookingsController extends Controller
      */
     public function update(Request $request, $bookingId)
     {
+
+
         $this->validate($request,[
-            'firstName' => 'required',
-            'lastName' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
             'email' => 'required',
             'phone' => 'required|numeric|digits_between:10,13',
-            'adults_number' => 'required',
-            'children_number' => 'required',
+            'adults' => 'required',
+            'children' => 'required',
             // 'totalRooms' => 'required|numeric|min:1',
-            'Check-in' =>'required|date_format:d/m/Y',
-            'Check-out'=> 'required|date_format:d/m/Y|after:Check-in',
+            'check_in' =>'required|date_format:d/m/Y',
+            // 'check_out'=> 'required|date_format:d/m/Y',
+            'check_out'=> 'required|date_format:d/m/Y|after:check_in',
             'status' => 'required',
             'specificRoom' => 'required'
         ]);
-       
+
         $booking = Bookings::find($bookingId);
         $client = Clients::find($booking->clientId);
 
-        // echo "BookingId".$bookingId;
-        // echo nl2br ("\n");
-        // echo "ClientId".$booking->clientId;
+        $booking->Adults = $request->input('adults');
+        $booking->Children = $request->input('children');
 
-        $booking->Adults = $request->input('adults_number');
-        $booking->Children = $request->input('children_number');
-        // $booking->totalRooms = $request->input('totalRooms');
         $booking->Status = $request->input('status');
 
-        $client->First_Name = $request->input('firstName');
-        $client->Last_Name = $request->input('lastName');
+        $client->First_Name = $request->input('first_name');
+        $client->Last_Name = $request->input('last_name');
         $client->Email = $request->input('email');
         $client->Phone = $request->input('phone');
 
-         // echo $request->input('date') . " " . "\r\n";
-        //Se formateaza Data in Ani/Luni/Zile pentru phpMyadmin
-        // We need to change from xx/xx/xxxx to xx-xx-xxxx
-        $date1 = str_replace('/', '-', $request->input('Check-in'));
-        $date2 = str_replace('/', '-', $request->input('Check-out'));
-
-        $Checkin = date('Y-m-d', strtotime($date1));
-        $Checkout = date('Y-m-d', strtotime($date2));
-  
-        $booking->Checkin = $Checkin;
-        $booking->Checkout = $Checkout;
+        $booking->Checkin = $request->input('check_in');
+        $booking->Checkout = $request->input('check_out');
 
         // IF/WHEN CHANGING ROOMS
         if($booking->roomId != $request->input('specificRoom')){
-            echo "Se vrea schimbarea camerei";
-            if(Rooms::find($request->input('specificRoom'))->available){
-                echo nl2br ("\n");
-                echo "Camera noua este libera";
-                // Se ocupa camera noua, se elibereaza camera actuala
-                $newRoom = Rooms::find($request->input('specificRoom'));
-                $newRoom->available = 0;
-                $newRoom->save();
-
-                $oldRoom = Rooms::find($booking->roomId);
-                $oldRoom->available = 1;
-                $oldRoom->save();
-
-                $booking->roomId = $request->input('specificRoom');
-
-                $booking->save();
-                $client->save();
-
-                return redirect('/')->with('success','Cazarea a fost actualizata');
-            }
-            else{
-                // Camera noua NU este libera;
-                $specificBooking = $booking->where("roomId",$request->input('specificRoom'))->get();
-                $specificClient = Clients::find($specificBooking[0]->clientId);
-
-                return redirect('/')->with('error','Nu s-a putut actualiza :( <br>'.
-                                           ' Camera '.$request->input('specificRoom')." este ocupata, ".$specificClient->Last_Name." ".$specificClient->First_Name." este cazat/a acolo.");
-
-            }
-        }        
-        else{
-            // NU se va schimba camera;
-            
+        
             $booking->roomId = $request->input('specificRoom');
             $booking->save();
             $client->save();
-
-            return redirect('/')->with('success','Cazarea a fost actualizata');
-
-        }
-        // echo "Inserted Room Id: ".$request->input('specificRoom');
-        // echo nl2br ("\n");
-        // echo "Booking Room Id: ".$booking->roomId;
-        // echo Rooms::find($request->input('specificRoom'));
-
-        // $booking->roomId = $request->input('specificRoom');
-
+    
+            return (['status' => 'updated', 'bookings' =>  Bookings::all(),'clients' => Clients::all(), 'booking' =>  $booking, 'client' => $client]);
+        }        
+        else{
+            // NU se va schimba camera;
+            $booking->roomId = $request->input('specificRoom');
+            $booking->save();
+            $client->save();
         
-
-        // $booking->save();
-        // $client->save();
-
-        // return redirect('/')->with('success','Booking Updated');
-
-
-            // return redirect('/')->with('error','This feature is not implemented yet, sorry');
+            return (['status' => 'updated', 'bookings' =>  Bookings::all(),'clients' => Clients::all(), 'booking' =>  $booking, 'client' => $client]);
+        }
     }
 
     public function updateSpecific($id,$status)
@@ -348,13 +233,10 @@ class BookingsController extends Controller
     public function destroy($id)
     {   
          if(auth()->user()->name == "admin"){
-            $booking = Bookings::find($id);
-            $client = Clients::find($booking->clientId);
-            $room = Rooms::find($booking->roomId);
             
-            $room->available = true;
-            $room->save();
-
+            $booking = Bookings::find($id);
+            // $client = Clients::find($booking->clientId);
+            
             $booking -> delete();
             DB::update("SET @count = 0");
             DB::update("UPDATE `bookings` SET `bookings`.`bookingId` = @count:= @count + 1");
@@ -363,11 +245,52 @@ class BookingsController extends Controller
             DB::update("SET @count = 0");
             DB::update("UPDATE `clients` SET `clients`.`clientId` = @count:= @count + 1");
             DB::update("ALTER TABLE `clients` AUTO_INCREMENT = 1");
-            return redirect('/')->with('success','Booking for '.$client->Last_Name." has been removed");
+
+            return (['status' => 'destroyed', 'booking' =>  $booking, 'bookings' =>  Bookings::all(),'clients' => Clients::all()]);
+            // return redirect('/')->with('success','Booking for '.$client->Last_Name." has been removed");
          }
          else{
-            return redirect('/')->with('error','You\'re not allowed to delete bookings, please speak with an Admin');
+            return (['status' => 'failed','message'=> 'Couldn\'t delete booking, you are not loged in']);
+            // return redirect('/')->with('error','You\'re not allowed to delete bookings, please speak with an Admin');
          }
     }
+
+
+
+     public function check(Request $request)
+    {   
+        if($request->toCheck=="uniqueInterval"){
+            $bookings = Bookings::all();
+       
+            foreach($bookings as $booking){
+                if(($booking->roomId == $request->roomId)&&($booking->bookingId != $request->bookingId)){
+                    if($this->DateRangesOverlap($request->checkin,$request->checkout,$booking->Checkin,$booking->Checkout))
+                        return (['roomAvailable' => false]);
+                }
+            }
+            return (['roomAvailable' => true]);
+        }
+        else if($request->toCheck=="uniquePhone"){
+            // echo "Phone to check: ".$request->phone;
+            $clients = Clients::all();
+            
+            foreach($clients as $client)
+                if(($client->clientId != $request->input('clientId'))&&($client->Phone == $request->input('phone')))
+                    return (['uniquePhone' => false]);
+            
+            return (['uniquePhone' => true]);
+        }
+    }
+
+    public function DateRangesOverlap($start1, $end1, $start2, $end2){
+        if(max($start1, $start2) < min($end1, $end2))return true;
+        else return false;
+        // return (max($start1, $start2) < min($end1, $end2));
+    }
+
+   
 }
  
+// COSTUM
+
+   

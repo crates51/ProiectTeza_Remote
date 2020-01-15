@@ -27,9 +27,9 @@ class CreateBookingsTable extends Migration
             // $table->string('Phone')->default("Phone Not inserted"); 
             $table->string('Adults')->default("Nr. Adults Not inserted");
             $table->string('Children')->default("Nr. Children Not inserted");
-            $table->string('totalRooms')->nullable()    ;
-            $table->date('Checkin')->default(NULL);
-            $table->date('Checkout')->default(NULL); 
+            $table->string('totalRooms')->nullable();
+            $table->string('Checkin')->default(NULL);
+            $table->string('Checkout')->default(NULL); 
             // $table->mediumText('Message');
             $table->timestamps();
         });

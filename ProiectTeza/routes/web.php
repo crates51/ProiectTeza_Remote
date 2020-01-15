@@ -25,6 +25,7 @@ Route::get('/bookings/{id}/destroy', 'BookingsController@destroy')->name('bookin
 
 Route::get('/bookings/{id}/update/{status}', 'BookingsController@updateSpecific')->name('bookings-updateSpecific');
 
+Route::put('/bookings/check', 'BookingsController@check');
 
 //=============================GENERAL INFO=============================
 Route::get('/generalInfo/{name}/{totalRooms}/store', 'generalinfoController@store')->name('generalInfo-store');
@@ -46,6 +47,7 @@ Route::post('/rooms/{nrOfRoomsToAdd}/store', 'RoomsController@store')->name('Roo
 
 Route::put('/rooms/{id}', 'RoomsController@update');
 
+
 //Others
 
 //=============================FLOORS=============================
@@ -59,7 +61,9 @@ Route::resources([
 	'generalInfo' => 'generalinfoController',
 ]);
 
-
+// Route::prefix('api')->group(function() {
+//     Route::resource('bookings', 'BookingsController');
+// });	
 // Route::resource([
 	// 'bookings','BookingsController');
 // Route::resource('rooms','RoomsController');

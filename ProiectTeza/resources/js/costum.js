@@ -11,38 +11,22 @@ $(document).ready(function(){
 	// alert($(".roomsList .Status").text());
 
 	// if($(".roomsList .Status").text() == "Disponibil")alert("Found");
-$('.roomsList').find('.Status').each(function(i) { 
-	// console.log("Test");
 
-	// Search if string exists in text
-	if(($(this).text().indexOf("Ocupat") >= 0)||($(this).text().indexOf("Busy") >= 0)){
-		console.log($(this).text());
-		$(this).parent().parent().css("background-color","#ff9999");
-	}
-})
+//ROOMS DATE TITLE
+// $('datepicker').datepicker();
+
+$(".floorIdTitle span, .floorIdTitle i").mouseover(function(){
+	$(".floorIdTitle span, .floorIdTitle i").css("color","#565978");
+});
+
+$(".floorIdTitle span, .floorIdTitle i").mouseleave(function(){
+	$(".floorIdTitle span, .floorIdTitle i").css("color","#212529");
+});
+
+
 
 // Details popUp on name Hovering
 
-$('[id^=roomCardclientName_]').mouseover(function(event){
-
-
-	var current_booking_id = event.target.id.slice(event.target.id.indexOf("_")+1);
-	
-    var booking    = $(this).data("booking"),
-    	client     = $(this).data("client");
-
-    $("#BookingInfoTooltip_"+current_booking_id).fadeIn();
-	var popper= new Popper($("#"+event.target.id),$("#BookingInfoTooltip_"+current_booking_id),{
-		placement: "top"
-	});
-	
-	// console.log(booking.bookingId);
-})
-
-$('[id^=roomCardclientName_]').mouseleave(function(event) {
-	var current_booking_id = event.target.id.slice(event.target.id.indexOf("_")+1);
-	$("#BookingInfoTooltip_"+current_booking_id).fadeOut();
-})
 
 	//==========================ACCEPTING-DECLINING-BOOKINGS========================== 
 
@@ -82,37 +66,43 @@ $('[id^=roomCardclientName_]').mouseleave(function(event) {
 	})
 
 	//====================================================EDIT MODALS==================================================== 
-	function formatDate(date) {
-	    var d = new Date(date),
-	        month = '' + (d.getMonth() + 1),
-	        day = '' + d.getDate(),
-	        year = d.getFullYear();
+	// function formatDate(date) {
+	//     var d = new Date(date),
+	//         month = '' + (d.getMonth() + 1),
+	//         day = '' + d.getDate(),
+	//         year = d.getFullYear();
 	
-	    if (month.length < 2) month = '0' + month;
-	    if (day.length < 2) day = '0' + day;
+	//     if (month.length < 2) month = '0' + month;
+	//     if (day.length < 2) day = '0' + day;
 	
-	    return [day, month, year].join('/');
-	};
+	//     return [day, month, year].join('/');
+	// };
 
 	//==========================EDIT Rooms MODAL========================== 
 
-	$('#editroomsModal').on('shown.bs.modal', function(event) {
-		 var link       = $(event.relatedTarget),
-        	 modal      = $(this),
-        	 room       = link.data("room");
+	// $('#editroomsModal').on('shown.bs.modal', function(event) {
+	// 	console.log("edit rooms modal in costum.js");
+	// 	 var link       = $(event.relatedTarget),
+ //        	 modal      = $(this),
+ //        	 room       = link.data("room");
     
-    	$(".modal-body #RoomformContainer").attr("action","/rooms/"+room.roomId);
+	// 	console.log("Room: " + this.room);
 
-		$(".modal-body #room_editFloor_input").val(room.floorId);
-		$(".modal-body #room_editNumberOfBeds_input").val(room.nrOfBeds);
-		console.log(room.seaSight);
-		if(room.seaSight==1){
-			$(".modal-body #room_editseaSight_input").prop("checked",true);
-		}
-		else{
-			$(".modal-body #room_editseaSight_input").prop("checked",false);
-		}
-	})
+    	// $(".modal-body #RoomformContainer").attr("action","/rooms/"+room.roomId);
+	// 	console.log("Room floorId: " + room.floorId);
+	// 	console.log("Room nrOfBeds: " + room.nrOfBeds);
+
+	// 	$(".modal-body #room_editFloor_input").val(room.floorId);
+		
+	// 	$(".modal-body #room_editNumberOfBeds_input").val(room.nrOfBeds);
+	// 	console.log(room.seaSight);
+	// 	if(room.seaSight==1){
+	// 		$(".modal-body #room_editseaSight_input").prop("checked",true);
+	// 	}
+	// 	else{
+	// 		$(".modal-body #room_editseaSight_input").prop("checked",false);
+	// 	}	
+	// 	}
 
 
 
@@ -126,33 +116,37 @@ $('[id^=roomCardclientName_]').mouseleave(function(event) {
 	// 	$('#editclientModal').modal('toggle', $(this));
 	// });
 	
-	$('#editbookingModal').on('shown.bs.modal', function(event) {
-    var link       = $(event.relatedTarget),
-        modal      = $(this),
-        booking    = link.data("booking"),
-        client     = link.data("client");
+// 	$('#editbookingModal').on('shown.bs.modal', function(event) {
+//     var link       = $(event.relatedTarget),
+//         modal      = $(this),
+//         booking    = link.data("booking"),
+//         client     = link.data("client");
 
-        $(".modal-body #BookingformContainer").attr("action","/bookings/"+booking.bookingId);
+//         // console.log(booking);
+//         // console.log(booking.bookingId);
 
-        var checkin = booking.Checkin.replace(/-/g, "/");
-        var checkout = booking.Checkout.replace(/-/g, "/");
 
-		var strtotime = require('locutus/php/datetime/strtotime');
+//         $(".modal-body #BookingformContainer").attr("action","/bookings/"+booking.bookingId);
+
+//         var checkin = booking.Checkin.replace(/-/g, "/");
+//         var checkout = booking.Checkout.replace(/-/g, "/");
+
+// 		var strtotime = require('locutus/php/datetime/strtotime');
 		
-        $(".modal-body #booking_editFirstName_Form")  .val(client.First_Name);
-		$(".modal-body #booking_editLastName_Form")	  .val(client.Last_Name);
-        $(".modal-body #booking_editEmail_input")     .val(client.Email)
-		$(".modal-body #booking_editPhone_input")	  .val(client.Phone);
-		$(".modal-body #booking_editAdults_input")    .val(booking.Adults);
-		$(".modal-body #booking_editTotalRooms_input").val(booking.totalRooms);
-		$(".modal-body #booking_editChildren_input")  .val(booking.Children);
-		$(".modal-body #booking_editCheckIn_input")   .val(formatDate(checkin));
-		$(".modal-body #booking_editCheckOut_input")  .val(formatDate(checkout));
-		$(".modal-body #booking_editStatus_input")    .val(booking.Status);
-		$(".modal-body #booking_specificRoomInput")   .val(booking.roomId);
+//         $(".modal-body #booking_editFirstName_Form")  .val(client.First_Name);
+// 		$(".modal-body #booking_editLastName_Form")	  .val(client.Last_Name);
+//         $(".modal-body #booking_editEmail_input")     .val(client.Email)
+// 		$(".modal-body #booking_editPhone_input")	  .val(client.Phone);
+// 		$(".modal-body #booking_editAdults_input")    .val(booking.Adults);
+// 		$(".modal-body #booking_editTotalRooms_input").val(booking.totalRooms);
+// 		$(".modal-body #booking_editChildren_input")  .val(booking.Children);
+// 		$(".modal-body #booking_editCheckIn_input")   .val(formatDate(checkin));
+// 		$(".modal-body #booking_editCheckOut_input")  .val(formatDate(checkout));
+// 		$(".modal-body #booking_editStatus_input")    .val(booking.Status);
+// 		$(".modal-body #booking_specificRoomInput")   .val(booking.roomId);
 
-     // booking_specificRoomInput
-});
+//      // booking_specificRoomInput
+// });
 
 $('#findAutomaticRadio').click(function(event) {
 	   if($('#findAutomaticRadio').is(':checked')) {
@@ -189,6 +183,16 @@ $('#findManualRadio').click(function() {
 // 	console.log("Click!");
 
 // })
+   // $(document).on('change','#datePickerText', function() {
+   //      alert("Changed!");
+   //    });	
+   // $("#datePickerText").on("change",function(){
+		// alert("Changed!");
+	// });
+
+ //   $("#datePickerText").on('DOMSubtreeModified', function () {
+	// alert("Changed!");
+ //   });
 
 })
 
