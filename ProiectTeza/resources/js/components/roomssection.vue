@@ -80,8 +80,8 @@ import {bus} from "../app"
             this.localclients = data.clients;
           })
 
-        console.log("roomsection localbookings: ",this.localbookings);
-        console.log("roomsection localclients: ",this.localclients);    
+        // console.log("roomsection localbookings: ",this.localbookings);
+        // console.log("roomsection localclients: ",this.localclients);    
 
         },
         
@@ -102,6 +102,7 @@ import {bus} from "../app"
             find(toFind,room){
                if(toFind=="bookings"){
                 console.log("roomsection this.localbookings2: ",this.localbookings);
+                console.log("roomsection room: ",room);
 
                   var filteredBookings = this.localbookings.filter(function( obj ) {
                       return obj.roomId === room.roomId;
