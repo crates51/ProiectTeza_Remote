@@ -83,6 +83,8 @@ export default {
   },
 
   mounted(){
+
+
     let self=this;
     this.localbooking = _.find(this.filteredBookings, function(booking){ return ((self.date >= booking.Checkin)&&(self.date < booking.Checkout)); });
     if(this.localbooking){
@@ -152,7 +154,12 @@ export default {
           this.localroom.nrOfBeds = data.nrOfBeds;
           this.localroom.seaSight = data.seaSight;
         }
-    });  
+    }); 
+
+    console.log("this.rooom: ",this.room);
+    console.log("localbooking: ",this.localbooking);
+    console.log("localclient: ",this.localclient);
+ 
   }, 
   methods: {
     get_date(){
