@@ -94,6 +94,10 @@ export default {
     else{
           $("#card_"+this.localroom.roomId).css("background-color","#ffffff");
     }
+    console.log("this.filteredBookings: ",this.filteredBookings);
+    console.log("this.rooom: ",this.room);
+    console.log("localbooking: ",this.localbooking);
+    console.log("localclient: ",this.localclient);
 
     bus.$on("dateUpdated",(data)=>{
         this.date = data;
@@ -156,9 +160,6 @@ export default {
         }
     }); 
 
-    console.log("this.rooom: ",this.room);
-    console.log("localbooking: ",this.localbooking);
-    console.log("localclient: ",this.localclient);
  
   }, 
   methods: {
