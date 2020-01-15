@@ -104,6 +104,10 @@ export default {
              this.localbookings = data.bookings;
              this.localclients = data.clients;
             });
+
+        console.log("main localbookings: ",this.localbookings);
+        console.log("main localclients: ",this.localclients);    
+            
   },
   methods:{
     setValue(type,value){
