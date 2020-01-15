@@ -104,8 +104,13 @@ import {bus} from "../app"
                 console.log("roomsection this.localbookings2: ",this.localbookings);
                 console.log("roomsection room: ",room);
 
-                  var filteredBookings = this.localbookings.filter(function( obj ) {
+                  // var filteredBookings = this.localbookings.filter(function( obj ) {
+                  //     return obj.roomId === room.roomId;
+                  // });
+
+                  var filteredBookings = _.filter (this.localbookings, function(obj) {
                       return obj.roomId === room.roomId;
+                      // return home.price<=1000 && sqft>=500 && num_of_beds>=2 && num_of_baths>=2.5;
                   });
 
                 console.log("roomsection filteredBookings: ",filteredBookings);
