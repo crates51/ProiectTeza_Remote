@@ -79,6 +79,10 @@ import {bus} from "../app"
             this.localbookings = data.bookings;
             this.localclients = data.clients;
           })
+
+        console.log("roomsection localbookings: ",this.localbookings);
+        console.log("roomsection localclients: ",this.localclients);    
+
         },
         
         methods:{
