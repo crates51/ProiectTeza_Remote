@@ -104,6 +104,8 @@ import {bus} from "../app"
                   var filteredBookings = this.localbookings.filter(function( obj ) {
                       return obj.roomId === room.roomId;
                   });
+
+                console.log("roomsection filteredBookings: ",filteredBookings);
                 
                 if(filteredBookings.length==0)return false
                 return filteredBookings;
