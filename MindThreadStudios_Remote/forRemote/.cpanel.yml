@@ -7,9 +7,3 @@ deployment:
          - export DEPLOYPATH2=/home/r68569casa/MindThreadStudios_Remote/
          - /bin/cp -R MindThreadStudios_Remote/* $DEPLOYPATH2
          - /bin/cp -R MindThreadStudios_Remote/.[^.]* $DEPLOYPATH2
-         
-    
-    
-         
-        
-        
