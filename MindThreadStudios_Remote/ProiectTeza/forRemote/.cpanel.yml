@@ -1,0 +1,9 @@
+---
+deployment:
+      tasks:
+         - export DEPLOYPATH=/home/r68569casa/public_html/
+         - /bin/cp -R public_html/* $DEPLOYPATH 
+         - /bin/cp -R public_html/.[^.]* $DEPLOYPATH
+         - export DEPLOYPATH2=/home/r68569casa/ProiectTeza/
+         - /bin/cp -R ProiectTeza/* $DEPLOYPATH2
+         - /bin/cp -R ProiectTeza/.[^.]* $DEPLOYPATH2

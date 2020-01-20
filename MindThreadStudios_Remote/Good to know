@@ -1,0 +1,192 @@
+MVC
+
+M=Model
+V=View
+C=Controler
+
+La inceput pentru creat proiect Laravel
+	
+	composer create-project laravel/laravel "nume"
+
+
+
+
+(in case of NEW project add to "app -> Providers -> AppServiceProvider.php" 
+	-use Illuminate\Support\Facades\Schema;
+	-public function boot()
+	    {
+	        Schema::defaultStringLength(191);
+	    }
+)
+
+npm install 
+
+npm run watch
+
+node_modules/.bin/webpack --watch --watch-poll --config=node_modules/laravel-mix/setup/webpack.config.js
+
+http://www.liontheme.net/corsiva-violet/index.html
+
+
+To create controllers:
+
+php artisan make:controller <name>
+
+To create forms:
+
+https://laravelcollective.com/docs/master/html
+
+
+To create new table in the database:
+
+1.Create Controller
+	php artisan make:controller "Controller Name" --resource
+	Name example:BookingsController
+
+2.Create model (and migration with -m)
+	php artisan make:model "Name" -m
+	Name example:Booking
+
+3.In "database -> migrations", select your new migration and costumize it(add new fields, etc)
+
+
+4.Run the migration
+
+php artisan migrate
+
+For RollBack
+
+php artisan migrate:rollback
+
+
+
+
+
+
+n.Create Routes in "routes -> web.php"
+
+example: Route::resource('posts','PostsController');
+
+(You can check routes list with: php artisan route:list)
+
+AUTHENTICATION:
+	php artisan make:auth
+
+In Laravel 6.0 make:auth no longer exists
+
+1 - First do this:
+
+composer require laravel/ui --dev
+
+
+2 - Then do this:
+
+php artisan ui:auth
+
+or
+
+php artisan ui vue --auth
+
+
+php artisan migrate
+
+You can also generate the views only with:
+
+php artisan ui:auth --views
+
+
+
+Centering:
+	Centering Colums:
+		In Bootstrap 4 use offset-sm-3 instead of col-sm-offset-3
+		Offset Calculation: (12(total length)-column size)/2
+
+
+
+In case of permision problem:
+
+
+Never set a directory to 777. you should change directory ownership. so set your current user that you are logged in with as owner and the webserver user (www-data, apache, ...) as the group. You can try this:
+
+sudo chown -R $USER:www-data storage
+sudo chown -R $USER:www-data bootstrap/cache
+then to set directory permission try this:
+
+chmod -R 775 storage
+chmod -R 775 bootstrap/cache
+
+
+
+Permision problem after installing forms:
+
+php artisan cache:clear 
+
+
+In case of Vue problems:
+
+DatePicker =>  Datepicker + everywhere
+
+
+SET @count = 0;
+UPDATE `bookings` SET `bookings`.`bookingId` = @count:= @count + 1;
+ALTER TABLE `bookings` AUTO_INCREMENT = 1;
+
+
+
+SET @count = 0;
+UPDATE `clients` SET `clients`.`clientId` = @count:= @count + 1;
+ALTER TABLE `clients` AUTO_INCREMENT = 1;
+
+SET @count = 0;
+UPDATE `rooms` SET `rooms`.`roomId` = @count:= @count + 1;
+ALTER TABLE `rooms` AUTO_INCREMENT = 1;
+
+
+UPDATE `bookings` SET `Status`= 'Pending' WHERE 1
+
+
+
+--------------------ALGOLIA--------------------
+
+Clear all algolia indices
+
+php artisan scout:flush
+
+
+To import the data from models which have "Searchable" class attached to them
+
+php artisan scout:import
+
+
+-------------------------------------------------------
+
+Sql query for login
+
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'admin', 'i.musteatavlad@gmail.com', NULL, '$2y$10$pq/he2MYxfy9sLWYU5Zr9.PTnF7.8G5MW6IIoE9yuhqmBXYAUEgsq', 'KBgUW0XBgKTslvzxYfoOEKfRatJGtqd46WeqyJvqg13Xyp3nEtjx2xmCuJWI', '2019-07-19 16:58:31', '2019-07-19 16:58:31');
+
+
+-----------------------------------------------------------
+
+
+For Rooms Perspective, checking the actual date
+
+<?php
+						global $roomId;
+						$roomId = $room->roomId;
+						$specificBooking = $data['allBookings']->first(function($item) {
+							global $roomId;
+						    return $item->roomId == $roomId;
+						});
+						echo $specificBooking->Checkin;
+			            echo nl2br ("\n");
+						echo $data['today']->toDateString();
+						
+						if (($data['today']->toDateString() >= $specificBooking->Checkin)&&($data['today']->toDateString() < $specificBooking->Checkout)) 
+						    echo "booking-ul este actual"; 
+						else{
+						 	$room->available=1;
+						 	$room->update();
+						    echo "booking-ul nu este actual, s-a facut status 1 la camera";
+						} 
+					?>
