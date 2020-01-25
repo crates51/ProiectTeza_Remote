@@ -101,6 +101,7 @@ import {bus} from "../app"
                       return obj.roomId === room.roomId;
                   });
 
+                  console.log("filteredBookings: ",filteredBookings);
                   // var filteredBookings = _.filter (this.localbookings, function(obj) {
                   //     return obj.roomId === room.roomId;
                   //     // return home.price<=1000 && sqft>=500 && num_of_beds>=2 && num_of_baths>=2.5;
