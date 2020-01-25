@@ -106,7 +106,6 @@ import {bus} from "../app"
                   //     // return home.price<=1000 && sqft>=500 && num_of_beds>=2 && num_of_baths>=2.5;
                   // });
 
-                
                 if(filteredBookings.length==0)return false
                 return filteredBookings;
                }

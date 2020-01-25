@@ -167,8 +167,7 @@ import {bus} from "../app"
               default: "Error: No title Proped"
             }
         },
-        created(){
-        },
+        created(){},
         mounted() {
             bus.$on("bookingUpdated",(data)=>{
                 if(this.localbooking.bookingId == data.booking.bookingId){
@@ -181,9 +180,9 @@ import {bus} from "../app"
                 }
             })
         },
-        updated(){
-        },
+        updated(){},
         methods:{
+   
             checkValue(type,value){
                 if(type=="Adults"){
                     if (this.localbooking.Adults==value)return true

@@ -53,6 +53,7 @@ import {bus} from "../app"
           bus.$on("bookingDestroyed",(data)=>{
             this.localbookings = data.bookings;
             this.localclients = data.clients;
+            
           })
         },
 
