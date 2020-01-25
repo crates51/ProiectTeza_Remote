@@ -1,0 +1,84 @@
+		<div class="card col-md-4 py-3 mb-5 roomsList">
+							<div class="row">
+								<div class="col-md-4 offset-4 text-center">
+									{{__("keywords.room")}}: {{$room->roomId}}
+								</div>
+								<div class="col-md-4 text-right">
+									<a  data-target="#editroomsModal"
+										href="#"
+		    							data-toggle="modal"
+		  								data-room="{{ $room }}">
+										<i class="fas fa-wrench fa-sm"></i>
+									</a>
+									@if(is_bookingActual($room,$data['allBookings'],$data['clients'],$data['today']->toDateString()))
+									<?php
+										global $roomId;
+										$roomId = $room->roomId;
+										$specificBooking = $data['allBookings']->first(function($item) {
+											global $roomId;
+										    return $item->roomId == $roomId;
+										});
+
+										$specificClient=$data['clients'][$specificBooking->clientId-1];
+										echo "<a 
+											data-target  ='#editbookingModal'
+											data-toggle  ='modal'
+											data-booking ='$specificBooking'
+											data-client  ='$specificClient'
+										>
+											<i class='fas fa-user-cog fa-sm'></i>
+										</a>
+										<clientdeletemodal class='ml-1' isbutton='false' icon_type='fas fa-user-minus fa-sm' booking_id='$specificBooking->bookingId'></clientdeletemodal>	
+										";	 
+									?>
+									@endif
+								</div>
+							</div>
+							@if(is_bookingActual($room,$data['allBookings'],$data['clients'],$data['today']->toDateString()))
+								<div class="row">
+									<div class="col-md-6 offset-3 text-center Status">
+										 <?php 
+										 	global $roomId;
+											$roomId = $room->roomId;
+											$specificBooking = $data['allBookings']->first(function($item) {
+												global $roomId;
+											    return $item->roomId == $roomId;
+
+											});
+											$specificClient=$data['clients'][$specificBooking->clientId-1];
+			//Aic se va afisa informatiile Suplimentare cand dai hover pe Nume - PopUp
+											echo "
+												<div style='display:none' id='BookingInfoTooltip_$specificBooking->bookingId' class='mb-2 mt-2 BookingInfoTooltip'>
+													".$specificClient->Last_Name." ".$specificClient->First_Name."<br>
+													<i class='fas fa-phone mr-1 mt-3'></i>".$specificClient->Phone."<br>
+													<i class='fas fa-envelope mr-1'></i>".$specificClient->Email."<br>
+													<i class='fas fa-male fa-lg mr-1'></i>".$specificBooking->Adults."<i class='fas fa-child fa-lg mr-1 ml-4'></i>".$specificBooking->Children."<br>".
+													$specificBooking->Checkin." <i class='mx-3 fas fa-angle-double-right mt-3'></i>$specificBooking->Checkout
+												</div>
+											";
+
+											echo "<span 
+												data-booking='$specificBooking'
+			  									data-client ='$specificClient'
+												id='roomCardclientName_$specificBooking->bookingId'>".
+												$specificClient->Last_Name." ".$specificClient->First_Name.
+											"</span>";
+										 ?>
+									</div>
+								</div>
+							@endif
+							@if(is_bookingActual($room,$data['allBookings'],$data['clients'],$data['today']->toDateString()))
+							{{$data['today']}}
+								<div class="row">
+									<div class="col-md-4 offset-4 text-center Status">
+										{{__("keywords.busy")}}
+									</div> 
+								</div>
+							@else
+								<div class="row">
+									<div class="col-md-4 offset-4 text-center Status">
+										{{__("keywords.available")}}
+									</div> 
+								</div>
+							@endif
+						</div>

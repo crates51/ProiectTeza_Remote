@@ -1,0 +1,333 @@
+$colors:(
+  purple_primary:#565978,
+  purple_accent:#8b8ca1,
+  red_caption:#d22954,
+  purple_caption:#2e3579,
+  purple_desc:#63687b,
+  green_facilities:#0ab21b
+);
+
+@function color($color-name){
+  @return map-get($colors,$color-name)
+};
+
+// The Body
+
+  //====================================================ROOMS==================================================== 
+
+[id^=roomCardclientName_]{
+    -o-transition: .5s;
+    -ms-transition: .5s;
+    -moz-transition: .5s;
+    -webkit-transition: .5s;
+    transition: .5s;
+}
+
+[id^=roomCardclientName_]:hover{
+  color:#565978;
+  cursor: pointer;
+}
+
+//==========Room Floor Id Title==========
+.floorIdTitle{
+  font-family: 'Arvo', serif;
+  font-size: 170%;
+  span,i{
+    -o-transition: .5s;
+    -ms-transition: .5s;
+    -moz-transition: .5s;
+    -webkit-transition: .5s;
+    transition: .5s;
+    cursor: pointer;
+  }
+}
+
+
+.floorRow{
+  -o-transition: .5s;
+  -ms-transition: .5s;
+  -moz-transition: .5s;
+  -webkit-transition: .5s;
+  transition: .5s;
+}
+
+.floorRow:hover{
+  background-color: #565978;
+}
+
+  //============================================================================================================= 
+
+#title{
+  	font-family: 'Roboto', sans-serif;
+  	letter-spacing: 2px;
+  	text-transform: uppercase;
+  	font-size: 120%;
+	  font-weight: bold;
+    text-decoration: none!important;
+    color: white;
+    position:relative;
+    top:25%;
+    -o-transition: .5s;
+  	-ms-transition: .5s;
+  	-moz-transition: .5s;
+  	-webkit-transition: .5s;
+  	transition: .5s;	
+}
+
+#title:hover { 
+    color: #edb83a !important;
+  }
+
+#titleBackground{
+	height: 50px;
+	width:  150px;
+  background-color: color(purple_primary);
+	margin-left: auto ;
+  margin-right: auto ;
+  clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+  border-radius: 50px;
+
+}
+
+.datepicker table tr td.day.focused {
+  /*background: #eee;*/
+  background: red;
+
+  cursor: pointer;
+}
+
+.material-icons {
+    direction: ltr;
+    display: inline-block;
+    font-family: 'Material Icons';
+    font-size: 24px;
+    font-style: normal;
+    font-weight: normal;
+    letter-spacing: normal;
+    line-height: 1;
+    text-transform: none;
+    white-space: nowrap;
+    word-wrap: normal;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+}
+
+.bookingList{
+  .icon_face:before {
+        @extend .material-icons;
+        content: 'face';
+        color: red;
+    }
+  .icon_name:before {
+        @extend .material-icons;
+        content: 'book';
+        color: red;
+    }
+  
+  .subtitlesDatalist{
+    margin-bottom: 10px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 120%;
+    font-weight: bold;
+  }
+    -o-transition: .5s;
+    -ms-transition: .5s;
+    -moz-transition: .5s;
+    -webkit-transition: .5s;
+    transition: .5s;  
+  
+}
+
+.bookingList:hover{
+  background-color:#f2f2f2;
+}
+
+
+.roomsList{
+    -o-transition: .5s;
+    -ms-transition: .5s;
+    -moz-transition: .5s;
+    -webkit-transition: .5s;
+    transition: .5s;  
+}
+.roomsList:hover{
+  background-color:#f2f2f2;
+}
+
+.rectangleShape{
+  height: 50px;
+  width:  90px;
+  background-color: color(purple_primary);
+  margin-left: auto ;
+  margin-right: auto ;
+  border-radius: 8px;
+}
+
+.insideShapeText{
+  top:20%;
+  font-family: 'Arvo', serif;
+  font-size: 120%;
+  font-weight: bold;
+  text-decoration: none!important;
+  position: relative;
+  cursor: pointer;
+  color:white;
+  -o-transition: .5s;
+  -ms-transition: .5s;
+  -moz-transition: .5s;
+  -webkit-transition: .5s;
+  transition: .5s;  
+}
+
+.insideShapeText:hover{
+    color: #edb83a !important;
+}
+
+#countBBackground{
+
+  height: 70px;
+  width:  70px;
+  background-color: color(purple_primary);
+  margin-left: auto ;
+  margin-right: auto ;
+  -webkit-clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
+#countB{
+    top:35%;
+    font-family: 'Arvo', serif;
+    font-size: 120%;
+    font-weight: bold;
+    text-decoration: none!important;
+    color:#00AA7FFF;  
+    position: relative;
+}
+
+#clientId{
+  // color:red;
+  font-size: 120%;
+  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
+}
+
+
+//-----------------------------------------------General----------------------------------------------- 
+a{
+  text-decoration: none!important;
+  color: inherit;
+}
+
+.column-in-center{
+    float: none;
+    margin: 0 auto;
+}
+
+.tac{
+    text-align:center;
+}
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+//-----------------------------------------------IndexLoginPage-----------------------------------------------
+#ilpBodyBackground{
+  background: url('../pictures/loginBackgroundBlurD.png') no-repeat center center fixed; 
+  // background: url('/var/www/html/ProiectTeza/resources/pictures/loginBackgroundBlurD.png');
+  // background: url('loginBackgroundBlurD.png') no-repeat center center fixed; 
+
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+#ilpPanel{
+  background-color: rgba(218, 219, 214,0.4);
+  height: 400px;
+  width: 500px;
+  border-radius: 10px;
+  input{
+    // background: rgba(191, 194, 189,0.3)!important;
+  }
+}
+
+
+//-----------------------------------------------Icons-----------------------------------------------
+//--------------General Icons--------------
+i{
+-o-transition: .5s;
+-ms-transition: .5s;
+-moz-transition: .5s;
+-webkit-transition: .5s;
+transition: .5s;
+}
+
+// i:hover{
+// filter: saturate(3);
+// cursor: pointer;
+// }
+
+// i:active{
+// filter: saturate(5);
+// cursor: pointer;
+// }
+
+//--------------Specific Icons--------------
+
+.fa-pencil-alt:hover{
+  color:#4f5963;      
+}
+
+.fa-trash-alt:hover{
+  color:#4f5963;      
+}
+
+.fa-wrench:hover{
+  color:#4f5963;      
+  cursor: pointer;
+}
+
+.fa-user-cog:hover{
+  color:#4f5963;      
+  cursor: pointer;
+}
+
+.fa-user-minus:hover{
+  color:#4f5963;      
+  cursor: pointer;
+}
+
+
+
+//--------------------------------------------Tool tips--------------------------------------------
+
+[id^=CancelTooltip]{
+
+  background: #ffdbdb ;
+  border: 1px solid #ff6666;
+  width:150px;
+  height:50px;
+  border-radius: 0.25rem;
+  
+}
+
+[id^=AcceptTooltip]{
+  background: #b3ffb3;
+  border: 1px solid #00cc00;
+  width:150px;
+  height:50px;
+  border-radius: 0.25rem;
+}
+
+[id^=BookingInfoTooltip]{
+  background: #9799b5 ;
+  border: 1px solid #565978;
+  // width:300px;
+  // height:150px;
+  border-radius: 0.25rem;
+  
+}
