@@ -79,10 +79,6 @@ import {bus} from "../app"
             this.localbookings = data.bookings;
             this.localclients = data.clients;
           })
-
-        // console.log("roomsection localbookings: ",this.localbookings);
-        // console.log("roomsection localclients: ",this.localclients);    
-
         },
         
         methods:{
@@ -101,9 +97,6 @@ import {bus} from "../app"
             },    
             find(toFind,room){
                if(toFind=="bookings"){
-                // console.log("roomsection this.localbookings2: ",this.localbookings);
-                // console.log("roomsection room: ",room);
-
                   var filteredBookings = this.localbookings.filter(function( obj ) {
                       return obj.roomId === room.roomId;
                   });
@@ -113,7 +106,6 @@ import {bus} from "../app"
                   //     // return home.price<=1000 && sqft>=500 && num_of_beds>=2 && num_of_baths>=2.5;
                   // });
 
-                // console.log("roomsection filteredBookings: ",filteredBookings);
                 
                 if(filteredBookings.length==0)return false
                 return filteredBookings;

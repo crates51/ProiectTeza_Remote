@@ -168,10 +168,8 @@ import {bus} from "../app"
             }
         },
         created(){
-            // console.log("created");
         },
         mounted() {
-            // console.log("mounted");
             bus.$on("bookingUpdated",(data)=>{
                 if(this.localbooking.bookingId == data.booking.bookingId){
                     this.localclient = data.client;
@@ -184,13 +182,8 @@ import {bus} from "../app"
             })
         },
         updated(){
-            // console.log("updated");
         },
         methods:{
-            say(){
-                // console.log("changed");
-            },
-
             checkValue(type,value){
                 if(type=="Adults"){
                     if (this.localbooking.Adults==value)return true

@@ -8,7 +8,6 @@
      :is_auth="is_auth"
      :rooms="rooms"
      :key="booking.unique_bookingId+booking.created_at"
-     v-if="tell(booking)"
      :booking="booking"
      :client ="findClient(booking)"
 	   />
@@ -54,19 +53,12 @@ import {bus} from "../app"
           bus.$on("bookingDestroyed",(data)=>{
             this.localbookings = data.bookings;
             this.localclients = data.clients;
-            // console.log("this.localbookings: ",this.localbookings);
-            
           })
         },
 
         methods:{
           findClient(booking){
-            // console.log("findClient booking: ",booking);
             return this.localclients.find(client => client.clientId == booking.clientId);
-          },
-          tell(booking){
-            // console.log("v-if booking: ",booking);
-            return true;
           },
         }
     }
