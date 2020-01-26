@@ -100,6 +100,7 @@ import {bus} from "../app"
 
                 console.log("this.localbookings: ",this.localbookings);
                   var filteredBookings = this.localbookings.filter(function( obj ) {
+                    console.log("room.roomId: "+room.roomId);
                       return obj.roomId === room.roomId;
                   });
 
