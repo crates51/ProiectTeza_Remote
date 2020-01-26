@@ -97,6 +97,8 @@ import {bus} from "../app"
             },    
             find(toFind,room){
                if(toFind=="bookings"){
+                  console.log("this.localbookings: ",this.localbookings);
+
                   var filteredBookings = this.localbookings.filter(function( obj ) {
                       return obj.roomId === room.roomId;
                   });
