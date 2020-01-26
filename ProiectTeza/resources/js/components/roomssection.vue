@@ -106,7 +106,7 @@ import {bus} from "../app"
                     // console.log(room.roomId);
                     if(this.localbookings[i].roomId == room.roomId)filteredBookings.push(this.localbookings[i])
                   }
-                console.log("filteredBookings: ",filteredBookings);   
+                // console.log("filteredBookings: ",filteredBookings);   
 
                   // var filteredBookings = this.localbookings.filter(function( obj ) {
                   //   // console.log("room.roomId: "+room.roomId);

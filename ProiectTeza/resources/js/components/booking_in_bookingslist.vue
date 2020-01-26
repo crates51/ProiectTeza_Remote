@@ -129,7 +129,7 @@
         <div class="row">
             <div class="col-md-4 offset-4 text-center pt-3" id="clientId">
                 <span>
-                    localbooking.bookingId
+                    {{localbooking.bookingId}}
                 </span>
             </div>
         </div>
