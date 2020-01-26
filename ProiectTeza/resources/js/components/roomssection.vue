@@ -98,21 +98,21 @@ import {bus} from "../app"
             find(toFind,room){
                if(toFind=="bookings"){
                 
-                var filteredBookings2=[];
+                var filteredBookings=[];
                
-                console.log("this.localbookings: ",this.localbookings);
+                // console.log("this.localbookings: ",this.localbookings);
                   for(var i = 0; i<this.localbookings.length;i++){
-                    console.log(this.localbookings[i]);
-                    console.log(room.roomId);
-                    if(this.localbookings[i].roomId == room.roomId)filteredBookings2.push(this.localbookings[i])
+                    // console.log(this.localbookings[i]);
+                    // console.log(room.roomId);
+                    if(this.localbookings[i].roomId == room.roomId)filteredBookings.push(this.localbookings[i])
                   }
-                console.log("filteredBookings2: ",filteredBookings2);   
+                console.log("filteredBookings: ",filteredBookings);   
 
-                  var filteredBookings = this.localbookings.filter(function( obj ) {
-                    // console.log("room.roomId: "+room.roomId);
-                    // console.log("obj.roomId: "+obj.roomId);
-                      return obj.roomId === room.roomId;
-                  });
+                  // var filteredBookings = this.localbookings.filter(function( obj ) {
+                  //   // console.log("room.roomId: "+room.roomId);
+                  //   // console.log("obj.roomId: "+obj.roomId);
+                  //     return obj.roomId === room.roomId;
+                  // });
 
                   // console.log("filteredBookings: ",filteredBookings);
                   // var filteredBookings = _.filter (this.localbookings, function(obj) {
