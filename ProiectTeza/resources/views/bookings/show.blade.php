@@ -4,26 +4,26 @@
 
 
 <div class="jumbotron mt-2 tac">
-  @auth
+{{--   @auth
   <div class="row">
     <div class="col-md-12 align-self-end">
-      <div class="float-right">
+      <div class="float-right"> --}}
         
-        <a href="{{route('bookings-destroy', $booking->bookingId)}}" onclick="return confirm('Are you sure?')">
+  {{--       <a href="{{route('bookings-destroy', $booking->bookingId)}}" onclick="return confirm('Are you sure?')">
           <i class="fas fa-trash-alt fa-lg mr-3"></i>
-        </a>
+        </a> --}}
         {{-- <clientdeletemodal booking_bookingId={{$booking->bookingId}}></clientdeletemodal> --}}
 
-        <a href="{{route('bookings.edit', $booking->bookingId)}}">
+ {{--        <a href="{{route('bookings.edit', $booking->bookingId)}}">
           <i class="fas fa-pencil-alt fa-lg"></i>
-        </a>
+        </a> --}}
         {{-- <a class="btn btn-warning mr-3" href="{{route('bookings.edit', $booking->bookingId)}}" > --}}
               {{-- <i class="fas fa-pencil-alt"></i> --}}
         {{-- </a> --}}
-      </div>
+{{--       </div>
     </div>
   </div>
-  @endauth
+  @endauth --}}
   <h1 class="display-4 ">{{$client->Last_Name}} {{$client->First_Name}}</h1>
   <p class="lead ">
   	{{$booking->Checkin}}

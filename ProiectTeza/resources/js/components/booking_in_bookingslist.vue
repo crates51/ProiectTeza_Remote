@@ -44,16 +44,16 @@
                 </div>
                 <div class="row">
                     <div class="col text-center">
-                      <span v-if="checkValue('Adults','1')">
+                      <span v-if="(this.localbooking.Adults == 1 || this.localbooking.Adults == 0)">
                             There will be <span class="font-weight-bold"> {{localbooking.Adults}}</span> Adult and
                                           <span class="font-weight-bold"> {{localbooking.Children}}</span>  
-                            <span v-if="checkValue('Children','1')">child</span>
+                            <span v-if="(this.localbooking.Children == 1 || this.localbooking.Children == 0)">child</span>
                             <span v-else>children</span>
                       </span>
                       <span v-else>
                             There will be <span class="font-weight-bold"> {{localbooking.Adults}}</span> Adults and
                                           <span class="font-weight-bold"> {{localbooking.Children}}</span> 
-                            <span v-if="checkValue('Children','1')">child</span>
+                            <span v-if="(this.localbooking.Children == 1 || this.localbooking.Children == 0)">child</span>
                             <span v-else>children</span>
                       </span>   
                     </div>
