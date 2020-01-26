@@ -32,7 +32,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+            {{--     <div class="form-group row">
                     <div class="col-md-12">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
@@ -42,7 +42,7 @@
                             </label>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="form-group row mb-0">
                     <div class="col-md-12">
@@ -50,9 +50,9 @@
                             {{ __('keywords.login') }}
                         </button>
 
-                        <a class="btn btn-link" href="{{ route('password.request') }}" style=" filter: brightness(50%)">
+                    {{--     <a class="btn btn-link" href="{{ route('password.request') }}" style=" filter: brightness(50%)">
                             {{ __('Forgot Your Password?') }}
-                        </a>
+                        </a> --}}
                     </div>
                 </div>
             </form>
