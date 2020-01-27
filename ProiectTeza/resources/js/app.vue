@@ -47,7 +47,7 @@
         />
     </div>
     <div v-else-if="checkValue('section','Clients')">
-      <span>Clients</span>
+      <span style="text-align: center">This section is under development</span>
     </div>
   </div>
 </template>

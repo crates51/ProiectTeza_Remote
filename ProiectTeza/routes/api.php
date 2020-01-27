@@ -17,4 +17,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//=============================BOOKINGS=============================
+
+// Route::middleware('auth:api', 'throttle:60,1')->group(function () {
+// });
+Route::get('/bookings', 'BookingsController@get_all')->name('bookings-get-all');
+Route::get('/bookings/page/{pageId}', 'BookingsController@page')->name('bookings-page');
+
+//=============================CLIENTS=============================
+Route::get('/clients', 'ClientsController@get_all');
+
+
 // Route::resources('bookings','BookingsController');

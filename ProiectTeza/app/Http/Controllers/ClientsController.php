@@ -64,7 +64,12 @@ class ClientsController extends Controller
      */
     public function show($id)
     {
-        //
+        
+    }
+
+    public function get_all()
+    {
+        return (['status' => 'success','clients' => Clients::all()]);
     }
 
     /**

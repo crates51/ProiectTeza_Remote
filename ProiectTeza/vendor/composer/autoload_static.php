@@ -530,6 +530,7 @@ class ComposerStaticInitbaff217e604f734aa60d5fa8365a00ad
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'App\\Rooms' => __DIR__ . '/../..' . '/app/Rooms.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
+        'App\\api_token' => __DIR__ . '/../..' . '/app/api_token.php',
         'BeyondCode\\DumpServer\\DumpServerCommand' => __DIR__ . '/..' . '/beyondcode/laravel-dump-server/src/DumpServerCommand.php',
         'BeyondCode\\DumpServer\\DumpServerServiceProvider' => __DIR__ . '/..' . '/beyondcode/laravel-dump-server/src/DumpServerServiceProvider.php',
         'BeyondCode\\DumpServer\\Dumper' => __DIR__ . '/..' . '/beyondcode/laravel-dump-server/src/Dumper.php',

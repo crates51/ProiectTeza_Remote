@@ -129,8 +129,6 @@ SET @count = 0;
 UPDATE `bookings` SET `bookings`.`bookingId` = @count:= @count + 1;
 ALTER TABLE `bookings` AUTO_INCREMENT = 1;
 
-
-
 SET @count = 0;
 UPDATE `clients` SET `clients`.`clientId` = @count:= @count + 1;
 ALTER TABLE `clients` AUTO_INCREMENT = 1;

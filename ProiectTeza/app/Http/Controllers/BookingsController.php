@@ -301,10 +301,23 @@ class BookingsController extends Controller
         // else return false;
     }
 
-   
+     public function page(Request $request,$id){
+        $status=false;
+
+        $bookings = Bookings::all();
+        $bookingsbyPage=array();
+        foreach($bookings as $booking)
+            if(($booking->bookingId > (($id - 1) * 5))&&($booking->bookingId <= $id*5)){
+                    array_push($bookingsbyPage,$booking);
+                    // return (['roomAvailable' => false]);
+            }
+        if(count($bookingsbyPage))$status=true;
+        return (['status' => $status ,'page' => $id, 'bookingsbyPage' => $bookingsbyPage]);  
+     }
+
+     public function get_all()
+    {
+        return (['status' => 'success','bookings' => Bookings::all()]);
+    }
 }
  
-// COSTUM
-
-        // if(max($start1, $start2)->format('d/m/Y') < min($end1, $end2)->format('d/m/Y'))return true;
-        // 09/01/2020 < 22/01/2020

@@ -376,7 +376,7 @@ export default {
 
         	axios.post('bookings', this.form )
 			.then(response => { 
-				console.log(response);
+				// console.log(response);
 				if(response.data.status=="updated"){
 					// console.log("The booking has been uploaded into database");
 			        this.$refs['modal-new-booking'].hide()
@@ -434,7 +434,7 @@ export default {
              }
         },
         showAlert(clientFound){    
-          console.log("in show alert "+clientFound);      
+          // console.log("in show alert "+clientFound);      
           let self=this
 
           const Toast_this_customer = Swal.mixin({

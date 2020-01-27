@@ -31,7 +31,6 @@ import Swal from 'sweetalert2'
 Vue.component(Button.name, Button)
 Vue.component(Button.Group.name, Button.Group)
 
-
 Vue.use(InstantSearch);
 // Vue.use(VueSweetalert2);
 Vue.use(VueRouter);
