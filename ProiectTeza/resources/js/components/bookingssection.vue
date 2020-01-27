@@ -12,6 +12,7 @@
      :booking="booking"
      :client ="findClient(booking)"
 	   />
+
       <a-pagination v-model="currentPage" :hideOnSinglePage="true" style="text-align:center" :defaultPageSize="5" @change="onChange" :total="localbookingssize" />
   <!-- {{localbookings.length}} -->
   </div>
@@ -72,6 +73,7 @@ import {bus} from "../app"
         },
 
         mounted(){
+      
           bus.$on("bookingUploaded",(data)=>{
             axios.get('api/clients')  
               .then(response => { 
@@ -87,6 +89,16 @@ import {bus} from "../app"
                 axios.get('api/bookings/page/'+this.currentPage, {})  
                 .then(response => { 
                   this.localbookings = response.data.bookingsbyPage;
+                  this.$nextTick(() => {
+                       $('html, body').animate({
+                           scrollTop: $("#boookingCard_"+data.booking.bookingId).offset().top
+                       }, 2000,function(){
+                        var div = $("#boookingCard_"+data.booking.bookingId+" .card.bookingList");
+                            div.animate({borderWidth: '20px'}, "800",function(){
+                             div.delay(800).animate({borderWidth: '1px'}, "800");
+                            });
+                       });
+                  })
                 })
               })
           }),
@@ -95,6 +107,7 @@ import {bus} from "../app"
             this.localbookings = data.bookings;
             this.localclients = data.clients;
           })
+
         },
 
         methods:{
@@ -105,7 +118,6 @@ import {bus} from "../app"
           onChange(value, dateString) {
               axios.get('api/clients')  
               .then(response => { 
-                // console.log("response: ",response.data.clients);
                 this.localclients = response.data.clients;
               })
               
