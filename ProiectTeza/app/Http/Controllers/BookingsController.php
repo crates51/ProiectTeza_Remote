@@ -235,7 +235,7 @@ class BookingsController extends Controller
      */
     public function destroy($id)
     {   
-         if(auth()->user()->name == "admin"){
+         // if(auth()->user()->name == "admin"){
             
             $booking = Bookings::find($id);
             $client = Clients::find($booking->clientId);
@@ -251,14 +251,12 @@ class BookingsController extends Controller
 
             return (['status' => 'destroyed', 'client' =>  $client , 'booking' =>  $booking, 'bookings' =>  Bookings::all(),'clients' => Clients::all()]);
             // return redirect('/')->with('success','Booking for '.$client->Last_Name." has been removed");
-         }
-         else{
-            return (['status' => 'failed','message'=> 'Couldn\'t delete booking, you are not loged in']);
-            // return redirect('/')->with('error','You\'re not allowed to delete bookings, please speak with an Admin');
-         }
+         // }
+         // else{
+         //    return (['status' => 'failed','message'=> 'Couldn\'t delete booking, you are not loged in']);
+         //    // return redirect('/')->with('error','You\'re not allowed to delete bookings, please speak with an Admin');
+         // }
     }
-
-
 
      public function check(Request $request)
     {   
@@ -296,11 +294,14 @@ class BookingsController extends Controller
 
             if(($start1 < $end2)&&($end1 > $start2))return true;
             else return false;
-
-        // if(max($start1, $start2)->format('d/m/Y') < min($end1, $end2)->format('d/m/Y'))return true;
-        // else return false;
     }
 
+// Gett all the Bookings
+     public function get_all(){
+        return (['status' => 'success','bookings' => Bookings::all()]);
+    }
+
+// Gett the Bookings from a page
      public function page(Request $request,$id){
         $status=false;
 
@@ -315,9 +316,26 @@ class BookingsController extends Controller
         return (['status' => $status ,'page' => $id, 'bookingsbyPage' => $bookingsbyPage]);  
      }
 
-     public function get_all()
-    {
-        return (['status' => 'success','bookings' => Bookings::all()]);
+     // Get the Bookings from a date
+     public function date(Request $request,$date){
+        $date = str_replace('-', '/', $date);
+        $date = \DateTime::createFromFormat('d/m/Y', $date);
+
+        $bookings = Bookings::all();
+        $bookingsbyDate=array();
+
+        foreach($bookings as $booking){
+            $Checkin  = \DateTime::createFromFormat('d/m/Y', $booking->Checkin);
+            $Checkout = \DateTime::createFromFormat('d/m/Y', $booking->Checkout);
+            if(($Checkin <= $date)&&($Checkout >$date)){
+                // echo "booking".$booking;
+                array_push($bookingsbyDate,$booking);
+                    // return (['roomAvailable' => false]);
+            }
+        }
+
+        return (['status' => "success",'date' => $date,'bookingsbyDate' => $bookingsbyDate]);  
     }
+
 }
  

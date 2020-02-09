@@ -401,7 +401,7 @@ export default {
             	onOpen: (toast) => {
             	  toast.addEventListener('mouseenter', Swal.stopTimer)
             	  toast.addEventListener('mouseleave', Swal.resumeTimer)
-        		    }
+        		    },
     	    });
 
         	axios.put('bookings/'+this.booking.bookingId, this.form )

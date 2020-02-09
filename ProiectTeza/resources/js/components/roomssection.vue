@@ -1,6 +1,6 @@
 <template>
 <div>
-    <div v-if="existRooms(rooms)">
+    <div v-if="rooms.length">
         <datepicker/>
         <div  v-for="(n, i) in totalfloors+1">
             <div class="row">
@@ -14,13 +14,15 @@
                 </div>
             </div>
             <div class="row">
+                  <!-- :filteredBookings="find('bookings',room)" -->
+                  <!-- :clients="localclients" -->
                   <room_in_roomlist
                             v-for="room in localrooms" v-if="(room.floorId == i)"
+                            :booking="find('booking',room)"
                             :room="room"
                             :rooms="rooms"
-                            :filteredBookings="find('bookings',room)"
-                            :clients="localclients"
-                            :key="room.id"
+                            :client="find('client',room)"
+                            :key="room.roomId+find('booking_unique_id',room)+find('booking_id',room)"
                     />
               </div>
             </div>
@@ -36,13 +38,16 @@
 
 <script>
 import {bus} from "../app"
+import Cookies from 'js-cookie'
+
     export default {
            data(){
               return {
                date : this.get_date(),
                localrooms: this.rooms,
-               localbookings: this.bookings,
-               localclients: this.clients
+               localbookings: null,
+               localclients: null,
+               test:null,
               }
           },
           props:{
@@ -64,20 +69,61 @@ import {bus} from "../app"
             }
         },
         created(){
+            // var date = this.date.replace(/\//g, '-');
+             axios.get('api/clients')  
+              .then(response => { 
+                this.localclients = response.data.clients;
+                // console.log("this.localclients: ",this.localclients);
+
+                axios.get('api/bookings/date/'+this.date.replace(/\//g, '-'))  
+                .then(response => { 
+                  this.localbookings=response.data.bookingsbyDate;
+                  // console.log("this.localbookings: ",this.localbookings);
+                })
+              })
+
           bus.$on("dateUpdated",(data)=>{
             this.date = data;
+             axios.get('api/bookings/date/'+this.date.replace(/\//g, '-'))  
+                .then(response => { 
+                  this.localbookings=response.data.bookingsbyDate;
+                  // console.log("this.localbookings: ",this.localbookings);
+                })
           });
         },
 
         mounted(){
-            bus.$on("bookingUpdated",(data)=>{
-              this.localbookings=data.bookings;
+          Cookies.set('section', 'Rooms')
+          
+          bus.$on("bookingUploaded",(data)=>{
+              axios.get('api/bookings/date/'+this.date.replace(/\//g, '-'))  
+                .then(response => { 
+                  this.localbookings=response.data.bookingsbyDate;
+                })
+              this.localclients=data.clients;
+          }),
+
+          bus.$on("bookingUpdated",(data)=>{
+              // this.localbookings=data.bookings;
+              axios.get('api/bookings/date/'+this.date.replace(/\//g, '-'))  
+                .then(response => { 
+                  this.localbookings=response.data.bookingsbyDate;
+                  // console.log("this.localbookings: ",this.localbookings);
+                })
               this.localclients=data.clients;
             }); 
 
           bus.$on("bookingDestroyed",(data)=>{
-            this.localbookings = data.bookings;
-            this.localclients = data.clients;
+            if(Cookies.get('section')=="Rooms"){
+              // this.localbookings = data.bookings;
+              axios.get('api/bookings/date/'+this.date.replace(/\//g, '-'))  
+                .then(response => { 
+                  this.localbookings=response.data.bookingsbyDate;
+                  // console.log("this.localbookings: ",this.localbookings);
+                  // console.log("this.localbookings: ",this.localbookings);
+                })
+              this.localclients = data.clients;
+            }
           })
         },
         
@@ -90,38 +136,41 @@ import {bus} from "../app"
                 if(roomfloorid==i)return true
                 else return false;
             },
-            existRooms(rooms){
-                // If there are rooms return true
-                if(rooms.length)return true;
-                else return false;
-            },    
             find(toFind,room){
-               if(toFind=="bookings"){
-                
-                var filteredBookings=[];
-               
-                // console.log("this.localbookings: ",this.localbookings);
-                  for(var i = 0; i<this.localbookings.length;i++){
-                    // console.log(this.localbookings[i]);
-                    // console.log(room.roomId);
-                    if(this.localbookings[i].roomId == room.roomId)filteredBookings.push(this.localbookings[i])
-                  }
-                // console.log("filteredBookings: ",filteredBookings);   
+              // console.log("find('booking_id',room) accesed");
+              if(toFind=="booking_unique_id"){
+                // console.log("looking in ",this.localbookings);
+                var localbooking = _.find(this.localbookings, function(booking){ return ((booking.roomId == room.roomId)); });
+                if(localbooking){
+                  // console.log("Room ",room.roomId+" will have booking: ",localbooking);
+                  return localbooking.unique_bookingId;
+                }
 
-                  // var filteredBookings = this.localbookings.filter(function( obj ) {
-                  //   // console.log("room.roomId: "+room.roomId);
-                  //   // console.log("obj.roomId: "+obj.roomId);
-                  //     return obj.roomId === room.roomId;
-                  // });
+                return 0;
+               }
+               else if(toFind=="booking_id"){
+                var localbooking = _.find(this.localbookings, function(booking){ return ((booking.roomId == room.roomId)); });
+                if(localbooking){
+                  return localbooking.bookingId;
+                }
 
-                  // console.log("filteredBookings: ",filteredBookings);
-                  // var filteredBookings = _.filter (this.localbookings, function(obj) {
-                  //     return obj.roomId === room.roomId;
-                  //     // return home.price<=1000 && sqft>=500 && num_of_beds>=2 && num_of_baths>=2.5;
-                  // });
-
-                if(filteredBookings.length==0)return false
-                return filteredBookings;
+                return 0;
+               }
+               else if(toFind=="booking"){
+                var localbooking = _.find(this.localbookings, function(booking){ return ((booking.roomId == room.roomId)); });
+                if (localbooking) return localbooking;
+                else return false;
+               }
+               else if(toFind=="client"){
+                var localbooking = _.find(this.localbookings, function(booking){ return ((booking.roomId == room.roomId)); });
+                if(localbooking){
+                  var localclient = _.find(this.localclients, function(client){
+                   return ((localbooking.clientId == client.clientId));
+                  });
+                  // console.log("Room ",room.roomId+" will have client: ",localclient," from booking ",localbooking);
+                  if (localclient) return localclient;
+                  else return false;  
+                }
                }
             },
             get_date(){
@@ -129,9 +178,7 @@ import {bus} from "../app"
               var dd = String(today.getDate()).padStart(2, '0');
               var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
               var yyyy = today.getFullYear();
-              
               today = dd + '/' + mm + '/' + yyyy;
-
               return today;
     },
         }

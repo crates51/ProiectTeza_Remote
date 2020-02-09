@@ -16,21 +16,21 @@
     <div class="row">
       <div class=" col-md-2 offset-3 text-center mb-5">
         <div class="rectangleShape">
-          <a @click="setValue('section','Rooms')" class="insideShapeText">Rooms</a>
+          <a @click="section='Rooms'" class="insideShapeText">Rooms</a>
         </div>
       </div>
       <div class=" col-md-2 text-center mb-5">
         <div class="rectangleShape">
-          <a @click="setValue('section','Bookings')" class="insideShapeText">Bookings</a>
+          <a @click="section='Bookings'" class="insideShapeText">Bookings</a>
         </div>
       </div>
       <div class=" col-md-2 text-center mb-5">
         <div class="rectangleShape">
-          <a @click="setValue('section','Clients')" class="insideShapeText">Clients</a>
+          <a @click="section='Clients'" class="insideShapeText">Clients</a>
         </div>
       </div>
     </div>
-    <div v-if="checkValue('section','Rooms')">
+    <div v-if="section == 'Rooms'">
       <roomssection
        :rooms="localrooms"
        :bookings="localbookings"
@@ -38,16 +38,16 @@
        :totalfloors="totalfloors"
        />
     </div>
-    <div v-else-if="checkValue('section','Bookings')">
-        <bookingssection
-        :bookings="localbookings"
-        :clients="localclients"
-        :rooms="localrooms"
-        :is_auth="is_auth"
-        />
+    <div v-else-if="section == 'Bookings'">
+      <bookingssection
+      :bookings="localbookings"
+      :clients="localclients"
+      :rooms="localrooms"
+      :is_auth="is_auth"
+      />
     </div>
-    <div v-else-if="checkValue('section','Clients')">
-      <span style="text-align: center">This section is under development</span>
+    <div v-else-if="section == 'Clients'">
+      <clientssection/>
     </div>
   </div>
 </template>
@@ -110,7 +110,7 @@ export default {
             
   },
   methods:{
-    setValue(type,value){
+    setSection(type,value){
       if(type=='section'){
         this.section=value;
       // console.log("The section will be changed in "+this.section);
@@ -125,9 +125,6 @@ export default {
 };
 
 </script>
-
-
-
 
 <style scoped lang="scss">
 
@@ -150,5 +147,5 @@ export default {
 .insideShapeText:hover{
     color: #edb83a !important;
 }
-
 </style>
+

@@ -186,3 +186,7 @@ For Rooms Perspective, checking the actual date
 						    echo "booking-ul nu este actual, s-a facut status 1 la camera";
 						} 
 					?>
+
+--------About VueJs------
+
+When you change a component attribute its given promp to another, that component wil refresh its key

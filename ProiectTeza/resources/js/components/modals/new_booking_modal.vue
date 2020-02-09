@@ -1,13 +1,19 @@
 <template>
 	<div>
-		<div class="row ">
+		<!-- <div class="row ">
 			<div class="col-4 col-md-4 offset-4 mt-4 text-center mb-5">
-				<div id="titleBackground">
-					<!-- <a href="addclientModal" data-toggle="modal" data-target="#addclientModal" id="title">{{$data['title']}}</a> -->
-					<a v-b-modal="'modal-new-booking'" id="title">NEW BOOKING</a>
+				<div class="titleBackground">
+					<a href="addclientModal" data-toggle="modal" data-target="#addclientModal" id="title">{{$data['title']}}</a>
+					<a v-b-modal="'modal-new-booking'" class="title">NEW BOOKING</a>
 				</div>
 			</div>
 		</div>
+
+	    <div id="myBtn" class="titleBackground">
+			<a class="title" v-b-modal="'modal-new-booking'">NEW BOOKING</a>
+	    </div> -->
+
+	    <i id="myBtn" v-b-modal="'modal-new-booking'" class="fas fa-plus-circle fa-4x title"></i>
 
 		  <b-modal :no-close-on-esc="true" ref="modal-new-booking" id="modal-new-booking" title="New Booking" hide-footer>
 			    <b-form  @submit.prevent="onSubmit" @reset="onReset">
@@ -354,6 +360,18 @@ export default {
     	// console.log(this.isbutton);
 	},
     mounted(){
+    	   // var mybutton = document.getElementById("myBtn");
+
+        //   // When the user scrolls down 20px from the top of the document, show the button
+        //   window.onscroll = function() {scrollFunction()};
+
+        //   function scrollFunction() {
+        //     if (document.body.scrollTop > 150 || document.documentElement.scrollTop > 150) {
+        //       mybutton.style.display = "block";
+        //     } else {
+        //       mybutton.style.display = "none";
+        //     }
+        //   }
 	},
 	methods:{
 		onSubmit(evt) {
@@ -489,3 +507,14 @@ export default {
 }
 </script>
 
+<style>
+#myBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 99;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+</style>

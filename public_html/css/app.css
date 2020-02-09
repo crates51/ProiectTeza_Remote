@@ -11960,25 +11960,17 @@ a.text-dark:focus {
   background-color: #565978;
 }
 
-#title {
-  font-family: 'Roboto', sans-serif;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  font-size: 120%;
-  font-weight: bold;
-  text-decoration: none !important;
-  color: white;
-  position: relative;
-  top: 25%;
+.title {
+  color: #565978;
   -webkit-transition: .5s;
   transition: .5s;
 }
 
-#title:hover {
+.title:hover {
   color: #edb83a !important;
 }
 
-#titleBackground {
+.titleBackground {
   height: 50px;
   width: 150px;
   background-color: #565978;
@@ -12094,7 +12086,7 @@ a.text-dark:focus {
   position: relative;
 }
 
-#clientId {
+.clientId {
   font-size: 120%;
   font-weight: bold;
   font-family: 'Roboto', sans-serif;

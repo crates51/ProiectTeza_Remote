@@ -70,6 +70,7 @@ Vue.component('clientstatusmodal', require('./components/clientstatusmodal.vue')
 Vue.component('roomssection', require('./components/roomssection.vue'));
 Vue.component('bookingssection', require('./components/bookingssection.vue'));
 Vue.component('settingssection', require('./components/settingssection.vue'));
+Vue.component('clientssection', require('./components/clientssection.vue'));
 
 Vue.component('room_in_roomlist', require('./components/room_in_roomlist.vue'));
 Vue.component('booking_in_bookingslist', require('./components/booking_in_bookingslist.vue'));

@@ -127,7 +127,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4 offset-4 text-center pt-3" id="clientId">
+            <div class="col-md-4 offset-4 text-center pt-3 clientId">
                 <span>
                     {{localbooking.bookingId}}
                 </span>
@@ -167,7 +167,8 @@ import {bus} from "../app"
               default: "Error: No title Proped"
             }
         },
-        created(){},
+        created(){
+        },
         mounted() {
             bus.$on("bookingUpdated",(data)=>{
                 if(this.localbooking.bookingId == data.booking.bookingId){
@@ -180,7 +181,8 @@ import {bus} from "../app"
                 }
             })
         },
-        updated(){},
+        updated(){
+        },
         methods:{
    
             checkValue(type,value){

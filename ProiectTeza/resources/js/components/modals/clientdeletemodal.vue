@@ -39,7 +39,7 @@ export default {
     methods: {
         showAlert(){   
           let self=this;
-          console.log("self.booking_id "+self.booking_id+" will be deleted");   
+          // console.log("self.booking_id "+self.booking_id+" will be deleted");   
 
           const Toast_delete_this_customer = Swal.mixin({
             toast: true,
@@ -54,13 +54,13 @@ export default {
           });
 
             Swal.fire({
-              // title: 'Are you sure you want to delete ?',
-              // text: "You won't be able to revert this!",
-              title: 'This feature is still in development :(',
+              title: 'Are you sure you want to delete ?',
+              text: "You won't be able to revert this!",
+              // title: 'This feature is still in development :(',
               // text: "This feature is still in development :(",
               icon: 'warning',
               showCancelButton: true,
-              showConfirmButton: false,
+              // showConfirmButton: false,
               confirmButtonColor: '#3085d6',
               cancelButtonColor: '#d33',
               confirmButtonText: 'Yes, delete it!'
@@ -69,13 +69,13 @@ export default {
                 axios.get('bookings/'+ self.booking_id + '/destroy',)
                 .then(response => { 
                   if(response.data.status=="destroyed"){
-                    console.log("The booking has been destroyed from database");
+                    // console.log("The booking has been destroyed from database");
                       bus.$emit('bookingDestroyed',{
                         'bookings':response.data.bookings,
                         'clients':response.data.clients,
                         'booking':response.data.booking,
                       });
-                      console.log("response ",response);
+                      // console.log("response ",response);
                         // Swal.fire({
                         //   title: 'Booking Deleted',
                         //   icon: 'success',

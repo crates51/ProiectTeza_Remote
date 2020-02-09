@@ -49,6 +49,7 @@
 <script>
 import moment from 'moment'
 import {bus} from "../app"
+import Cookies from 'js-cookie'
 
 export default {
     data(){
@@ -65,53 +66,99 @@ export default {
         type: Object,
         default: "Error: No title Proped"
       },
+      booking:{
+        type: [Object,Boolean],
+        default: false
+      },
+      client:{
+        type: [Object,Boolean],
+        default: false
+      },
       rooms:{
         type: Array,
         default: "Error: No title Proped"
       },
-      filteredBookings:{
-        type: [Array,Boolean] ,
-        default: "Error: No title Proped"
-      },
-      clients:{
-        type: Array ,
-        default: "Error: No title Proped"
-      }
+      // filteredBookings:{
+      //   type: [Array,Boolean] ,
+      //   default: "Error: No title Proped"
+      // },
+      // clients:{
+      //   type: Array ,
+      //   default: "Error: No title Proped"
+      // }
   },
 
   created() {
+    if(this.booking){
+      // console.log("component for room "+this.localroom.roomId+" recreated with booking",this.booking," and client ",this.client);
+      this.localbooking=this.booking;
+      this.localclient=this.client;
+    }
   },
 
   mounted(){
-
-
-    let self=this;
-    this.localbooking = _.find(this.filteredBookings, function(booking){ return ((self.date >= booking.Checkin)&&(self.date < booking.Checkout)); });
     if(this.localbooking){
-       this.localclient = _.find(this.clients, function(client){ return (client.clientId == self.localbooking.clientId);});
+      // console.log("component for room "+this.localroom.roomId+" mounted");
           $("#card_"+this.localroom.roomId).css("background-color","#ff9999");
-    }
+        }
     else{
           $("#card_"+this.localroom.roomId).css("background-color","#ffffff");
     }
+    // let self=this;
+    // this.localbooking = _.find(this.filteredBookings, function(booking){ return ((self.date >= booking.Checkin)&&(self.date < booking.Checkout)); });
+    // if(this.localbooking){
+    //   this.localclient = _.find(this.clients, function(client){ return (client.clientId == self.localbooking.clientId);});
+    //   $("#card_"+this.localroom.roomId).css("background-color","#ff9999");
+    // }
+    // else{
+    //   $("#card_"+this.localroom.roomId).css("background-color","#ffffff");
+    // }
     // console.log("this.filteredBookings: ",this.filteredBookings);
     // console.log("this.rooom: ",this.room);
     // console.log("localbooking: ",this.localbooking);
     // console.log("localclient: ",this.localclient);
 
-    bus.$on("dateUpdated",(data)=>{
-        this.date = data;
-        let self=this;
-        this.localbooking = _.find(this.filteredBookings, function(booking){ return ((self.date >= booking.Checkin)&&(self.date < booking.Checkout)); });
+    // bus.$on("dateUpdated",(data)=>{
+    //     this.date = data;
+    //     let self=this;
+    //     this.localbooking = _.find(this.filteredBookings, function(booking){ return ((self.date >= booking.Checkin)&&(self.date < booking.Checkout)); });
+       
+        // if(this.localbooking){
+        //   console.log("bookingId: "+this.localbooking.bookingId);
+        //   console.log("self.date: "+self.date);
+        //   console.log("this.localbooking.Checkin: "+this.localbooking.Checkin);
+          
+        //   var d1 = moment(self.date);
+        //   var d2 = moment(this.localbooking.Checkin);  
 
-        if(this.localbooking){
-          this.localclient = _.find(this.clients, function(client){ return (client.clientId == self.localbooking.clientId)});
-          $("#card_"+this.localroom.roomId).css("background-color","#ff9999");
-        }
-        else{
-          $("#card_"+this.localroom.roomId).css("background-color","#ffffff");
-        }
-    });
+        //   // var d2 = new Date(this.localbooking.Checkin);
+
+        //   console.log("d1: " + d1);
+        //   console.log("d2: " + d2);
+
+        //   if(d1>=d2)console.log("d1>=d2");
+        //   else console.log("d1<d2");
+
+        // }
+        
+        // if((this.localbooking)&&(new Date(self.date) >= new Date(this.localbooking.Checkin)))console.log("self.date >= this.localbooking.Checkin");
+        // else if(this.localbooking)console.log("self.date < this.localbooking.Checkin");
+
+        // if((this.localbooking)&&(moment(self.date).isSame(this.localbooking.Checkin)))console.log("self.date > this.localbooking.Checkin");
+        // else if(this.localbooking)console.log("self.date < this.localbooking.Checkin ");
+        
+        
+        // if((this.localbooking)&&(moment(self.date).format("DD/MM/YYYY") >= moment(this.localbooking.Checkin).format("DD/MM/YYYY")))console.log("self.date >= this.localbooking.Checkin");
+        // else if(this.localbooking)console.log("self.date < this.localbooking.Checkin ");
+
+    //     if(this.localbooking){
+    //       this.localclient = _.find(this.clients, function(client){ return (client.clientId == self.localbooking.clientId)});
+    //       $("#card_"+this.localroom.roomId).css("background-color","#ff9999");
+    //     }
+    //     else{
+    //       $("#card_"+this.localroom.roomId).css("background-color","#ffffff");
+    //     }
+    // });
 
     bus.$on("bookingUpdated",(data)=>{
        if(this.localbooking){
@@ -135,21 +182,40 @@ export default {
     });
 
     // Cand se adauga o cazare noua in roomlist
-     bus.$on("bookingUploaded",(data)=>{
-       if(this.localroom.roomId == data.booking.roomId){
-          this.localclient = data.client;
-          this.localbooking = data.booking;
-          $("#card_"+this.localroom.roomId).css("background-color","#ff9999");
-       }
-    }),
+    //  bus.$on("bookingUploaded",(data)=>{
+    //    if(this.localroom.roomId == data.booking.roomId){
+    //       this.localclient = data.client;
+    //       this.localbooking = data.booking;
+    //       $("#card_"+this.localroom.roomId).css("background-color","#ff9999");
+    //    }
+    // }),
 
     // Cand se sterge o cazare din roomlist
-    bus.$on("bookingDestroyed",(data)=>{
-      if(this.localroom.roomId == data.booking.roomId){
-          this.localbooking =null;
-          $("#card_"+this.localroom.roomId).css("background-color","#ffffff");
-       }
-    })
+    // Se va verifica daca este acelasi room si in aceeasi perioada
+    // bus.$on("bookingDestroyed",(data)=>{
+    //   let self=this;
+    //   if(Cookies.get('section')=="Rooms"){
+    //     if(this.localroom.roomId == data.booking.roomId){
+    //         console.log("Deleting from rooms section");
+    //         this.localbooking =null;
+    //         $("#card_"+this.localroom.roomId).css("background-color","#ffffff");
+    //     }
+    //     else{
+    //       // console.log("roomId: "+this.localroom.roomId);
+    //       this.localbooking = _.find(data.bookings, function(booking){ return ((booking.roomId == self.localroom.roomId)&&(self.date >= booking.Checkin)&&(self.date < booking.Checkout))})
+    //       // console.log(this.localbooking);
+    //       if(this.localbooking)
+    //         this.localclient = _.find(this.clients, function(client){ return (client.clientId == self.localbooking.clientId)});
+    //       // console.log(this.localclient);
+
+
+
+    //       // console.log(_.find(data.bookings, function(booking){ return ((booking.roomId == self.localroom.roomId)&&(self.date >= booking.Checkin)&&(self.date < booking.Checkout))}))
+
+    //       // this.localbooking = data.bookings[]
+    //     }
+    //   }
+    // })
 
     bus.$on("roomUpdated",(data)=>{
 
