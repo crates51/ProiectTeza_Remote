@@ -42,7 +42,14 @@
         default: "Error: No title Proped"
       },
     },
+     created(){
+      // console.log("Popper for booking "+this.booking.bookingId+" created");
+    },
     mounted(){
+      // console.log("Popper for booking "+this.booking.bookingId+" mounted");
+    },
+    updated(){
+      // console.log("Popper for booking "+this.booking.bookingId+" updated");
     }
   }
 </script>

@@ -4,7 +4,7 @@
 			<i v-bind:class="icon_type"></i>
 		</b-button>
 		
-		<i v-else v-bind:class="icon_type" v-b-modal="'modal-'+booking.bookingId"></i>
+		<i v-else v-bind:class="icon_type" v-on:click="reset" v-b-modal="'modal-'+booking.bookingId"></i>
 
 		  <b-modal :no-close-on-esc="true" :ref="'my-modal-'+booking.bookingId" :id="'modal-'+booking.bookingId" title="Edit Booking" hide-footer>
 			    <b-form @submit.prevent="onSubmit" @reset="onReset">
@@ -234,6 +234,7 @@ export default {
 	 mixins: [validationMixin],
 	 data() {
       return {
+      	localudpate: this.update,
         form: {
           email: this.client.Email,
           first_name: this.client.First_Name,
@@ -249,6 +250,7 @@ export default {
           bookingId:this.booking.bookingId
         },
         localrooms: this.rooms,
+        // localupdate: this.update,
 		status: ['During the stay', 'Booked', 'Finished', 'Pending', 'Canceled'],
         show: true
       }
@@ -274,16 +276,29 @@ export default {
       		  type: String ,
       		  default: "Error: No title Proped"
       		},
+      		// update:{
+      		// 	type:Boolean,
+      		// 	default:false,
+      		// }
     },
- //    created(){
- //    	console.log("edited created");
-	// },
- //    mounted(){
- //    	console.log("edited mounted");
-	// },
-	// updated(){
-	// 	console.log("edited updated");
-	// },
+    created(){
+    	console.log("edited created");
+	},
+    mounted(){
+    	console.log("edited mounted");
+	},
+	 updated(){
+      // console.log("Edit modal for booking "+this.booking.bookingId+" updated");
+      // console.log("this.client.First_Name: "+this.client.First_Name);
+      // this.localupdate=this.update;
+      // console.log("this.update: "+this.localupdate);
+      // if(this.localupdate){
+      // 	console.log("Update now!");
+      // 	this.form.first_name=this.client.First_Name;
+      // this.update=false;
+      // }
+      // console.log("this.form.first_name: "+this.form.first_name);
+     },
 	validations: {
       form: {
        	first_name: {
@@ -382,6 +397,20 @@ export default {
       }
     },
 	methods:{
+		reset(){
+			// console.log("reset");
+	      	// this.localupdate=false;
+      		// console.log("this.client.First_Name: "+this.client.First_Name);
+      		// console.log("this.form.first_name: "+this.form.first_name);
+      		this.form.email = this.client.Email;
+          	this.form.first_name = this.client.First_Name;
+          	this.form.last_name = this.client.Last_Name;
+          	this.form.phone = this.client.Phone;
+          	// this.form.adults = this.booking.Adult;
+          	// this.form.children = this.booking.Children;
+          	// this.form.check_in = this.booking.Checkin;
+          	// this.form.check_out = this.booking.Checkout;
+		},
 		onSubmit(evt) {
 			evt.preventDefault()
 			this.$v.form.$touch()

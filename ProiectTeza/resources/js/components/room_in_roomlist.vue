@@ -19,6 +19,7 @@
           :rooms="rooms"
           :key="localbooking.bookingId"
           icon_type="fas fa-user-cog fa-sm"
+          :update="localupdate"
           />
 
         <clientdeletemodal 
@@ -59,6 +60,7 @@ export default {
          localbooking: null,
          localroom: this.room,
          localrooms: this.rooms,
+         localupdate: false
         }
     },
   props:{
@@ -161,24 +163,30 @@ export default {
     // });
 
     bus.$on("bookingUpdated",(data)=>{
-       if(this.localbooking){
+       // if(this.localbooking){
+            // console.log("Booking update form room in roomlist");
         // Se va curata camera pe care o editam
-        if((this.localbooking.bookingId == data.booking.bookingId)){
+        if((this.localbooking)&&(this.localbooking.bookingId == data.booking.bookingId)){
+            // console.log(this.localbooking.bookingId+" bookingId will be cleared");
+
          $("#card_"+this.localroom.roomId).css("background-color","#ffffff");
          this.localbooking = null;
          this.localclient = null;
         }
-       }
+       // }
        if(this.localroom.roomId == data.booking.roomId){
-        if ((this.date >= data.booking.Checkin)&&(this.date < data.booking.Checkout)){
+            // console.log("Room"+ data.booking.roomId+" will be trying to be filled with data");
+        // if ((this.date >= data.booking.Checkin)&&(this.date < data.booking.Checkout)){
         // Se va adauga cazarea pe care o editam in casuta necesara
           this.localclient = data.client;
           this.localbooking = data.booking;
           $("#card_"+this.localroom.roomId).css("background-color","#ff9999");
-        }
+        // }
       }
       // Cazul in care un cline detine mai multe cazari si se editeaza iformatiile unui client, sa se modifice la toate cazarile detinute de client
-      if((this.localbooking)&&(this.localclient.Phone == data.client.Phone))this.localclient=data.client;
+      if((this.localbooking)&&(this.localclient.Phone == data.client.Phone)){
+        this.localclient=data.client;
+      }
     });
 
     // Cand se adauga o cazare noua in roomlist

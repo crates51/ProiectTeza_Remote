@@ -104,6 +104,7 @@ import Cookies from 'js-cookie'
           }),
 
           bus.$on("bookingUpdated",(data)=>{
+            // console.log("Booking update form roomsection");
               // this.localbookings=data.bookings;
               axios.get('api/bookings/date/'+this.date.replace(/\//g, '-'))  
                 .then(response => { 
