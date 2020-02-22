@@ -164,6 +164,10 @@ class RoomsController extends Controller
         // return redirect('/')->with('success','Booking Updated');
     }
 
+     public function getAll()
+    {
+        return (['status' => 'success','rooms' => Rooms::all()]);
+    }
  
     /**
      * Remove the specified resource from storage.

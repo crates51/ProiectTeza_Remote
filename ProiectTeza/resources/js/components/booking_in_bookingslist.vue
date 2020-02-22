@@ -121,7 +121,7 @@
                         </a>
                     </div>
                     <div v-if="checkValue('is_auth', 1)" class="col-md-4">
-                        <clientdeletemodal isbutton="true" icon_type="fa fa-trash" :booking_id="localbooking.bookingId"/>
+                        <destroy_booking_modal isbutton="true" icon_type="fa fa-trash" :booking_id="localbooking.bookingId"/>
                     </div>
                 </div>
             </div>

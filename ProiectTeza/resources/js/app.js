@@ -79,10 +79,17 @@ Vue.component('vuepopper', require('./components/vuepopper.vue'));
 
 //====The modals====
 Vue.component('generalinfomodal', require('./components/generalinfomodal.vue'));
-Vue.component('edit_booking_modal', require('./components/modals/edit_booking_modal.vue'));
-Vue.component('new_booking_modal', require('./components/modals/new_booking_modal.vue'));
-Vue.component('edit_rooms_modal', require('./components/modals/edit_rooms_modal.vue'));
-Vue.component('clientdeletemodal', require('./components/modals/clientdeletemodal.vue'));
+Vue.component('new_modal', require('./components/modals/general/new_modal.vue'));
+
+Vue.component('new_client_modal', require('./components/modals/client/new_client_modal.vue'));
+Vue.component('edit_client_modal', require('./components/modals/client/edit_client_modal.vue'));
+Vue.component('destroy_client_modal', require('./components/modals/client/destroy_client_modal.vue'));
+
+Vue.component('new_booking_modal', require('./components/modals/booking/new_booking_modal.vue'));
+Vue.component('edit_booking_modal', require('./components/modals/booking/edit_booking_modal.vue'));
+Vue.component('destroy_booking_modal', require('./components/modals/booking/destroy_booking_modal.vue'));
+
+Vue.component('edit_rooms_modal', require('./components/modals/room/edit_rooms_modal.vue'));
 // import Reusable from 'testing_phase/examplecomponentjs';
 
 // export const Reusable = {

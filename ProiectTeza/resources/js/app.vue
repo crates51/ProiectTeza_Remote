@@ -1,9 +1,9 @@
 <template>
   <div>
-    <new_booking_modal
+    <new_modal
       :isbutton ="false"
       icon_type=""
-      :rooms="localrooms"
+      trigger="hover"
     />
 
     <div class="row ">
@@ -96,8 +96,17 @@ export default {
             }); 
 
             bus.$on("bookingDestroyed",(data)=>{
-              this.localbookings = data.bookings;
-              this.localclients = data.clients;
+              // this.localbookings = data.bookings;
+              axios.get('api/bookings')  
+              .then(response => { 
+                this.localbookings = response.data.bookings;
+              });
+              
+              axios.get('api/clients')  
+              .then(response => { 
+                this.localclients = response.data.clients;
+              })
+              // this.localclients = data.clients;
             });
 
             bus.$on("bookingUploaded",(data)=>{

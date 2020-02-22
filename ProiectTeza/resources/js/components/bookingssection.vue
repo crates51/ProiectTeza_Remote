@@ -123,9 +123,15 @@ import Cookies from 'js-cookie'
                 if(this.localbookings[1])this.localbookings[1].unique_bookingId = response.data.bookingsbyPage[1].unique_bookingId+Math.random()* 100;
                 if(this.localbookings[2])this.localbookings[2].unique_bookingId = response.data.bookingsbyPage[2].unique_bookingId+Math.random()* 100;
                 if(this.localbookings[3])this.localbookings[3].unique_bookingId = response.data.bookingsbyPage[3].unique_bookingId+Math.random()* 100;
-                this.localbookingssize = data.bookings.length;
+                // this.localbookingssize = data.bookings.length;
               })
 
+              axios.get('api/bookings')  
+              .then(response => { 
+                this.localbookingssize = response.data.bookings.length;
+                // this.localbookings = response.data.bookings;
+              });
+              
               axios.get('api/clients')  
               .then(response => { 
                 this.localclients = response.data.clients;

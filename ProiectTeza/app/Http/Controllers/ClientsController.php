@@ -37,23 +37,37 @@ class ClientsController extends Controller
      */
     public function store(Request $request)
     {
-         $this->validate($request,[
-            'prenume' => 'required',
-            'nume' => 'required',
-            'email' => 'required|email',
-            //this validates that the phone number starts with 07 and has 8 more characters after, and has only digits
-            'phone' => 'required|regex:/(07)[0-9]{8}/',
+        //  $this->validate($request,[
+        //     'prenume' => 'required',
+        //     'nume' => 'required',
+        //     'email' => 'required|email',
+        //     //this validates that the phone number starts with 07 and has 8 more characters after, and has only digits
+        //     'phone' => 'required|regex:/(07)[0-9]{8}/',
            
 
-        ]);
+        // ]);
 
         $client = new Clients;
-        $client->Last_Name = $request->input('nume');
-        $client->First_Name = $request->input('prenume');
+        // Se verifica daca numarul de telefon este unic
+        $clientsbyPhone = $client->where("Phone",$request->input('phone'))->get();
+        
+        $clientFound=null;
+        
+        if(count($clientsbyPhone)==1){
+            $clientFound=$clientsbyPhone[0];    
+            if(!$request->input('client_choosed')){
+            return (['status' => 'alreadyExists','clientFound' => $clientFound, 'clients' => Clients::all()]);
+            }
+        }
+
+        $client->Last_Name = $request->input('last_name');
+        $client->First_Name = $request->input('first_name');
         $client->Email = $request->input('email');
         $client->Phone = $request->input('phone');
 
-        $booking->save();
+        $client->save();
+        return (['status' => 'uploaded', 'client' =>  $client]);
+    
     }
 
     /**
@@ -67,9 +81,14 @@ class ClientsController extends Controller
         
     }
 
-    public function get_all()
+    public function getAll()
     {
         return (['status' => 'success','clients' => Clients::all()]);
+    }
+
+    public function getById($id)
+    {
+        return (['status' => 'success','client' => Clients::find($id)]);
     }
 
     /**
@@ -80,7 +99,7 @@ class ClientsController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
@@ -92,23 +111,14 @@ class ClientsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request,[
-            'prenume' => 'required',
-            'nume' => 'required',
-            'email' => 'required|email',
-            //this validates that the phone number starts with 07 and has 8 more characters after, and has only digits
-            'phone' => 'required|regex:/(07)[0-9]{8}/',
-           
-
-        ]);
-
-        $client = new Clients;
-        $client->Last_Name = $request->input('nume');
-        $client->First_Name = $request->input('prenume');
+        $client = Clients::find($id);
+        $client->First_Name = $request->input('first_name');
+        $client->Last_Name = $request->input('last_name');
         $client->Email = $request->input('email');
         $client->Phone = $request->input('phone');
-
-        $booking->save();
+        $client->save();
+        
+        return (['status' => 'updated']);
     }
 
     /**
@@ -117,8 +127,20 @@ class ClientsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($clientId)
     {
-        //
+            $client = Clients::find($clientId);
+            
+            $client -> delete();
+            DB::update("SET @count = 0");
+            DB::update("UPDATE `bookings` SET `bookings`.`bookingId` = @count:= @count + 1");
+            DB::update("ALTER TABLE `bookings` AUTO_INCREMENT = 1");
+
+            DB::update("SET @count = 0");
+            DB::update("UPDATE `clients` SET `clients`.`clientId` = @count:= @count + 1");
+            DB::update("ALTER TABLE `clients` AUTO_INCREMENT = 1");
+
+            return (['status' => 'destroyed', 'clientDestroyed' =>  $client]);
+        // return (['status' => 'destroyed']);
     }
 }

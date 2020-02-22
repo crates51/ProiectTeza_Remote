@@ -14,8 +14,6 @@
                 </div>
             </div>
             <div class="row">
-                  <!-- :filteredBookings="find('bookings',room)" -->
-                  <!-- :clients="localclients" -->
                   <room_in_roomlist
                             v-for="room in localrooms" v-if="(room.floorId == i)"
                             :booking="find('booking',room)"
@@ -69,16 +67,13 @@ import Cookies from 'js-cookie'
             }
         },
         created(){
-            // var date = this.date.replace(/\//g, '-');
              axios.get('api/clients')  
               .then(response => { 
                 this.localclients = response.data.clients;
-                // console.log("this.localclients: ",this.localclients);
 
                 axios.get('api/bookings/date/'+this.date.replace(/\//g, '-'))  
                 .then(response => { 
                   this.localbookings=response.data.bookingsbyDate;
-                  // console.log("this.localbookings: ",this.localbookings);
                 })
               })
 
@@ -87,7 +82,6 @@ import Cookies from 'js-cookie'
              axios.get('api/bookings/date/'+this.date.replace(/\//g, '-'))  
                 .then(response => { 
                   this.localbookings=response.data.bookingsbyDate;
-                  // console.log("this.localbookings: ",this.localbookings);
                 })
           });
         },
@@ -104,26 +98,24 @@ import Cookies from 'js-cookie'
           }),
 
           bus.$on("bookingUpdated",(data)=>{
-            // console.log("Booking update form roomsection");
-              // this.localbookings=data.bookings;
               axios.get('api/bookings/date/'+this.date.replace(/\//g, '-'))  
                 .then(response => { 
                   this.localbookings=response.data.bookingsbyDate;
-                  // console.log("this.localbookings: ",this.localbookings);
                 })
               this.localclients=data.clients;
             }); 
 
           bus.$on("bookingDestroyed",(data)=>{
             if(Cookies.get('section')=="Rooms"){
-              // this.localbookings = data.bookings;
               axios.get('api/bookings/date/'+this.date.replace(/\//g, '-'))  
                 .then(response => { 
                   this.localbookings=response.data.bookingsbyDate;
-                  // console.log("this.localbookings: ",this.localbookings);
-                  // console.log("this.localbookings: ",this.localbookings);
                 })
-              this.localclients = data.clients;
+              // this.localclients = data.clients;
+              axios.get('api/clients')  
+              .then(response => { 
+                this.localclients = response.data.clients;
+              })
             }
           })
         },
@@ -138,12 +130,9 @@ import Cookies from 'js-cookie'
                 else return false;
             },
             find(toFind,room){
-              // console.log("find('booking_id',room) accesed");
               if(toFind=="booking_unique_id"){
-                // console.log("looking in ",this.localbookings);
                 var localbooking = _.find(this.localbookings, function(booking){ return ((booking.roomId == room.roomId)); });
                 if(localbooking){
-                  // console.log("Room ",room.roomId+" will have booking: ",localbooking);
                   return localbooking.unique_bookingId;
                 }
 
@@ -168,7 +157,6 @@ import Cookies from 'js-cookie'
                   var localclient = _.find(this.localclients, function(client){
                    return ((localbooking.clientId == client.clientId));
                   });
-                  // console.log("Room ",room.roomId+" will have client: ",localclient," from booking ",localbooking);
                   if (localclient) return localclient;
                   else return false;  
                 }

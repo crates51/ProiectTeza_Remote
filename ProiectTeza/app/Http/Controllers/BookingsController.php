@@ -249,13 +249,33 @@ class BookingsController extends Controller
             DB::update("UPDATE `clients` SET `clients`.`clientId` = @count:= @count + 1");
             DB::update("ALTER TABLE `clients` AUTO_INCREMENT = 1");
 
-            return (['status' => 'destroyed', 'client' =>  $client , 'booking' =>  $booking, 'bookings' =>  Bookings::all(),'clients' => Clients::all()]);
-            // return redirect('/')->with('success','Booking for '.$client->Last_Name." has been removed");
-         // }
-         // else{
-         //    return (['status' => 'failed','message'=> 'Couldn\'t delete booking, you are not loged in']);
-         //    // return redirect('/')->with('error','You\'re not allowed to delete bookings, please speak with an Admin');
-         // }
+            return (['status' => 'destroyed', 'client' =>  $client]);
+
+            // return (['status' => 'destroyed', 'client' =>  $client , 'booking' =>  $booking, 'bookings' =>  Bookings::all(),'clients' => Clients::all()]);
+    }
+
+    public function destroyByClient($clientId)
+    {   
+        $bookings = Bookings::all();
+
+        foreach($bookings as $booking){
+                if($booking->clientId == $clientId){
+                    $booking -> delete();
+                }
+            }
+
+            DB::update("SET @count = 0");
+            DB::update("UPDATE `bookings` SET `bookings`.`bookingId` = @count:= @count + 1");
+            DB::update("ALTER TABLE `bookings` AUTO_INCREMENT = 1");
+
+            DB::update("SET @count = 0");
+            DB::update("UPDATE `clients` SET `clients`.`clientId` = @count:= @count + 1");
+            DB::update("ALTER TABLE `clients` AUTO_INCREMENT = 1");
+            
+            // return (['status' => 'destroyed', 'client' =>  $client , 'booking' =>  $booking, 'bookings' =>  Bookings::all(),'clients' => Clients::all()]);
+
+            return (['status' => 'destroyed','deleteForClient' => $clientId]);
+            
     }
 
      public function check(Request $request)
@@ -302,7 +322,7 @@ class BookingsController extends Controller
     }
 
 // Gett the Bookings from a page
-     public function page(Request $request,$id){
+     public function by_page(Request $request,$id){
         $status=false;
 
         $bookings = Bookings::all();
@@ -317,7 +337,7 @@ class BookingsController extends Controller
      }
 
      // Get the Bookings from a date
-     public function date(Request $request,$date){
+     public function by_date(Request $request,$date){
         $date = str_replace('-', '/', $date);
         $date = \DateTime::createFromFormat('d/m/Y', $date);
 
@@ -337,5 +357,15 @@ class BookingsController extends Controller
         return (['status' => "success",'date' => $date,'bookingsbyDate' => $bookingsbyDate]);  
     }
 
+     // Get the Bookings for a client
+     public function by_client(Request $request,$clientId){
+        $bookings = Bookings::all();
+        $bookingsbyClient=array();
+        foreach($bookings as $booking)
+            if($booking->clientId == $clientId){
+                    array_push($bookingsbyClient,$booking);
+            }
+        return (['status' => "success" , 'bookingsbyClient' => $bookingsbyClient]); 
+     }
 }
  

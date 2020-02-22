@@ -3,7 +3,7 @@
 <!-- Aici nu voi mai face lista de componente.. cred ca e mai eficiente asa -->
     <div
     v-for="client in localclients"
-    :key="client.clientId"
+    :key="client.First_Name+client.Last_Name+client.Email+client.Phone"
     >
     <div  class="card pt-2 pb-2 pr-2 pl-2 mb-3 bookingList">
       <div class="row">
@@ -21,8 +21,23 @@
             Phone: {{client.Phone}}
           </div>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-6">
           <!-- Column for other infos -->
+          <!-- Total Bookings: {{totalBookings(client.clientId)}} -->
+        </div>
+        <div class="col-md-2 align-self-center">
+          <!-- Column for buttons -->
+          <edit_client_modal 
+            :client ="client"
+            :isbutton ="true"
+            icon_type="fas fa-pencil-alt"
+          />
+          <destroy_client_modal 
+          isbutton="true" 
+          icon_type="fa fa-trash" 
+          :client="client"
+          />
+
         </div>
       </div>
     </div>
@@ -38,17 +53,22 @@ import Cookies from 'js-cookie'
     	 data(){
         return{
           localclients: null,
+          localbookings: null          
         }
        },
 
        props:{
-        },
+       },
 
         created(){
-          console.log("It has been created");
           axios.get('api/clients')  
               .then(response => { 
                 this.localclients = response.data.clients;
+              })
+
+          axios.get('api/bookings')  
+            .then(response => { 
+                this.localbookings = response.data.bookings;
               })
         },
 
@@ -57,20 +77,46 @@ import Cookies from 'js-cookie'
             axios.get('api/clients')  
               .then(response => { 
                 this.localclients = response.data.clients;
-                console.log("this.localclients: ",this.localclients);
             })
           })
 
-          // bus.$on("bookingUpdated",(data)=>{
-          //   axios.get('api/clients')  
-          //     .then(response => { 
-          //       this.localclients = response.data.clients;
-          //       console.log("this.localclients: ",this.localclients);
-          //   })
-          // })
+          bus.$on("clientUpdated",(data)=>{
+            axios.get('api/clients')  
+              .then(response => { 
+                this.localclients = response.data.clients;
+              })
+          })
+
+          bus.$on("clientUploaded",(data)=>{
+            axios.get('api/clients')  
+              .then(response => { 
+                this.localclients = response.data.clients;
+              })
+          })
+          
+          bus.$on("clientDestroyed",(data)=>{
+            axios.get('api/clients')  
+              .then(response => { 
+                this.localclients = response.data.clients;
+              })
+          })
+        },
+
+        updated(){
         },
 
         methods:{
+          totalBookings(clientId){
+            var bookingsforClient=0;
+            if(this.localbookings){
+             for(var i=0;i<this.localbookings.length;i++){
+               if(this.localbookings[i].clientId == clientId){
+                bookingsforClient++;               
+               }
+             }
+             return bookingsforClient;
+            }
+          },
         },
     }
 </script>
