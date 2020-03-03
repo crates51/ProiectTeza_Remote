@@ -23,7 +23,7 @@ Route::get('/bookings/{id}/show', 'BookingsController@show')->name('bookings-sho
 
 Route::get('/bookings/{id}/destroy', 'BookingsController@destroy')->name('bookings-destroy');
 
-Route::get('/bookings/{id}/update/{status}', 'BookingsController@updateSpecific')->name('bookings-updateSpecific');
+// Route::get('/bookings/{id}/update/{status}', 'BookingsController@updateSpecific')->name('bookings-updateSpecific');
 
 Route::put('/bookings/check', 'BookingsController@check');
 

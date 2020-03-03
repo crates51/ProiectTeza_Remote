@@ -199,7 +199,7 @@ export default {
 				    	// 'bookings':response.data.bookings,
 				    	// 'clients':response.data.clients,
 				    	// 'booking':response.data.booking,
-				    	// 'client':response.data.client
+				    	'client':response.data.client
 				    });
 				    Toast_add_this_customer.fire({
 					  icon: 'success',

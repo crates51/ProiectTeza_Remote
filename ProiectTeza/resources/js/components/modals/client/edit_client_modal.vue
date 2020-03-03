@@ -1,10 +1,10 @@
 <template>
 	<span>
-		<b-button v-if="this.isbutton == true" class="btn btn-warning" v-b-modal="'modal-'+client.clientId">
+		<b-button type="button" v-if="this.isbutton == true" class="btn btn-warning" v-b-modal="'modal-'+client.clientId">
 			<i v-bind:class="icon_type"></i>
 		</b-button>
 		
-		<i v-else v-bind:class="icon_type" v-on:click="reset" v-b-modal="'modal-'+client.clientId"></i>
+		<!-- <i v-else v-bind:class="icon_type" v-on:click="reset" v-b-modal="'modal-'+client.clientId"></i> -->
 
 		  <b-modal :no-close-on-esc="true" :ref="'my-modal-client-'+client.clientId" :id="'modal-'+client.clientId" title="Edit Client" hide-footer>
 			    <b-form @submit.prevent="onSubmit" @reset="onReset">

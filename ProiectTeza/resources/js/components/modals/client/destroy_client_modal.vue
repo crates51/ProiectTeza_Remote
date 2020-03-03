@@ -1,16 +1,19 @@
 <template>
-  <div>
-    <span>
-        <div v-if="check_isButton('true')" v-on:click="checkForSafeDestroy" class="btn btn-danger float-right">
-        <!-- <div v-if="check_isButton('true')" v-on:click="showAlert" class="btn btn-danger float-right"> -->
+  <span>
+    <!-- <span> -->
+        <b-button type="button" v-if="check_isButton('true')" v-on:click="checkForSafeDestroy" class="btn btn-danger float-right">
             <i v-bind:class="icon_type"></i>
-        </div>
+        </b-button>
         
-        <div v-if="check_isButton('false')" v-on:click="showAlert" class="float-right">
-            <i v-bind:class="icon_type"></i>
-        </div>
-      </span>
-  
+        <!-- <i v-if="check_isButton('false')" v-on:click="showAlert" v-bind:class="icon_type"></i> -->
+    <!-- </span> -->
+    
+    <!-- <b-btn v-b-modal="'modal1-test-'+client.clientId">Modal 1</b-btn> -->
+<!-- 
+     <b-modal :id="'modal1-test-'+client.clientId" hide-backdrop title="Modal 1">
+      <p class="my-4">Test</p>
+    </b-modal> -->
+
     <b-modal :no-close-on-esc="true" ref="modal-destroy-client-conflicts" id="modal-destroy-client-conflicts" title="Delete Client" hide-footer>
       <b-form v-if="bookingsbyClient" @submit.prevent="onSubmit">
         <div class="mb-3">
@@ -49,14 +52,18 @@
           </popper>
           
           <popper
-            trigger="hover"
+            trigger="clickToOpen"
             :options="{
-              placement: 'top',
+              placement: 'right',
               modifiers: { offset: { offset: '0,10px' } }
             }">
-            <div class="popper">
-             <div>Change this booking</div>
-             <div>(Still working on this)</div>
+            <div class="popper TransferBookingDiv">
+             <div class="mb-2 overflow-auto">Transfer booking to..</div>
+             <div class="mb-1 client_to_transfer_to"
+             v-on:click="transferbooking(booking, client)" 
+             v-for="(client, index) in localclients">
+               <span>{{index+1}}.{{client.First_Name}} {{client.Last_Name}}</span>
+             </div>
             </div>
             <span class="btn btn-warning btn-sm" slot="reference">
               <i class="fas fa-exchange-alt"></i>
@@ -91,7 +98,7 @@
           </div>
       </b-form>
     </b-modal>
-  </div>
+  </span>
 </template>
 
 <script>
@@ -122,12 +129,17 @@ export default {
         return {
           usernameInput: 3,
           localclient: this.client,
+          localclients: this.clients,
           bookingsbyClient:null,
         };
     },
     props:{
       client:{
         type: Object ,
+        default: "Error: No title Proped"
+      },
+      clients:{
+        type: Array ,
         default: "Error: No title Proped"
       },
       icon_type:{
@@ -138,6 +150,21 @@ export default {
         type:String,
         default: "Error: No status Proped"
       },
+    },
+    mounted(){
+      // console.log("localclients: ",this.localclients);
+       bus.$on("clientUploaded",(data)=>{
+            axios.get('api/clients')  
+              .then(response => { 
+                this.localclients = response.data.clients;
+              })
+          })
+         bus.$on("clientDestroyed",(data)=>{
+            axios.get('api/clients')  
+              .then(response => { 
+                this.localclients = response.data.clients;
+              })
+          })
     },
     methods: {
       checkForSafeDestroy(){
@@ -171,7 +198,6 @@ export default {
               axios.delete('api/client/'+ client.clientId,)
               .then(response => { 
                 if(response.data.status=="destroyed"){
-                  console.log(response);
                   bus.$emit('clientDestroyed',{});
                   Toast_delete_this_customer.fire({
                     icon: 'success',
@@ -179,7 +205,6 @@ export default {
                   })
                 }
                 else if(response.data.status=="failed"){
-                  console.log("There has been a problem: "+response.data.message);
                 }
               })
               .catch(error => {
@@ -187,6 +212,61 @@ export default {
               });
             }
           })
+        },
+
+        //Transfer a booking to a new client 
+        transferbooking(booking,newClient){
+           Swal.fire({
+              title: 'Are you sure you want to transfer booking '+ booking.bookingId+' to '+newClient.First_Name+'?',
+              text: 'This booking is now owned by '+this.localclient.Last_Name+" "+this.localclient.First_Name,
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes, transfer it!'
+            }).then((result) => {
+              if (result.value) {
+                axios.put('bookings/'+booking.bookingId,{ 
+                    "email": this.localclient.Email,
+                    "first_name": this.localclient.First_Name,
+                    "last_name": this.localclient.Last_Name,
+                    "phone": this.localclient.Phone,
+                    "adults": booking.Adults,
+                    "children": booking.Children,
+                    "check_in": booking.Checkin,
+                    "check_out": booking.Checkout,
+                    "specificRoom": booking.roomId,
+                    "status": booking.Status,
+                    "bookingId":booking.bookingId,
+                    "clientId": newClient.clientId,
+                  })
+                .then(response => { 
+                  Toast_delete_this_customer.fire({
+                    icon: 'success',
+                    title: 'Booking '+booking.bookingId+' transfered successfully'
+                  })
+
+                  bus.$emit('bookingUpdated',{'clients':response.data.clients,
+                                              'bookings':response.data.bookings,
+                                              'booking':response.data.booking,
+                                              'client':response.data.client
+                                              });
+
+                  axios.get('api/bookings/client/'+this.client.clientId)  
+                  .then(response => { 
+                      this.bookingsbyClient=response.data.bookingsbyClient;
+                      // console.log("response.data.bookingsbyClient: ",response.data.bookingsbyClient);
+                      if(this.bookingsbyClient.length == 0){
+                        // console.log("There are no more booking")
+                        this.$refs['modal-destroy-client-conflicts'].hide();
+                        this.deleteClient(this.client);
+                      }
+                       // bus.$emit('bookingUpdated');
+
+                  });
+                })
+              }
+            })
         },
 
         deleteBooking(bookingId){   
@@ -209,13 +289,13 @@ export default {
                   axios.get('api/bookings/client/'+this.client.clientId)  
                   .then(response => { 
                       self.bookingsbyClient=response.data.bookingsbyClient;
-                      console.log("self.bookingsbyClient: ",self.bookingsbyClient);
+                      // console.log("self.bookingsbyClient: ",self.bookingsbyClient);
                       if(self.bookingsbyClient.length == 0){
                         this.$refs['modal-destroy-client-conflicts'].hide();
                         this.deleteClient(self.client);
                       }
-
                   });
+
                     bus.$emit('bookingDestroyed',{
                         'bookings':response.data.bookings,
                         'clients':response.data.clients,
@@ -241,7 +321,7 @@ export default {
               showCancelButton: true,
               confirmButtonColor: '#3085d6',
               cancelButtonColor: '#d33',
-              confirmButtonText: 'Yes, delete it!'
+              confirmButtonText: 'Yes, delete them all!'
             }).then((result) => {
               if (result.value) {
                 axios.delete('api/bookings/client/'+ this.client.clientId)
@@ -308,3 +388,30 @@ export default {
     }
 }
 </script>
+
+<style>
+    .TransferBookingDiv{
+        width:170px;
+        max-height:165px;
+        border-radius: 0.25rem;
+        overflow-y:scroll;
+        text-align: left;
+        }
+    .TransferBookingDiv > .client_to_transfer_to{
+        cursor: pointer;
+        -o-transition: .5s;
+        -ms-transition: .5s;
+        -moz-transition: .5s;
+        -webkit-transition: .5s;
+        transition: .5s
+    }
+
+    .TransferBookingDiv > .client_to_transfer_to:hover{
+        color: #ca9905;
+        -o-transition: .5s;
+        -ms-transition: .5s;
+        -moz-transition: .5s;
+        -webkit-transition: .5s;
+        transition: .5s;
+    }
+</style>

@@ -140,7 +140,7 @@ class ClientsController extends Controller
             DB::update("UPDATE `clients` SET `clients`.`clientId` = @count:= @count + 1");
             DB::update("ALTER TABLE `clients` AUTO_INCREMENT = 1");
 
-            return (['status' => 'destroyed', 'clientDestroyed' =>  $client]);
+            return (['status' => 'destroyed', 'clientDestroyed' =>  $client, 'clientsAfterDestroy' => Clients::all()]);
         // return (['status' => 'destroyed']);
     }
 }

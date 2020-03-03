@@ -168,22 +168,20 @@ class BookingsController extends Controller
      */
     public function update(Request $request, $bookingId)
     {
-
-
-        $this->validate($request,[
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required',
-            'phone' => 'required|numeric|digits_between:10,13',
-            'adults' => 'required',
-            'children' => 'required',
-            // 'totalRooms' => 'required|numeric|min:1',
-            'check_in' =>'required|date_format:d/m/Y',
-            // 'check_out'=> 'required|date_format:d/m/Y',
-            'check_out'=> 'required|date_format:d/m/Y|after:check_in',
-            'status' => 'required',
-            'specificRoom' => 'required'
-        ]);
+        // $this->validate($request,[
+        //     'first_name' => 'required',
+        //     'last_name' => 'required',
+        //     'email' => 'required',
+        //     'phone' => 'required|numeric|digits_between:10,13',
+        //     'adults' => 'required',
+        //     'children' => 'required',
+        //     // 'totalRooms' => 'required|numeric|min:1',
+        //     'check_in' =>'required|date_format:d/m/Y',
+        //     // 'check_out'=> 'required|date_format:d/m/Y',
+        //     'check_out'=> 'required|date_format:d/m/Y|after:check_in',
+        //     'status' => 'required',
+        //     'specificRoom' => 'required'
+        // ]);
 
         $booking = Bookings::find($bookingId);
         $client = Clients::find($booking->clientId);
@@ -200,6 +198,10 @@ class BookingsController extends Controller
 
         $booking->Checkin = $request->input('check_in');
         $booking->Checkout = $request->input('check_out');
+        
+        if($request->input('clientId')){
+            $booking->clientId = $request->input('clientId');
+        }
 
         // IF/WHEN CHANGING ROOMS
         if($booking->roomId != $request->input('specificRoom')){
@@ -220,12 +222,15 @@ class BookingsController extends Controller
         }
     }
 
-    public function updateSpecific($id,$status)
+    public function updateSpecific($id,$field,$value)
     {
+            $field = "Children";
             $booking = Bookings::find($id);
-            $booking->Status = $status;
+            $booking->Status = 3;
             $booking->save();
-            return redirect('/')->with('success','Cazare Actualizata');
+            
+            return (['status' => 'updated']);            
+            // return redirect('/')->with('success','Cazare Actualizata');
     }
     /**
      * Remove the specified resource from storage.

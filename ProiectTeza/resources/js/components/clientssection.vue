@@ -18,26 +18,39 @@
             Email: {{client.Email}}
           </div>
           <div class="row">
-            Phone: {{client.Phone}}
+            Phonetre: {{client.Phone}}
           </div>
         </div>
-        <div class="col-md-6">
+        <div v-if="localbookingsPerClient" class="col-md-6">
           <!-- Column for other infos -->
-          <!-- Total Bookings: {{totalBookings(client.clientId)}} -->
+            Total Bookings:
+            <span v-if="!localbookingsPerClient[client.clientId-1]">0</span>
+            <span v-else>{{localbookingsPerClient[client.clientId-1]}}</span>
         </div>
         <div class="col-md-2 align-self-center">
+        <!-- <div class="col-md-2 align-self-center"> -->
           <!-- Column for buttons -->
+
+        <!--   <button type="button" class="btn btn-primary">
+            <i class="fas fa-pencil-alt"></i>
+          </button>
+          <button type="button" class="btn btn-primary">
+            <i class="fas fa-pencil-alt"></i>
+          </button> -->
+
+
           <edit_client_modal 
             :client ="client"
             :isbutton ="true"
             icon_type="fas fa-pencil-alt"
           />
+
           <destroy_client_modal 
           isbutton="true" 
           icon_type="fa fa-trash" 
           :client="client"
+          :clients="localclients"
           />
-
         </div>
       </div>
     </div>
@@ -53,7 +66,8 @@ import Cookies from 'js-cookie'
     	 data(){
         return{
           localclients: null,
-          localbookings: null          
+          localbookings: null,
+          localbookingsPerClient:null,          
         }
        },
 
@@ -65,19 +79,48 @@ import Cookies from 'js-cookie'
               .then(response => { 
                 this.localclients = response.data.clients;
               })
-
-          axios.get('api/bookings')  
-            .then(response => { 
-                this.localbookings = response.data.bookings;
-              })
         },
 
         mounted(){
+           bus.$on("bookingUpdated",(data)=>{
+               axios.get('api/bookings')  
+                .then(response => { 
+                this.localbookings = response.data.bookings;
+                var localbookingsPerClient=[];
+                for(var i=0;i < this.localbookings.length;i++){
+                  if(localbookingsPerClient[this.localbookings[i].clientId-1]==null)localbookingsPerClient[this.localbookings[i].clientId-1]=0;
+                  localbookingsPerClient[this.localbookings[i].clientId-1]++;
+                }
+                for(var i=0;i < localbookingsPerClient.length;i++){
+                  if(!localbookingsPerClient[i])localbookingsPerClient[i]=0;
+                }
+                this.localbookingsPerClient=localbookingsPerClient;
+              })
+           })
+
            bus.$on("bookingUploaded",(data)=>{
             axios.get('api/clients')  
               .then(response => { 
                 this.localclients = response.data.clients;
             })
+            if(!this.localbookingsPerClient[data.booking.clientId-1])this.localbookingsPerClient[data.booking.clientId-1]=0;
+            this.localbookingsPerClient[data.booking.clientId-1]++;
+          })
+
+          bus.$on("bookingDestroyed",(data)=>{
+             axios.get('api/bookings')  
+                .then(response => { 
+                this.localbookings = response.data.bookings;
+                var localbookingsPerClient=[];
+                for(var i=0;i < this.localbookings.length;i++){
+                  if(localbookingsPerClient[this.localbookings[i].clientId-1]==null)localbookingsPerClient[this.localbookings[i].clientId-1]=0;
+                  localbookingsPerClient[this.localbookings[i].clientId-1]++;
+                }
+                for(var i=0;i < localbookingsPerClient.length;i++){
+                  if(!localbookingsPerClient[i])localbookingsPerClient[i]=0;
+                }
+                this.localbookingsPerClient=localbookingsPerClient;
+              })
           })
 
           bus.$on("clientUpdated",(data)=>{
@@ -91,6 +134,9 @@ import Cookies from 'js-cookie'
             axios.get('api/clients')  
               .then(response => { 
                 this.localclients = response.data.clients;
+                // console.log("New Client: ",data.client);
+                this.localbookingsPerClient[data.client.clientId-1]=0;
+                // console.log("this.localbookingsPerClient: ",this.localbookingsPerClient);
               })
           })
           
@@ -100,10 +146,24 @@ import Cookies from 'js-cookie'
                 this.localclients = response.data.clients;
               })
           })
+
+
+        axios.get('api/bookings')  
+          .then(response => { 
+            this.localbookings = response.data.bookings;
+            var localbookingsPerClient=[];
+            for(var i=0;i < this.localbookings.length;i++){
+              if(localbookingsPerClient[this.localbookings[i].clientId-1]==null)localbookingsPerClient[this.localbookings[i].clientId-1]=0;
+              localbookingsPerClient[this.localbookings[i].clientId-1]++;
+            }
+            for(var i=0;i < localbookingsPerClient.length;i++){
+              if(!localbookingsPerClient[i])localbookingsPerClient[i]=0;
+            }
+            this.localbookingsPerClient=localbookingsPerClient;
+          })
         },
 
-        updated(){
-        },
+        updated(){},
 
         methods:{
           totalBookings(clientId){
