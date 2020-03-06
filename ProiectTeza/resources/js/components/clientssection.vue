@@ -18,7 +18,7 @@
             Email: {{client.Email}}
           </div>
           <div class="row">
-            Phonetre: {{client.Phone}}
+            Phone: {{client.Phone}}
           </div>
         </div>
         <div v-if="localbookingsPerClient" class="col-md-6">
@@ -144,6 +144,19 @@ import Cookies from 'js-cookie'
             axios.get('api/clients')  
               .then(response => { 
                 this.localclients = response.data.clients;
+                axios.get('api/bookings')  
+                .then(response => { 
+                  this.localbookings = response.data.bookings;
+                  var localbookingsPerClient=[];
+                  for(var i=0;i < this.localbookings.length;i++){
+                    if(localbookingsPerClient[this.localbookings[i].clientId-1]==null)localbookingsPerClient[this.localbookings[i].clientId-1]=0;
+                    localbookingsPerClient[this.localbookings[i].clientId-1]++;
+                  }
+                  for(var i=0;i < localbookingsPerClient.length;i++){
+                    if(!localbookingsPerClient[i])localbookingsPerClient[i]=0;
+                  }
+                  this.localbookingsPerClient=localbookingsPerClient;
+                })
               })
           })
 

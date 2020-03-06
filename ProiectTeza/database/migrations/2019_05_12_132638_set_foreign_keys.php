@@ -14,12 +14,15 @@ class SetForeignKeys extends Migration
     public function up()
     {
         Schema::table('bookings', function (Blueprint $table) {
-            $table->foreign('clientId')->references('clientId')->on('clients');
+            $table->foreign('clientId')->references('clientId')->on('clients')
+                                                               ->onUpdate('cascade');
                                                                // ->onDelete('cascade');
         });
 
         Schema::table('bookings', function (Blueprint $table) {
-            $table->foreign('roomId')->references('roomId')->on('rooms');
+            $table->foreign('roomId')->references('roomId')->on('rooms')
+                                                           ->onUpdate('cascade');
+
         });
 
         // Schema::table('rooms', function (Blueprint $table) {

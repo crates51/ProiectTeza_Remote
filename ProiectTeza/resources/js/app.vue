@@ -114,6 +114,19 @@ export default {
              this.localclients = data.clients;
             });
 
+            bus.$on("clientDestroyed",(data)=>{
+              axios.get('api/clients')  
+              .then(response => { 
+                this.localclients = response.data.clients;
+              })
+            })
+
+            bus.$on("clientUploaded",(data)=>{
+            axios.get('api/clients')  
+              .then(response => { 
+                this.localclients = response.data.clients;
+              })
+          })
         // console.log("main localbookings: ",this.localbookings);
         // console.log("main localclients: ",this.localclients);    
             

@@ -16,7 +16,6 @@
       <a-pagination v-model="currentPage" :hideOnSinglePage="true" style="text-align:center" :defaultPageSize="5" @change="onChange" :total="localbookingssize" />
   <!-- {{localbookings.length}} -->
 
-
   </div>
 </template>
 
